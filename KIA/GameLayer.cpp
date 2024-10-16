@@ -37,7 +37,7 @@ void GameLayer::init() {
 	backgroundPoints = new Actor("res/icono_puntos.png",
 		WIDTH * 0.85, HEIGHT * 0.05, 24, 24, game);
 
-	healthFrame = new Actor("res/healthFrame.png", 100, 40, 160, 45, game);
+	healthFrame = new Actor("res/healthFrame.png", 150, 42, 259, 42, game);
 	healthbar = new HealthBar(game);
 
 	projectiles.clear(); // Vaciar por si reiniciamos el 
@@ -434,14 +434,14 @@ void GameLayer::loadMap(string name) {
 			for (int j = 0; !streamLine.eof(); j++) {
 				streamLine >> character; // Leer character 
 				cout << character;
-				float x = 40 / 2 + j * 40; // x central
-				float y = 32 + i * 32; // y suelo
+				float x = 55 / 2 + j * 55; // x central
+				float y = 55 + i * 55; // y suelo
 				loadMapObject(character, x, y);
 			}
 
 			cout << character << endl;
 		}
-		mapHeight = rowCount * 32;
+		mapHeight = rowCount * 55;
 	}
 	streamFile.close();
 }
@@ -504,6 +504,38 @@ void GameLayer::loadMapObject(char character, float x, float y) {
 		}
 		case '#': {
 			Tile* tile = new Tile("res/bloque_tierra.png", x, y, game);
+			// modificación para empezar a contar desde el suelo.
+			tile->y = tile->y - tile->height / 2;
+			tiles.push_back(tile);
+			space->addStaticActor(tile);
+			break;
+		}
+		case 'P': {
+			Tile* tile = new Tile("res/bloque_fondo1.png", x, y, game);
+			// modificación para empezar a contar desde el suelo.
+			tile->y = tile->y - tile->height / 2;
+			tiles.push_back(tile);
+			space->addStaticActor(tile);
+			break;
+		}
+		case '?': {
+			Tile* tile = new Tile("res/bloque_fondo1_borde_derecha.png", x, y, game);
+			// modificación para empezar a contar desde el suelo.
+			tile->y = tile->y - tile->height / 2;
+			tiles.push_back(tile);
+			space->addStaticActor(tile);
+			break;
+		}
+		case '*': {
+			Tile* tile = new Tile("res/bloque_fondo1_borde_abajo.png", x, y, game);
+			// modificación para empezar a contar desde el suelo.
+			tile->y = tile->y - tile->height / 2;
+			tiles.push_back(tile);
+			space->addStaticActor(tile);
+			break;
+		}
+		case '-': {
+			Tile* tile = new Tile("res/bloque_fondo1_borde_arriba.png", x, y, game);
 			// modificación para empezar a contar desde el suelo.
 			tile->y = tile->y - tile->height / 2;
 			tiles.push_back(tile);
@@ -600,6 +632,7 @@ void GameLayer::draw() {
 		//hpIcon->draw();
 	//}
 
+	healthFrame->draw();
 	healthbar->draw();
 
 	if (game->input == game->inputMouse) {

@@ -2,7 +2,7 @@
 #include "GameLayer.h"
 
 Player::Player(float x, float y, Game* game)
-	: Actor("res/jugador.png", x, y, 48, 57, game) {
+	: Actor("res/jugador.png", x, y, 70, 90, game) {
 
 	onAir = false;
 	onLadder = false;
@@ -115,7 +115,7 @@ void Player::update() {
 }
 
 void Player::moveX(float axis) {
-	vx = axis * 3;
+	vx = axis * 8;
 }
 
 void Player::moveY(float axis) {
