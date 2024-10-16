@@ -93,6 +93,9 @@
     <ClCompile Include="Audio.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
+    <ClCompile Include="HealthBar.cpp">
+      <Filter>Archivos de origen\Actores</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -151,6 +154,9 @@
     </ClInclude>
     <ClInclude Include="Audio.h">
       <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="HealthBar.h">
+      <Filter>Archivos de encabezado\Actores</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
