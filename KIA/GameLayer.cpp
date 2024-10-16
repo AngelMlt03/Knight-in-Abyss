@@ -37,6 +37,9 @@ void GameLayer::init() {
 	backgroundPoints = new Actor("res/icono_puntos.png",
 		WIDTH * 0.85, HEIGHT * 0.05, 24, 24, game);
 
+	healthFrame = new Actor("res/healthFrame.png", 100, 40, 160, 45, game);
+	healthbar = new HealthBar(game);
+
 	projectiles.clear(); // Vaciar por si reiniciamos el 
 	enemies.clear(); // Vaciar por si reiniciamos el juego
 
@@ -324,8 +327,9 @@ void GameLayer::update() {
 		}
 		if (player->isOverlap(enemy) && enemy->state != game->stateDying
 			&& enemy->state != game->stateDead) {
-			player->loseLife();
-			if (player->lifes <= 0) {
+			player->takeDamage(10);
+			healthbar->updateHealth(player->healthPoints, player->initHealth);
+			if (player->healthPoints <= 0) {
 				message = new Actor("res/mensaje_perder.png", WIDTH * 0.5, HEIGHT * 0.5,
 					WIDTH, HEIGHT, game);
 				pause = true;
@@ -591,10 +595,12 @@ void GameLayer::draw() {
 
 	// HUD
 
-	for (int i = 0; i < player->lifes; i++) {
-		Actor* hpIcon = new Actor("res/corazon.png", WIDTH * 0.05 + i * 30, HEIGHT * 0.07, 44, 36, game);
-		hpIcon->draw();
-	}
+	//for (int i = 0; i < player->lifes; i++) {
+		//Actor* hpIcon = new Actor("res/corazon.png", WIDTH * 0.05 + i * 30, HEIGHT * 0.07, 44, 36, game);
+		//hpIcon->draw();
+	//}
+
+	healthbar->draw();
 
 	if (game->input == game->inputMouse) {
 		buttonJump->draw(); // NO TIENEN SCROLL, POSICION FIJA

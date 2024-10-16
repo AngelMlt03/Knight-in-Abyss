@@ -153,12 +153,14 @@ Projectile* Player::shoot() {
 
 }
 
-void Player::loseLife() {
+void Player::takeDamage(int damage) {
+	
 	if (invulnerableTime <= 0) {
-		if (lifes > 0) {
-			lifes--;
-			invulnerableTime = 100;
-			// 100 actualizaciones 
+
+		invulnerableTime = 50;
+		healthPoints -= damage;
+		if (healthPoints < 0) {
+			healthPoints = 0;
 		}
 	}
 }

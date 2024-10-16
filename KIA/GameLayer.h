@@ -3,6 +3,7 @@
 #include "Layer.h"
 #include "Player.h"
 #include "Background.h"
+#include "HealthBar.h"
 #include "Alien.h"
 #include "Goomba.h"
 #include "Jumper.h"
@@ -61,6 +62,8 @@ public:
 	Player* player;
 	Background* background;
 	Actor* backgroundPoints;
+	HealthBar* healthbar;
+	Actor* healthFrame;
 	bool controlContinue = false;
 	bool controlShoot = false;
 	int controlMoveY = 0;

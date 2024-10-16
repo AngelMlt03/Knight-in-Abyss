@@ -5,9 +5,9 @@
 class HealthBar : public Actor
 {
 public:
-	HealthBar();
+	HealthBar(Game* game);
 
-	void draw(float scrollX = 0, float scrollY = 0) override; // Va a sobrescribir
-	void update();
+	void updateHealth(float currentHealth, float maxHealth);
+	float healthPercentage;
 };
 

@@ -1,6 +1,14 @@
 #include "HealthBar.h"
 
-HealthBar::HealthBar() 
-	: Actor("res/healthBar.png", 20, 20, 458, 129, game) {
+HealthBar::HealthBar(Game* game) 
+	: Actor("res/healthBar.png", 100, 40, 160, 45, game) {
 
+}
+
+void HealthBar::updateHealth(float currentHealth, float maxHealth) {
+    // Calculamos el porcentaje de vida
+    healthPercentage = currentHealth / maxHealth;
+
+    // Ajustamos el ancho de la barra según el porcentaje
+    width = 120 * healthPercentage;  // El ancho de la barra se escala según el porcentaje de salud
 }
