@@ -125,7 +125,7 @@ void Player::moveY(float axis) {
 void Player::jump() {
 
 	if (!onAir && state != game->stateLadder) {
-		vy = -14;
+		vy = -18;
 		onAir = true;
 	}
 	else if (state == game->stateLadder) {

@@ -25,6 +25,8 @@ class GameLayer : public Layer
 public:
 	GameLayer(Game* game);
 	void init() override;
+	void changeRoom(int direction);
+	void endLevel();
 	void processControls() override;
 	void update() override;
 	void draw() override;

@@ -23,11 +23,17 @@ void GameLayer::init() {
 	buttonJump = new Actor("res/boton_salto.png", WIDTH * 0.9, HEIGHT * 0.55, 100, 100, game);
 	buttonShoot = new Actor("res/boton_disparo.png", WIDTH * 0.75, HEIGHT * 0.83, 100, 100, game);
 
+	tiles.clear();
+	ladders.clear();
+	projectiles.clear(); // Vaciar por si reiniciamos el 
+	enemies.clear(); // Vaciar por si reiniciamos el juego
+
 	space = new Space(1);
 	scrollX = 0;
 	scrollY = 0;
-	tiles.clear();
-	ladders.clear();
+
+	//game->levelRow = 0;
+	//game->levelColumn = 0;
 
 	points = 0;
 	textPoints = new Text("hola", WIDTH * 0.92, HEIGHT * 0.05, game);
@@ -41,12 +47,50 @@ void GameLayer::init() {
 	heart = new Actor("res/corazon.png", 45, 42, 47, 42, game);
 	healthbar = new HealthBar(game);
 
+	loadMap("res/" + to_string(game->currentLevel) + "_" + to_string(game->levelRow)
+			+ "_" + to_string(game->levelColumn) + ".txt");
+}
+
+void GameLayer::changeRoom(int direction) {
+
+	tiles.clear();
+	ladders.clear();
 	projectiles.clear(); // Vaciar por si reiniciamos el 
 	enemies.clear(); // Vaciar por si reiniciamos el juego
 
-	loadMap("res/" + to_string(game->currentLevel) + ".txt");
+	space = new Space(1);
+
+	loadMap("res/" + to_string(game->currentLevel) + "_" + to_string(game->levelRow)
+		+ "_" + to_string(game->levelColumn) + ".txt");
+
+	switch (direction) {
+	case 0:
+		scrollX = 0;
+		break;
+	case 1:
+		scrollX = mapWidth-WIDTH;
+		break;
+	case 2:
+		scrollX = player->x;
+		break;
+	}
+	
+	scrollY = 0;
 }
 
+void GameLayer::endLevel() {
+
+	if (game->currentLevel < game->finalLevel) {
+		game->currentLevel++;
+		game->levelRow = 0;
+		game->levelColumn = 0;
+	}
+
+	// Pantalla nivel finalizado
+
+	changeRoom(0);
+
+}
 
 void GameLayer::processControls() {
 
@@ -283,6 +327,25 @@ void GameLayer::update() {
 		return;
 	}
 
+	// Cambio de habitación - Derecha
+	if (player->x >= mapWidth) {
+		game->levelColumn++;
+		changeRoom(0);
+	}
+
+	// Cambio de habitación - Izquierda
+	if (player->x <= 0) {
+		game->levelColumn--;
+		changeRoom(1);
+	}
+
+	// Cambio de habitación - Arriba
+	if (player->y <= 0) {
+		game->levelRow++;
+		changeRoom(2);
+	}
+
+
 	// Nivel superado
 	if (cup->isOverlap(player)) {
 		game->currentLevel++;
@@ -292,7 +355,7 @@ void GameLayer::update() {
 		message = new Actor("res/mensaje_ganar.png", WIDTH * 0.5, HEIGHT * 0.5,
 			WIDTH, HEIGHT, game);
 		pause = true;
-		init();
+		endLevel();
 	}
 
 	// Jugador se cae
