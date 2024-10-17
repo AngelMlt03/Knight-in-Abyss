@@ -38,6 +38,7 @@ void GameLayer::init() {
 		WIDTH * 0.85, HEIGHT * 0.05, 24, 24, game);
 
 	healthFrame = new Actor("res/healthFrame.png", 150, 42, 259, 42, game);
+	heart = new Actor("res/corazon.png", 45, 42, 47, 42, game);
 	healthbar = new HealthBar(game);
 
 	projectiles.clear(); // Vaciar por si reiniciamos el 
@@ -428,14 +429,14 @@ void GameLayer::loadMap(string name) {
 		// Por línea
 		for (int i = 0; getline(streamFile, line); i++) {
 			istringstream streamLine(line);
-			mapWidth = line.length() * 40; // Ancho del mapa en pixels
+			mapWidth = line.length() * 55; // Ancho del mapa en pixels
 			rowCount++;
 			// Por carácter (en cada línea)
 			for (int j = 0; !streamLine.eof(); j++) {
 				streamLine >> character; // Leer character 
 				cout << character;
-				float x = 55 / 2 + j * 55; // x central
-				float y = 55 + i * 55; // y suelo
+				float x = 54 / 2 + j * 54; // x central
+				float y = 54 + i * 54; // y suelo
 				loadMapObject(character, x, y);
 			}
 
@@ -627,13 +628,9 @@ void GameLayer::draw() {
 
 	// HUD
 
-	//for (int i = 0; i < player->lifes; i++) {
-		//Actor* hpIcon = new Actor("res/corazon.png", WIDTH * 0.05 + i * 30, HEIGHT * 0.07, 44, 36, game);
-		//hpIcon->draw();
-	//}
-
 	healthFrame->draw();
-	healthbar->draw();
+	healthbar->draw(0,0);
+	heart->draw();
 
 	if (game->input == game->inputMouse) {
 		buttonJump->draw(); // NO TIENEN SCROLL, POSICION FIJA

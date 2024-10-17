@@ -9,6 +9,6 @@ P?.................R#...............R........
 ...................R#......................C.
 ...................R#.G..G.G..G.#..........##
 ..1................RPPPPPPPPPPPPPPPPPPPPPPPPP
---------........---PPPPPPPPPPPPPPPPPPPPPPPPPP
+--------....G...----PPPPPPPPPPPPPPPPPPPPPPPPP
 PPPPPPPP--------PPPPPPPPPPPPPPPPPPPPPPPPPPPPP
 PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP

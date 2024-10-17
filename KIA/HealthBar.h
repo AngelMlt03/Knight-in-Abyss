@@ -9,5 +9,7 @@ public:
 
 	void updateHealth(float currentHealth, float maxHealth);
 	float healthPercentage;
+
+	void draw(float scrollX, float scrollY) override;
 };
 

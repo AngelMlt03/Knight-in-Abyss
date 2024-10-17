@@ -62,8 +62,10 @@ public:
 	Player* player;
 	Background* background;
 	Actor* backgroundPoints;
-	HealthBar* healthbar;
 	Actor* healthFrame;
+	Actor* heart;
+	HealthBar* healthbar;
+	
 	bool controlContinue = false;
 	bool controlShoot = false;
 	int controlMoveY = 0;
