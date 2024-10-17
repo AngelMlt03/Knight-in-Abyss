@@ -23,6 +23,17 @@ Game::Game() {
 	TTF_Init();
 	font = TTF_OpenFont("res/sans.ttf", 24);
 
+	SDL_Surface* cursorImage = IMG_Load("res/cursor.png");
+
+	SDL_Cursor* cursor = SDL_CreateColorCursor(cursorImage, 0, 0);
+
+	// Aplica el cursor personalizado
+	SDL_SetCursor(cursor);
+
+	// Liberar la superficie
+	SDL_FreeSurface(cursorImage);
+
+
 	loopActive = true; // bucle activo
 	loop();
 }

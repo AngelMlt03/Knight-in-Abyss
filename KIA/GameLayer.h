@@ -56,14 +56,14 @@ public:
 	int mapHeight;
 	list<Tile*> tiles;
 
-	Text* textPoints;
-	int points;
+	Text* textcoins;
+	int coins;
 
 	int newEnemyTime = 0;
 
 	Player* player;
 	Background* background;
-	Actor* backgroundPoints;
+	Actor* backgroundcoins;
 	Actor* healthFrame;
 	Actor* heart;
 	HealthBar* healthbar;
@@ -72,6 +72,7 @@ public:
 	bool controlShoot = false;
 	int controlMoveY = 0;
 	int controlMoveX = 0;
+	bool cursorVisible = true;
 
 	int deletedEnemies = 0;
 

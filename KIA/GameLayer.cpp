@@ -35,13 +35,13 @@ void GameLayer::init() {
 	//game->levelRow = 0;
 	//game->levelColumn = 0;
 
-	points = 0;
-	textPoints = new Text("hola", WIDTH * 0.92, HEIGHT * 0.05, game);
-	textPoints->content = to_string(points);
+	coins = 0;
+	textcoins = new Text("hola", 100, 150, game);
+	textcoins->content = to_string(coins);
 
 	background = new Background("res/fondo_2.png", WIDTH * 0.5, HEIGHT * 0.5, game);
-	backgroundPoints = new Actor("res/icono_puntos.png",
-		WIDTH * 0.85, HEIGHT * 0.05, 24, 24, game);
+	backgroundcoins = new Actor("res/moneda.png",
+		45, 150, 36, 36, game);
 
 	healthFrame = new Actor("res/healthFrame.png", 150, 42, 259, 42, game);
 	heart = new Actor("res/corazon.png", 45, 42, 47, 42, game);
@@ -97,6 +97,21 @@ void GameLayer::processControls() {
 	// obtener controles
 	SDL_Event event;
 	while (SDL_PollEvent(&event)) {
+
+		if (event.type == SDL_KEYDOWN) {
+			// Oculta el cursor cuando se presiona cualquier tecla
+			SDL_ShowCursor(SDL_DISABLE);
+			cursorVisible = false;
+		}
+		// Detecta el movimiento del ratón
+		if (event.type == SDL_MOUSEMOTION) {
+			// Muestra el cursor cuando se mueve el ratón
+			if (!cursorVisible) {
+				SDL_ShowCursor(SDL_ENABLE);
+				cursorVisible = true;
+			}
+		}
+
 		if (event.type == SDL_CONTROLLERDEVICEADDED) {
 			gamePad = SDL_GameControllerOpen(0);
 			if (gamePad == NULL) {
@@ -385,8 +400,8 @@ void GameLayer::update() {
 
 			audioHit->play(); // Sonido de impacto
 			enemy->impacted();
-			points++;
-			textPoints->content = to_string(points);
+			coins++;
+			textcoins->content = to_string(coins);
 			return;
 		}
 		if (player->isOverlap(enemy) && enemy->state != game->stateDying
@@ -445,8 +460,8 @@ void GameLayer::update() {
 				enemy->impacted();
 				audioHit->play(); // Sonido de impacto
 
-				points++;
-				textPoints->content = to_string(points);
+				coins++;
+				textcoins->content = to_string(coins);
 			}
 		}
 	}
@@ -686,8 +701,8 @@ void GameLayer::draw() {
 		enemy->draw(scrollX, scrollY);
 	}
 
-	textPoints->draw();
-	backgroundPoints->draw();
+	textcoins->draw();
+	backgroundcoins->draw();
 
 	// HUD
 
