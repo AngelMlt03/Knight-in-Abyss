@@ -23,9 +23,9 @@ void GameLayer::init() {
 	buttonJump = new Actor("res/boton_salto.png", WIDTH * 0.9, HEIGHT * 0.55, 100, 100, game);
 	buttonShoot = new Actor("res/boton_disparo.png", WIDTH * 0.75, HEIGHT * 0.83, 100, 100, game);
 
-	tiles.clear();
-	ladders.clear();
-	projectiles.clear(); // Vaciar por si reiniciamos el 
+	tiles.clear(); // Vaciar por si reiniciamos el juego
+	ladders.clear(); // Vaciar por si reiniciamos el juego
+	projectiles.clear(); // Vaciar por si reiniciamos el juego
 	enemies.clear(); // Vaciar por si reiniciamos el juego
 
 	space = new Space(1);
@@ -35,17 +35,17 @@ void GameLayer::init() {
 	//game->levelRow = 0;
 	//game->levelColumn = 0;
 
-	coins = 0;
-	textcoins = new Text("hola", 100, 150, game);
-	textcoins->content = to_string(coins);
-
 	background = new Background("res/fondo_2.png", WIDTH * 0.5, HEIGHT * 0.5, game);
-	backgroundcoins = new Actor("res/moneda.png",
-		45, 150, 36, 36, game);
+
+	coins = 0;
+	textcoins = new Text("hola", 100, 130, game);
+	textcoins->content = to_string(coins);
+	backgroundcoins = new Actor("res/moneda.png", 42, 130, 36, 36, game);
 
 	healthFrame = new Actor("res/healthFrame.png", 150, 42, 259, 42, game);
 	heart = new Actor("res/corazon.png", 45, 42, 47, 42, game);
 	healthbar = new HealthBar(game);
+	manabar = new Actor("res/manaBar4.png", 90, 86, 139, 42, game);
 
 	loadMap("res/" + to_string(game->currentLevel) + "_" + to_string(game->levelRow)
 			+ "_" + to_string(game->levelColumn) + ".txt");
@@ -157,6 +157,7 @@ void GameLayer::processControls() {
 			space->addDynamicActor(newProjectile);
 			projectiles.push_back(newProjectile);
 			controlShoot = false;
+			manabar = new Actor("res/manaBar" + to_string(player->mana) + ".png", 90, 86, 139, 42, game);
 		}
 	}
 	// Eje X
@@ -236,13 +237,17 @@ void GameLayer::keysToControls(SDL_Event event) {
 		case SDLK_a: // izquierda
 			controlMoveX = -1;
 			break;
-		case SDLK_w: // arriba
+		case SDLK_w:
+		case SDLK_SPACE: // arriba
 			controlMoveY = -1;
 			break;
 		case SDLK_s: // abajo
 			controlMoveY = 1;
 			break;
-		case SDLK_SPACE: // dispara
+		case SDLK_k: // ataque
+			//controlShoot = true;
+			break;
+		case SDLK_l: // lanza hechizo
 			controlShoot = true;
 			break;
 		}
@@ -262,7 +267,8 @@ void GameLayer::keysToControls(SDL_Event event) {
 				controlMoveX = 0;
 			}
 			break;
-		case SDLK_w: // arriba
+		case SDLK_w:
+		case SDLK_SPACE: // arriba
 			if (controlMoveY == -1) {
 				controlMoveY = 0;
 			}
@@ -272,7 +278,10 @@ void GameLayer::keysToControls(SDL_Event event) {
 				controlMoveY = 0;
 			}
 			break;
-		case SDLK_SPACE: // dispara
+		case SDLK_k: // ataque
+			//controlShoot = true;
+			break;
+		case SDLK_l: // lanza hechizo
 			controlShoot = false;
 			break;
 		}
@@ -709,6 +718,7 @@ void GameLayer::draw() {
 	healthFrame->draw();
 	healthbar->draw(0,0);
 	heart->draw();
+	manabar->draw();
 
 	if (game->input == game->inputMouse) {
 		buttonJump->draw(); // NO TIENEN SCROLL, POSICION FIJA

@@ -19,6 +19,7 @@ public:
 	int initHealth = 100;
 	int healthPoints = initHealth;
 	int invulnerableTime = 0;
+	int mana = 4;
 	bool onAir;
 	bool onLadder;
 	int orientation;

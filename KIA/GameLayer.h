@@ -67,6 +67,7 @@ public:
 	Actor* healthFrame;
 	Actor* heart;
 	HealthBar* healthbar;
+	Actor* manabar;
 	
 	bool controlContinue = false;
 	bool controlShoot = false;

@@ -136,7 +136,7 @@ void Player::jump() {
 
 Projectile* Player::shoot() {
 
-	if (shootTime == 0) {
+	if (shootTime == 0 && mana > 0) {
 		state = game->stateShooting;
 		shootTime = shootCadence;
 		aShootingLeft->currentFrame = 0; //"Rebobinar" animación
@@ -145,6 +145,7 @@ Projectile* Player::shoot() {
 		if (orientation == game->orientationLeft) {
 			projectile->vx = projectile->vx * -1; // Invertir
 		}
+		mana--;
 		return projectile;
 	}
 	else {

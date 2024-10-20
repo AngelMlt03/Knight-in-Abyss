@@ -88,7 +88,6 @@ void Space::updateMoveTop(Actor* dynamicAct) {
         }
         // Ya se han comprobado todos los estáticos
         dynamicAct->y = dynamicAct->y + possibleMovement;
-        cout << to_string(possibleMovement) + "  ";
         // Restringir la velocidad actual (opcional)
         dynamicAct->vy = possibleMovement;
     }
