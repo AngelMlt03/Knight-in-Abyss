@@ -29,6 +29,7 @@ public:
 	bool loopActive; // Juego activo
 	Layer* layer;
 	Layer* menuLayer;
+	Layer* shopLayer;
 	Layer* gameLayer;
 
 	int currentLevel = 0;

@@ -143,6 +143,7 @@
     <ClCompile Include="Actor.cpp" />
     <ClCompile Include="Alien.cpp" />
     <ClCompile Include="Animation.cpp" />
+    <ClCompile Include="ShopLayer.cpp" />
     <ClCompile Include="Sword.cpp" />
     <ClCompile Include="Audio.cpp" />
     <ClCompile Include="Background.cpp" />
@@ -168,6 +169,7 @@
     <ClInclude Include="Actor.h" />
     <ClInclude Include="Alien.h" />
     <ClInclude Include="Animation.h" />
+    <ClInclude Include="ShopLayer.h" />
     <ClInclude Include="Sword.h" />
     <ClInclude Include="Audio.h" />
     <ClInclude Include="Background.h" />

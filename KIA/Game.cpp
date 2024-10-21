@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "GameLayer.h"
+#include "ShopLayer.h"
 #include "MenuLayer.h"
 
 Game::Game() {
@@ -17,6 +18,7 @@ Game::Game() {
 
 	menuLayer = new MenuLayer(this);
 	gameLayer = new GameLayer(this);
+	shopLayer = new ShopLayer(this);
 	layer = menuLayer; // Pantalla INICIAL MENULAYER
 
 	// fuentes

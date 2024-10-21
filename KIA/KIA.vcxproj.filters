@@ -108,6 +108,9 @@
     <ClCompile Include="Spell.cpp">
       <Filter>Archivos de origen\Actores\Attacks</Filter>
     </ClCompile>
+    <ClCompile Include="ShopLayer.cpp">
+      <Filter>Archivos de origen\Layers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -175,6 +178,9 @@
     </ClInclude>
     <ClInclude Include="Spell.h">
       <Filter>Archivos de encabezado\Actores\Attacks</Filter>
+    </ClInclude>
+    <ClInclude Include="ShopLayer.h">
+      <Filter>Archivos de encabezado\Layers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
