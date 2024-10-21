@@ -53,5 +53,13 @@ public:
 
 	int const orientationRight = 1;
 	int const orientationLeft = 2;
+
+	// Menu functions
+	int maxHealth = 100;
+	int damage = 10;
+	bool doubleJump = false;
+	int gold = 2345;
+	bool buyHealth();
+	bool buyDamage();
 };
 

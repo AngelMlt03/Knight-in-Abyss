@@ -39,7 +39,7 @@ void GameLayer::init() {
 	background = new Background("res/fondo_2.png", WIDTH * 0.5, HEIGHT * 0.5, game);
 
 	coins = 0;
-	textcoins = new Text("hola", 100, 130, game);
+	textcoins = new Text("hola", 160, 130, game);
 	textcoins->content = to_string(coins);
 	backgroundcoins = new Actor("res/moneda.png", 42, 130, 36, 36, game);
 
@@ -87,9 +87,12 @@ void GameLayer::endLevel() {
 		game->levelColumn = 0;
 	}
 
+	game->layer = game->menuLayer; // Eliminar
 	// Pantalla nivel finalizado
 
-	changeRoom(0);
+	game->gold += coins;
+
+	//changeRoom(0);
 
 }
 
@@ -442,7 +445,7 @@ void GameLayer::update() {
 		if (player->isOverlap(enemy) && enemy->state != game->stateDying
 			&& enemy->state != game->stateDead) {
 			player->takeDamage(10);
-			healthbar->updateHealth(player->healthPoints, player->initHealth);
+			healthbar->updateHealth(player->healthPoints, game->maxHealth);
 			if (player->healthPoints <= 0) {
 				message = new Actor("res/mensaje_perder.png", WIDTH * 0.5, HEIGHT * 0.5,
 					WIDTH, HEIGHT, game);

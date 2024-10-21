@@ -18,8 +18,8 @@ public:
 
 	void draw(float scrollX = 0, float scrollY = 0) override; // Va a sobrescribir
 	void takeDamage(int damage);
-	int initHealth = 100;
-	int healthPoints = initHealth;
+	int healthPoints;
+	int damagePoints;
 	int invulnerableTime = 0;
 	int mana = 4;
 	bool onAir;

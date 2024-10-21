@@ -29,6 +29,9 @@ Player::Player(float x, float y, Game* game)
 	aRunningLeft = new Animation("res/jugador_corriendo_izquierda.png", width, height,
 		320, 40, 6, 8, true, game);
 	animation = aIdleRight;
+
+	healthPoints = game->maxHealth;
+	damagePoints = game->damage;
 }
 
 void Player::update() {
