@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "GameLayer.h"
+#include "ShopLayer.h"
 #include "MenuLayer.h"
 
 Game::Game() {
@@ -17,11 +18,12 @@ Game::Game() {
 
 	menuLayer = new MenuLayer(this);
 	gameLayer = new GameLayer(this);
+	shopLayer = new ShopLayer(this);
 	layer = menuLayer; // Pantalla INICIAL MENULAYER
 
 	// fuentes
 	TTF_Init();
-	font = TTF_OpenFont("res/sans.ttf", 24);
+	font = TTF_OpenFont("res/PressStart2P-Regular.ttf", 24);
 
 	SDL_Surface* cursorImage = IMG_Load("res/cursor.png");
 
@@ -85,4 +87,17 @@ void Game::scale() {
 		// Restaurar la escala original del render
 		SDL_RenderSetScale(renderer, 1, 1);
 	}
+}
+
+bool Game::buyHealth() {
+	
+	maxHealth = maxHealth + 10;
+
+	return maxHealth >= 200;
+}
+
+bool Game::buyDamage() {
+
+	damage = damage + 1;
+	return damage >= 20;
 }
