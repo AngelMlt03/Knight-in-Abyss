@@ -103,13 +103,13 @@ void ShopLayer::mouseToControls(SDL_Event event) {
 void ShopLayer::update() {
 	
 	if (maxHealth) {
-		maxHealthButton = new Actor("res/boton_no_maxvida.png", 300, HEIGHT * 0.60, 200, 60, game);
+		maxHealthButton = new Actor("res/boton_no_maxvida.png", 440, HEIGHT * 0.64, 180, 74, game);
 	}
 	if (maxDamage) {
-		moreDamageButton = new Actor("res/boton_no_masdanio.png", 500, HEIGHT * 0.60, 200, 60, game);
+		moreDamageButton = new Actor("res/boton_no_masdanio.png", 640, HEIGHT * 0.64, 184, 84, game);
 	}
 	if (maxJump) {
-		doubleJumpButton = new Actor("res/boton_no_comprarsalto.png", 700, HEIGHT * 0.60, 200, 60, game);
+		doubleJumpButton = new Actor("res/boton_no_comprarsalto.png", 840, HEIGHT * 0.64, 180, 66, game);
 	}
 	textGold->content = to_string(game->gold);
 }
