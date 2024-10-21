@@ -33,17 +33,16 @@ Player::Player(float x, float y, Game* game)
 
 void Player::update() {
 
-	onLadder = false;
-	if (!onLadder) {
-		state = game->stateMoving;
+	if (onLadder) {
+		state = game->stateLadder;
 	}
 
 	// En el aire y moviéndose, PASA a estar saltando
 	if (onAir && state == game->stateMoving) {
 		state = game->stateJumping;
 	}
-	// No está en el aire y estaba saltando, PASA a moverse
-	if (!onAir && state == game->stateJumping) {
+	// No está en el aire y estaba saltando o en escalera, PASA a moverse
+	if (!onAir && (state == game->stateJumping || state == game->stateLadder )) {
 		state = game->stateMoving;
 	}
 
@@ -58,8 +57,8 @@ void Player::update() {
 
 	// Acabo la animación, no sabemos cual
 	if (endAnimation) {
-		// Estaba disparando
-		if (state == game->stateShooting) {
+		// Estaba casteando un hechizo o atacando
+		if (state == game->stateCastSpelling || state == game->stateSwordAttacking) {
 			state = game->stateMoving;
 		}
 	}
@@ -73,7 +72,7 @@ void Player::update() {
 	}
 
 	// Selección de animación basada en estados
-	if (state == game->stateJumping) {
+	if (state == game->stateJumping || state == game->stateLadder) {
 		if (orientation == game->orientationRight) {
 			animation = aJumpingRight;
 		}
@@ -82,7 +81,7 @@ void Player::update() {
 		}
 	}
 
-	if (state == game->stateShooting) {
+	if (state == game->stateCastSpelling || state == game->stateSwordAttacking) {
 		if (orientation == game->orientationRight) {
 			animation = aShootingRight;
 		}
@@ -109,8 +108,12 @@ void Player::update() {
 		}
 	}
 
-	if (shootTime > 0) {
-		shootTime--;
+	if (spellTime > 0) {
+		spellTime--;
+	}
+
+	if (swordTime > 0) {
+		swordTime--;
 	}
 }
 
@@ -124,34 +127,53 @@ void Player::moveY(float axis) {
 
 void Player::jump() {
 
-	if (!onAir && state != game->stateLadder) {
-		vy = -18;
+	if (!onAir) {
+		vy = -14;
 		onAir = true;
 	}
-	else if (state == game->stateLadder) {
+	else if (onLadder) {
 		vy = -5;
 		onLadder = true;
 	}
 }
 
-Projectile* Player::shoot() {
+Spell* Player::castSpell() {
 
-	if (shootTime == 0 && mana > 0) {
-		state = game->stateShooting;
-		shootTime = shootCadence;
+	if (spellTime == 0 && mana > 0) {
+		state = game->stateCastSpelling;
+		spellTime = spellCadence;
 		aShootingLeft->currentFrame = 0; //"Rebobinar" animación
 		aShootingRight->currentFrame = 0; //"Rebobinar" animación
-		Projectile* projectile = new Projectile(x, y, game);
+		Spell* spell = new Spell(x, y, game);
 		if (orientation == game->orientationLeft) {
-			projectile->vx = projectile->vx * -1; // Invertir
+			spell->vx = spell->vx * -1; // Invertir
 		}
 		mana--;
-		return projectile;
+		return spell;
 	}
 	else {
 		return NULL;
 	}
 
+}
+
+Sword* Player::swordAttack() {
+
+	if (swordTime == 0) {
+		state = game->stateSwordAttacking;
+		swordTime = swordCadence;
+		aShootingLeft->currentFrame = 0; //"Rebobinar" animación
+		aShootingRight->currentFrame = 0; //"Rebobinar" animación
+		float newx = 60;
+		if (orientation == game->orientationLeft) {
+			newx = newx * -1;
+		}
+		Sword* swordA = new Sword(x + newx, y, game);
+		return swordA;
+	}
+	else {
+		return NULL;
+	}
 }
 
 void Player::takeDamage(int damage) {

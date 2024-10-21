@@ -46,8 +46,9 @@ public:
 	int const stateJumping = 2;
 	int const stateDying = 3;
 	int const stateDead = 4;
-	int const stateShooting = 5;
-	int const stateLadder = 6;
+	int const stateCastSpelling = 5;
+	int const stateSwordAttacking = 6;
+	int const stateLadder = 7;
 
 	int const orientationRight = 1;
 	int const orientationLeft = 2;

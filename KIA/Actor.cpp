@@ -17,6 +17,7 @@ Actor::Actor(string filename, float x, float y, int width, int height, Game* gam
 }
 
 Actor::~Actor() {
+
 	SDL_DestroyTexture(texture);
 }
 

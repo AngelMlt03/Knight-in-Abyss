@@ -21,11 +21,12 @@ void GameLayer::init() {
 
 	pad = new Pad(WIDTH * 0.15, HEIGHT * 0.80, game);
 	buttonJump = new Actor("res/boton_salto.png", WIDTH * 0.9, HEIGHT * 0.55, 100, 100, game);
-	buttonShoot = new Actor("res/boton_disparo.png", WIDTH * 0.75, HEIGHT * 0.83, 100, 100, game);
+	buttonSpell = new Actor("res/boton_disparo.png", WIDTH * 0.75, HEIGHT * 0.83, 100, 100, game);
+	buttonAttack = new Actor("res/boton_disparo.png", WIDTH * 0.65, HEIGHT * 0.83, 100, 100, game);
 
 	tiles.clear(); // Vaciar por si reiniciamos el juego
 	ladders.clear(); // Vaciar por si reiniciamos el juego
-	projectiles.clear(); // Vaciar por si reiniciamos el juego
+	attacks.clear(); // Vaciar por si reiniciamos el juego
 	enemies.clear(); // Vaciar por si reiniciamos el juego
 
 	space = new Space(1);
@@ -55,7 +56,7 @@ void GameLayer::changeRoom(int direction) {
 
 	tiles.clear();
 	ladders.clear();
-	projectiles.clear(); // Vaciar por si reiniciamos el 
+	attacks.clear(); // Vaciar por si reiniciamos el 
 	enemies.clear(); // Vaciar por si reiniciamos el juego
 
 	space = new Space(1);
@@ -150,14 +151,23 @@ void GameLayer::processControls() {
 		pause = false;
 		controlContinue = false;
 	}
-	// Disparar
-	if (controlShoot) {
-		Projectile* newProjectile = player->shoot();
-		if (newProjectile != NULL) {
-			space->addDynamicActor(newProjectile);
-			projectiles.push_back(newProjectile);
-			controlShoot = false;
+	// Lanzar hechizo
+	if (controlSpell) {
+		Attack* newSpell = player->castSpell();
+		if (newSpell != NULL) {
+			space->addDynamicActor(newSpell);
+			attacks.push_back(newSpell);
+			controlSpell = false;
 			manabar = new Actor("res/manaBar" + to_string(player->mana) + ".png", 90, 86, 139, 42, game);
+		}
+	}
+	// Ataque espada
+	if (controlAttack) {
+		Attack* newSwordA = player->swordAttack();
+		if (newSwordA != NULL) {
+			space->addDynamicActor(newSwordA);
+			attacks.push_back(newSwordA);
+			controlAttack = false;
 		}
 	}
 	// Eje X
@@ -184,10 +194,11 @@ void GameLayer::processControls() {
 void GameLayer::gamePadToControls(SDL_Event event) {
 	// Leer los botones
 	bool buttonA = SDL_GameControllerGetButton(gamePad, SDL_CONTROLLER_BUTTON_A);
+	bool buttonBack = SDL_GameControllerGetButton(gamePad, SDL_CONTROLLER_BUTTON_BACK);
 	bool buttonB = SDL_GameControllerGetButton(gamePad, SDL_CONTROLLER_BUTTON_B);
 	// SDL_CONTROLLER_BUTTON_A, SDL_CONTROLLER_BUTTON_B
 	// SDL_CONTROLLER_BUTTON_X, SDL_CONTROLLER_BUTTON_Y
-	cout << "botones:" << buttonA << "," << buttonB << endl;
+	cout << "botones:" << buttonA << "," << buttonB << "," << buttonBack << endl;
 	int stickX = SDL_GameControllerGetAxis(gamePad, SDL_CONTROLLER_AXIS_LEFTX);
 	cout << "stickX" << stickX << endl;
 	// Retorna aproximadamente entre [-32800, 32800], el centro debería estar en 0
@@ -202,16 +213,22 @@ void GameLayer::gamePadToControls(SDL_Event event) {
 		controlMoveX = 0;
 	}
 	if (buttonA) {
-		controlShoot = true;
+		controlAttack = true;
 	}
 	else {
-		controlShoot = false;
+		controlAttack = false;
 	}
 	if (buttonB) {
 		controlMoveY = -1; // Saltar
 	}
 	else {
 		controlMoveY = 0;
+	}
+	if (buttonBack) {
+		controlSpell = true;
+	}
+	else {
+		controlSpell = false;
 	}
 }
 
@@ -245,10 +262,10 @@ void GameLayer::keysToControls(SDL_Event event) {
 			controlMoveY = 1;
 			break;
 		case SDLK_k: // ataque
-			//controlShoot = true;
+			controlAttack = true;
 			break;
 		case SDLK_l: // lanza hechizo
-			controlShoot = true;
+			controlSpell= true;
 			break;
 		}
 	}
@@ -279,10 +296,10 @@ void GameLayer::keysToControls(SDL_Event event) {
 			}
 			break;
 		case SDLK_k: // ataque
-			//controlShoot = true;
+			controlAttack = false;
 			break;
 		case SDLK_l: // lanza hechizo
-			controlShoot = false;
+			controlSpell = false;
 			break;
 		}
 	}
@@ -302,11 +319,14 @@ void GameLayer::mouseToControls(SDL_Event event) {
 			// CLICK TAMBIEN TE MUEVE
 			controlMoveX = pad->getOrientationX(motionX);
 		}
-		if (buttonShoot->containsPoint(motionX, motionY)) {
-			controlShoot = true;
+		if (buttonSpell->containsPoint(motionX, motionY)) {
+			controlSpell = true;
 		}
 		if (buttonJump->containsPoint(motionX, motionY)) {
 			controlMoveY = -1;
+		}
+		if (buttonAttack->containsPoint(motionX, motionY)) {
+			controlAttack = true;
 		}
 	}
 	// Cada vez que se mueve
@@ -322,11 +342,14 @@ void GameLayer::mouseToControls(SDL_Event event) {
 			pad->clicked = false; // han sacado el ratón del pad
 			controlMoveX = 0;
 		}
-		if (buttonShoot->containsPoint(motionX, motionY) == false) {
-			controlShoot = false;
+		if (buttonSpell->containsPoint(motionX, motionY) == false) {
+			controlSpell = false;
 		}
 		if (buttonJump->containsPoint(motionX, motionY) == false) {
 			controlMoveY = 0;
+		}
+		if (buttonAttack->containsPoint(motionX, motionY) == false) {
+			controlAttack = false;
 		}
 	}
 	// Cada vez que levantan el click
@@ -336,11 +359,14 @@ void GameLayer::mouseToControls(SDL_Event event) {
 			// LEVANTAR EL CLICK TAMBIEN TE PARA
 			controlMoveX = 0;
 		}
-		if (buttonShoot->containsPoint(motionX, motionY)) {
-			controlShoot = false;
+		if (buttonSpell->containsPoint(motionX, motionY)) {
+			controlSpell = false;
 		}
 		if (buttonJump->containsPoint(motionX, motionY)) {
 			controlMoveY = 0;
+		}
+		if (buttonAttack->containsPoint(motionX, motionY)) {
+			controlAttack = false;
 		}
 	}
 }
@@ -397,8 +423,8 @@ void GameLayer::update() {
 		enemy->update();
 	}
 
-	for (auto const& projectile : projectiles) {
-		projectile->update();
+	for (auto const& attack : attacks) {
+		attack->update();
 	}
 
 	// Colisiones
@@ -433,37 +459,39 @@ void GameLayer::update() {
 
 		if (ladder->isOverlap(player)) {
 
-			player->state = game->stateLadder;
+			player->onLadder = true;
+			return;
 		}
+		player->onLadder = false;
 	}
 
 	// Colisiones , Enemy - Projectile
 
 	list<Enemy*> deleteEnemies;
-	list<Projectile*> deleteProjectiles;
+	list<Attack*> deleteAttacks;
 
-	for (auto const& projectile : projectiles) {
-		if (projectile->isInRender(scrollX, scrollY) == false || projectile->vx == 0) {
+	for (auto const& attack : attacks) {
+		if (attack->isInRender(scrollX, scrollY) == false || attack->canBeDeleted()) {
 
-			bool pInList = std::find(deleteProjectiles.begin(),
-				deleteProjectiles.end(),
-				projectile) != deleteProjectiles.end();
+			bool pInList = std::find(deleteAttacks.begin(),
+				deleteAttacks.end(),
+				attack) != deleteAttacks.end();
 
 			if (!pInList) {
-				deleteProjectiles.push_back(projectile);
+				deleteAttacks.push_back(attack);
 			}
 		}
 	}
 
 	for (auto const& enemy : enemies) {
-		for (auto const& projectile : projectiles) {
-			if (enemy->isOverlap(projectile)) {
-				bool pInList = std::find(deleteProjectiles.begin(),
-					deleteProjectiles.end(),
-					projectile) != deleteProjectiles.end();
+		for (auto const& attack : attacks) {
+			if (enemy->isOverlap(attack)) {
+				bool pInList = std::find(deleteAttacks.begin(),
+					deleteAttacks.end(),
+					attack) != deleteAttacks.end();
 
 				if (!pInList) {
-					deleteProjectiles.push_back(projectile);
+					deleteAttacks.push_back(attack);
 				}
 
 				enemy->impacted();
@@ -493,12 +521,12 @@ void GameLayer::update() {
 	}
 	deleteEnemies.clear();
 
-	for (auto const& delProjectile : deleteProjectiles) {
-		projectiles.remove(delProjectile);
-		space->removeDynamicActor(delProjectile);
-		delete delProjectile;
+	for (auto const& delAttack : deleteAttacks) {
+		attacks.remove(delAttack);
+		space->removeDynamicActor(delAttack);
+		delete delAttack;
 	}
-	deleteProjectiles.clear();
+	deleteAttacks.clear();
 }
 
 void GameLayer::loadMap(string name) {
@@ -699,8 +727,8 @@ void GameLayer::draw() {
 		ladder->draw(scrollX, scrollY);
 	}
 
-	for (auto const& projectile : projectiles) {
-		projectile->draw(scrollX, scrollY);
+	for (auto const& attack : attacks) {
+		attack->draw(scrollX, scrollY);
 	}
 
 	cup->draw(scrollX, scrollY);
@@ -722,7 +750,8 @@ void GameLayer::draw() {
 
 	if (game->input == game->inputMouse) {
 		buttonJump->draw(); // NO TIENEN SCROLL, POSICION FIJA
-		buttonShoot->draw(); // NO TIENEN SCROLL, POSICION FIJA
+		buttonSpell->draw(); // NO TIENEN SCROLL, POSICION FIJA
+		buttonAttack->draw(); // NO TIENEN SCROLL, POSICION FIJA
 		pad->draw(); // NO TIENEN SCROLL, POSICION FIJA
 	}
 

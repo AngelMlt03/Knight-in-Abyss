@@ -8,7 +8,9 @@
 #include "Goomba.h"
 #include "Jumper.h"
 #include "Summoner.h"
-#include "Projectile.h"
+#include "Spell.h"
+#include "Sword.h"
+#include "Attack.h"
 #include "Text.h"
 #include "Tile.h"
 #include "Pad.h"
@@ -47,7 +49,8 @@ public:
 	SDL_GameController* gamePad;
 	Pad* pad;
 	Actor* buttonJump;
-	Actor* buttonShoot;
+	Actor* buttonSpell;
+	Actor* buttonAttack;
 	Tile* cup; // Elemento de final de nivel
 	Space* space;
 	float scrollX;
@@ -70,7 +73,8 @@ public:
 	Actor* manabar;
 	
 	bool controlContinue = false;
-	bool controlShoot = false;
+	bool controlSpell = false;
+	bool controlAttack= false;
 	int controlMoveY = 0;
 	int controlMoveX = 0;
 	bool cursorVisible = true;
@@ -80,6 +84,6 @@ public:
 	void summonNewEnemy(int x, int y);
 
 	list<Enemy*> enemies;
-	list<Projectile*> projectiles;
+	list<Attack*> attacks;
 	list<Tile*> ladders;
 };

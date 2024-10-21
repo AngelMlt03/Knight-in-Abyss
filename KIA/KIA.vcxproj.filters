@@ -31,6 +31,12 @@
     <Filter Include="Archivos de origen\Actores\Enemigos">
       <UniqueIdentifier>{30b89089-1a73-4fa8-a59b-e9729da9103a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Archivos de encabezado\Actores\Attacks">
+      <UniqueIdentifier>{63ce9911-887d-458a-8a2b-12ba665882e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de origen\Actores\Attacks">
+      <UniqueIdentifier>{6a892993-08c9-459b-b029-5340bc286dc1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -52,9 +58,6 @@
       <Filter>Archivos de origen\Actores</Filter>
     </ClCompile>
     <ClCompile Include="Background.cpp">
-      <Filter>Archivos de origen\Actores</Filter>
-    </ClCompile>
-    <ClCompile Include="Projectile.cpp">
       <Filter>Archivos de origen\Actores</Filter>
     </ClCompile>
     <ClCompile Include="Text.cpp">
@@ -96,6 +99,15 @@
     <ClCompile Include="HealthBar.cpp">
       <Filter>Archivos de origen\Actores</Filter>
     </ClCompile>
+    <ClCompile Include="Sword.cpp">
+      <Filter>Archivos de origen\Actores\Attacks</Filter>
+    </ClCompile>
+    <ClCompile Include="Attack.cpp">
+      <Filter>Archivos de origen\Actores\Attacks</Filter>
+    </ClCompile>
+    <ClCompile Include="Spell.cpp">
+      <Filter>Archivos de origen\Actores\Attacks</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -114,9 +126,6 @@
       <Filter>Archivos de encabezado\Actores</Filter>
     </ClInclude>
     <ClInclude Include="Background.h">
-      <Filter>Archivos de encabezado\Actores</Filter>
-    </ClInclude>
-    <ClInclude Include="Projectile.h">
       <Filter>Archivos de encabezado\Actores</Filter>
     </ClInclude>
     <ClInclude Include="Text.h">
@@ -157,6 +166,15 @@
     </ClInclude>
     <ClInclude Include="HealthBar.h">
       <Filter>Archivos de encabezado\Actores</Filter>
+    </ClInclude>
+    <ClInclude Include="Sword.h">
+      <Filter>Archivos de encabezado\Actores\Attacks</Filter>
+    </ClInclude>
+    <ClInclude Include="Attack.h">
+      <Filter>Archivos de encabezado\Actores\Attacks</Filter>
+    </ClInclude>
+    <ClInclude Include="Spell.h">
+      <Filter>Archivos de encabezado\Actores\Attacks</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
