@@ -44,6 +44,10 @@ public:
 
 	Actor* message;
 	bool pause;
+	bool menuPause;
+	Actor* pauseBackground;
+	Actor* buttonPlayPause;
+	Actor* buttonHomePause;
 
 	// Elementos de interfaz
 	SDL_GameController* gamePad;
@@ -51,6 +55,8 @@ public:
 	Actor* buttonJump;
 	Actor* buttonSpell;
 	Actor* buttonAttack;
+	Actor* buttonDash;
+	Actor* buttonPause;
 	Tile* cup; // Elemento de final de nivel
 	Space* space;
 	float scrollX;
@@ -61,6 +67,9 @@ public:
 
 	Text* textcoins;
 	int coins;
+
+	int levelRow = 0;
+	int levelColumn = 0;
 
 	int newEnemyTime = 0;
 

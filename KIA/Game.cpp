@@ -101,3 +101,7 @@ bool Game::buyDamage() {
 	damage = damage + 1;
 	return damage >= 20;
 }
+
+Layer* Game::newGL() {
+	return new GameLayer(this);
+}

@@ -21,6 +21,7 @@ public:
 	Game();
 	void loop();
 	void scale();
+	Layer* newGL();
 	TTF_Font* font;
 	bool scaledToMax = false;
 	float scaleLower = 1;
@@ -33,8 +34,6 @@ public:
 	Layer* gameLayer;
 
 	int currentLevel = 0;
-	int levelRow = 0;
-	int levelColumn = 0;
 	int finalLevel = 2;
 
 	// Soporte multiples entradas (Teclado y ratón)

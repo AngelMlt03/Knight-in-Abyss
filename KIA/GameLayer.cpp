@@ -23,6 +23,12 @@ void GameLayer::init() {
 	buttonJump = new Actor("res/boton_salto.png", WIDTH * 0.9, HEIGHT * 0.55, 100, 100, game);
 	buttonSpell = new Actor("res/boton_disparo.png", WIDTH * 0.75, HEIGHT * 0.83, 100, 100, game);
 	buttonAttack = new Actor("res/boton_disparo.png", WIDTH * 0.65, HEIGHT * 0.83, 100, 100, game);
+	buttonDash = new Actor("res/boton_salto.png", WIDTH * 0.85, HEIGHT * 0.83, 100, 100, game);
+	buttonPause = new Actor("res/boton_pausa.png", WIDTH * 0.85, HEIGHT * 0.10, 100, 100, game);
+
+	pauseBackground = new Actor("res/fondo_pausa.png", WIDTH * 0.5, HEIGHT * 0.5, 600, 411, game);
+	buttonPlayPause = new Actor("res/boton_play_pause.png", WIDTH * 0.42, HEIGHT * 0.52, 140, 133, game);
+	buttonHomePause = new Actor("res/boton_home_pause.png", WIDTH * 0.58, HEIGHT * 0.52, 140, 133, game);
 
 	tiles.clear(); // Vaciar por si reiniciamos el juego
 	ladders.clear(); // Vaciar por si reiniciamos el juego
@@ -48,8 +54,8 @@ void GameLayer::init() {
 	healthbar = new HealthBar(game);
 	manabar = new Actor("res/manaBar4.png", 90, 86, 139, 42, game);
 
-	loadMap("res/" + to_string(game->currentLevel) + "_" + to_string(game->levelRow)
-			+ "_" + to_string(game->levelColumn) + ".txt");
+	loadMap("res/" + to_string(game->currentLevel) + "_" + to_string(levelRow)
+			+ "_" + to_string(levelColumn) + ".txt");
 }
 
 void GameLayer::changeRoom(int direction) {
@@ -61,8 +67,8 @@ void GameLayer::changeRoom(int direction) {
 
 	space = new Space(1);
 
-	loadMap("res/" + to_string(game->currentLevel) + "_" + to_string(game->levelRow)
-		+ "_" + to_string(game->levelColumn) + ".txt");
+	loadMap("res/" + to_string(game->currentLevel) + "_" + to_string(levelRow)
+		+ "_" + to_string(levelColumn) + ".txt");
 
 	switch (direction) {
 	case 0:
@@ -83,17 +89,17 @@ void GameLayer::endLevel() {
 
 	if (game->currentLevel < game->finalLevel) {
 		game->currentLevel++;
-		game->levelRow = 0;
-		game->levelColumn = 0;
+		levelRow = 0;
+		levelColumn = 0;
+		changeRoom(0);
+		// Pantalla nivel finalizado
+	}
+	else {
+		// Lo que pasa al pasarte el juego
 	}
 
-	game->layer = game->menuLayer; // Eliminar
-	// Pantalla nivel finalizado
-
 	game->gold += coins;
-
-	//changeRoom(0);
-
+	coins = 0;
 }
 
 void GameLayer::processControls() {
@@ -150,10 +156,10 @@ void GameLayer::processControls() {
 		}
 	}
 	//procesar controles
-	if (controlContinue) {
+	/*if (controlContinue) {
 		pause = false;
 		controlContinue = false;
-	}
+	}*/
 	// Lanzar hechizo
 	if (controlSpell) {
 		Attack* newSpell = player->castSpell();
@@ -331,6 +337,26 @@ void GameLayer::mouseToControls(SDL_Event event) {
 		if (buttonAttack->containsPoint(motionX, motionY)) {
 			controlAttack = true;
 		}
+		if (buttonDash->containsPoint(motionX, motionY)) {
+			// dash
+		}
+		if (buttonPause->containsPoint(motionX, motionY)) {
+			menuPause = true;
+		}
+		if (buttonPlayPause->containsPoint(motionX, motionY)) {
+			menuPause = false;
+			pause = false;
+		}
+		if (buttonHomePause->containsPoint(motionX, motionY)) {
+			pause = true;
+			menuPause = false;
+			game->layer = game->menuLayer;
+		}
+		if (message && message->containsPoint(motionX, motionY)) {
+			pause = false;
+			delete message;
+			message = nullptr;
+		}
 	}
 	// Cada vez que se mueve
 	if (event.type == SDL_MOUSEMOTION) {
@@ -354,6 +380,9 @@ void GameLayer::mouseToControls(SDL_Event event) {
 		if (buttonAttack->containsPoint(motionX, motionY) == false) {
 			controlAttack = false;
 		}
+		if (buttonDash->containsPoint(motionX, motionY)) {
+			// dash
+		}
 	}
 	// Cada vez que levantan el click
 	if (event.type == SDL_MOUSEBUTTONUP) {
@@ -371,6 +400,9 @@ void GameLayer::mouseToControls(SDL_Event event) {
 		if (buttonAttack->containsPoint(motionX, motionY)) {
 			controlAttack = false;
 		}
+		if (buttonDash->containsPoint(motionX, motionY)) {
+			// dash
+		}
 	}
 }
 
@@ -382,26 +414,25 @@ void GameLayer::update() {
 
 	// Cambio de habitación - Derecha
 	if (player->x >= mapWidth) {
-		game->levelColumn++;
+		levelColumn++;
 		changeRoom(0);
 	}
 
 	// Cambio de habitación - Izquierda
 	if (player->x <= 0) {
-		game->levelColumn--;
+		levelColumn--;
 		changeRoom(1);
 	}
 
 	// Cambio de habitación - Arriba
 	if (player->y <= 0) {
-		game->levelRow++;
+		levelRow++;
 		changeRoom(2);
 	}
 
 
 	// Nivel superado
 	if (cup->isOverlap(player)) {
-		game->currentLevel++;
 		if (game->currentLevel > game->finalLevel) {
 			game->currentLevel = 0;
 		}
@@ -755,11 +786,20 @@ void GameLayer::draw() {
 		buttonJump->draw(); // NO TIENEN SCROLL, POSICION FIJA
 		buttonSpell->draw(); // NO TIENEN SCROLL, POSICION FIJA
 		buttonAttack->draw(); // NO TIENEN SCROLL, POSICION FIJA
+		buttonDash->draw();
+		buttonPause->draw();
 		pad->draw(); // NO TIENEN SCROLL, POSICION FIJA
 	}
 
-	if (pause) {
+	if (pause && !menuPause && message) {
 		message->draw();
+	}
+
+	if (menuPause) {
+		pause = true;
+		pauseBackground->draw();
+		buttonPlayPause->draw();
+		buttonHomePause->draw();
 	}
 
 	SDL_RenderPresent(game->renderer); // Renderiza

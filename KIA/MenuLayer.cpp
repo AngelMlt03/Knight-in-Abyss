@@ -58,7 +58,7 @@ void MenuLayer::processControls() {
 	//procesar controles
 	if (controlPlay) {
 		// Cambia la capa
-		game->layer = game->gameLayer;
+		game->layer = game->newGL();
 		controlPlay = false;
 	}
 	if (controlShop) {
