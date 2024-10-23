@@ -9,7 +9,7 @@ public:
 	void update() override;
 	bool canBeDeleted() override;
 
-	float lifeTime = 10;
+	float lifeTime = 5;
 	float currentLifeTime = lifeTime;
 };
 

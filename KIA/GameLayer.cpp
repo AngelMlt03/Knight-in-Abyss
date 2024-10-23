@@ -1,3 +1,6 @@
+#include <iomanip>
+#include <sstream> 
+
 #include "GameLayer.h"
 
 GameLayer::GameLayer(Game* game)
@@ -45,8 +48,11 @@ void GameLayer::init() {
 	background = new Background("res/fondo_2.png", WIDTH * 0.5, HEIGHT * 0.5, game);
 
 	coins = 0;
-	textcoins = new Text("hola", 160, 130, game);
-	textcoins->content = to_string(coins);
+	textcoins = new Text("hola", 120, 132, game);
+	std::stringstream ss;
+	ss << std::setfill('0') << std::setw(4) << coins;
+	textcoins->content = ss.str();
+
 	backgroundcoins = new Actor("res/moneda.png", 42, 130, 36, 36, game);
 
 	healthFrame = new Actor("res/healthFrame.png", 150, 42, 259, 42, game);
@@ -155,13 +161,8 @@ void GameLayer::processControls() {
 			mouseToControls(event);
 		}
 	}
-	//procesar controles
-	/*if (controlContinue) {
-		pause = false;
-		controlContinue = false;
-	}*/
 	// Lanzar hechizo
-	if (controlSpell) {
+	if (controlSpell && !controlShield) {
 		Attack* newSpell = player->castSpell();
 		if (newSpell != NULL) {
 			space->addDynamicActor(newSpell);
@@ -171,7 +172,7 @@ void GameLayer::processControls() {
 		}
 	}
 	// Ataque espada
-	if (controlAttack) {
+	if (controlAttack && !controlShield) {
 		Attack* newSwordA = player->swordAttack();
 		if (newSwordA != NULL) {
 			space->addDynamicActor(newSwordA);
@@ -179,6 +180,7 @@ void GameLayer::processControls() {
 			controlAttack = false;
 		}
 	}
+	
 	// Eje X
 	if (controlMoveX > 0) {
 		player->moveX(1);
@@ -252,7 +254,7 @@ void GameLayer::keysToControls(SDL_Event event) {
 		// Pulsada
 		switch (code) {
 		case SDLK_ESCAPE:
-			game->loopActive = false;
+			menuPause = true;
 			break;
 		case SDLK_1:
 			game->scale();
@@ -263,8 +265,7 @@ void GameLayer::keysToControls(SDL_Event event) {
 		case SDLK_a: // izquierda
 			controlMoveX = -1;
 			break;
-		case SDLK_w:
-		case SDLK_SPACE: // arriba
+		case SDLK_w: // arriba
 			controlMoveY = -1;
 			break;
 		case SDLK_s: // abajo
@@ -274,7 +275,13 @@ void GameLayer::keysToControls(SDL_Event event) {
 			controlAttack = true;
 			break;
 		case SDLK_l: // lanza hechizo
-			controlSpell= true;
+			controlSpell = true;
+			break;
+		case SDLK_SPACE:
+			controlShield = true;
+			break;
+		case SDLK_LSHIFT:
+			controlDash = true;
 			break;
 		}
 	}
@@ -293,8 +300,7 @@ void GameLayer::keysToControls(SDL_Event event) {
 				controlMoveX = 0;
 			}
 			break;
-		case SDLK_w:
-		case SDLK_SPACE: // arriba
+		case SDLK_w: // arriba
 			if (controlMoveY == -1) {
 				controlMoveY = 0;
 			}
@@ -309,6 +315,12 @@ void GameLayer::keysToControls(SDL_Event event) {
 			break;
 		case SDLK_l: // lanza hechizo
 			controlSpell = false;
+			break;
+		case SDLK_SPACE:
+			controlShield = false;
+			break;
+		case SDLK_LSHIFT:
+			controlDash = false;
 			break;
 		}
 	}
@@ -347,7 +359,7 @@ void GameLayer::mouseToControls(SDL_Event event) {
 			menuPause = false;
 			pause = false;
 		}
-		if (buttonHomePause->containsPoint(motionX, motionY)) {
+		if (buttonHomePause->containsPoint(motionX, motionY) && menuPause) {
 			pause = true;
 			menuPause = false;
 			game->layer = game->menuLayer;
@@ -412,6 +424,9 @@ void GameLayer::update() {
 		return;
 	}
 
+	// Usar escudo
+	player->usingShield = controlShield;
+
 	// Cambio de habitación - Derecha
 	if (player->x >= mapWidth) {
 		levelColumn++;
@@ -470,7 +485,9 @@ void GameLayer::update() {
 			audioHit->play(); // Sonido de impacto
 			enemy->impacted();
 			coins++;
-			textcoins->content = to_string(coins);
+			std::stringstream ss;
+			ss << std::setfill('0') << std::setw(4) << coins;
+			textcoins->content = ss.str();
 			return;
 		}
 		if (player->isOverlap(enemy) && enemy->state != game->stateDying
@@ -532,7 +549,9 @@ void GameLayer::update() {
 				audioHit->play(); // Sonido de impacto
 
 				coins++;
-				textcoins->content = to_string(coins);
+				std::stringstream ss;
+				ss << std::setfill('0') << std::setw(4) << coins;
+				textcoins->content = ss.str();
 			}
 		}
 	}

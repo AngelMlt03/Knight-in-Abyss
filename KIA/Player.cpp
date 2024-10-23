@@ -15,9 +15,24 @@ Player::Player(float x, float y, Game* game)
 	aJumpingLeft = new Animation("res/jugador_saltando_izquierda.png",
 		width, height, 160, 40, 6, 4, true, game);
 
-	aShootingRight = new Animation("res/jugador_disparando_derecha.png",
+	aSpellingRight = new Animation("res/jugador_disparando_derecha.png",
 		width, height, 160, 40, 6, 4, false, game);
-	aShootingLeft = new Animation("res/jugador_disparando_izquierda.png",
+	aSpellingLeft = new Animation("res/jugador_disparando_izquierda.png",
+		width, height, 160, 40, 6, 4, false, game);
+
+	aSwordingRight = new Animation("res/jugador_disparando_derecha.png",
+		width, height, 160, 40, 6, 4, false, game);
+	aSwordingLeft = new Animation("res/jugador_disparando_izquierda.png",
+		width, height, 160, 40, 6, 4, false, game);
+
+	aShieldingRight = new Animation("res/jugador_disparando_derecha.png",
+		width, height, 160, 40, 6, 4, true, game);
+	aShieldingLeft = new Animation("res/jugador_disparando_izquierda.png",
+		width, height, 160, 40, 6, 4, true, game);
+
+	aDashingRight = new Animation("res/jugador_disparando_derecha.png",
+		width, height, 160, 40, 6, 4, false, game);
+	aDashingLeft = new Animation("res/jugador_disparando_izquierda.png",
 		width, height, 160, 40, 6, 4, false, game);
 
 	aIdleRight = new Animation("res/jugador_idle_derecha.png", width, height,
@@ -40,15 +55,23 @@ void Player::update() {
 		state = game->stateLadder;
 	}
 
+	if (usingShield) {
+		state = game->stateUsingShield;
+	}
+
 	// En el aire y moviéndose, PASA a estar saltando
 	if (onAir && state == game->stateMoving) {
 		state = game->stateJumping;
 	}
 	// No está en el aire y estaba saltando o en escalera, PASA a moverse
-	if (!onAir && (state == game->stateJumping || state == game->stateLadder )) {
+	if (!onAir && (state == game->stateJumping || state == game->stateLadder 
+		|| (state == game->stateUsingShield  && !usingShield))) {
 		state = game->stateMoving;
 	}
 
+	if (state == game->stateUsingShield && !usingShield) {
+		state = game->stateMoving;
+	}
 
 	if (invulnerableTime > 0) {
 		invulnerableTime--;
@@ -75,6 +98,7 @@ void Player::update() {
 	}
 
 	// Selección de animación basada en estados
+
 	if (state == game->stateJumping || state == game->stateLadder) {
 		if (orientation == game->orientationRight) {
 			animation = aJumpingRight;
@@ -84,14 +108,42 @@ void Player::update() {
 		}
 	}
 
-	if (state == game->stateCastSpelling || state == game->stateSwordAttacking) {
+	if (state == game->stateCastSpelling) {
 		if (orientation == game->orientationRight) {
-			animation = aShootingRight;
+			animation = aSpellingRight;
 		}
 		if (orientation == game->orientationLeft) {
-			animation = aShootingLeft;
+			animation = aSpellingLeft;
 		}
 	}
+
+	if (state == game->stateSwordAttacking) {
+		if (orientation == game->orientationRight) {
+			animation = aSwordingRight;
+		}
+		if (orientation == game->orientationLeft) {
+			animation = aSwordingLeft;
+		}
+	}
+
+	if (state == game->stateUsingShield) {
+		if (orientation == game->orientationRight) {
+			animation = aShieldingRight;
+		}
+		if (orientation == game->orientationLeft) {
+			animation = aShieldingLeft;
+		}
+	}
+
+	if (state == game->stateDashing) {
+		if (orientation == game->orientationRight) {
+			animation = aDashingRight;
+		}
+		if (orientation == game->orientationLeft) {
+			animation = aDashingLeft;
+		}
+	}
+
 	if (state == game->stateMoving) {
 		if (vx != 0) {
 			if (orientation == game->orientationRight) {
@@ -121,7 +173,8 @@ void Player::update() {
 }
 
 void Player::moveX(float axis) {
-	vx = axis * 8;
+
+	vx = (usingShield) ? axis * 2 : axis * 8;
 }
 
 void Player::moveY(float axis) {
@@ -131,7 +184,7 @@ void Player::moveY(float axis) {
 void Player::jump() {
 
 	if (!onAir) {
-		vy = -14;
+		vy = (usingShield) ? -5 : - 14;
 		onAir = true;
 	}
 	else if (onLadder) {
@@ -145,8 +198,8 @@ Spell* Player::castSpell() {
 	if (spellTime == 0 && mana > 0) {
 		state = game->stateCastSpelling;
 		spellTime = spellCadence;
-		aShootingLeft->currentFrame = 0; //"Rebobinar" animación
-		aShootingRight->currentFrame = 0; //"Rebobinar" animación
+		aSpellingLeft->currentFrame = 0; //"Rebobinar" animación
+		aSpellingRight->currentFrame = 0; //"Rebobinar" animación
 		Spell* spell = new Spell(x, y, game);
 		if (orientation == game->orientationLeft) {
 			spell->vx = spell->vx * -1; // Invertir
@@ -165,8 +218,8 @@ Sword* Player::swordAttack() {
 	if (swordTime == 0) {
 		state = game->stateSwordAttacking;
 		swordTime = swordCadence;
-		aShootingLeft->currentFrame = 0; //"Rebobinar" animación
-		aShootingRight->currentFrame = 0; //"Rebobinar" animación
+		aSwordingLeft->currentFrame = 0; //"Rebobinar" animación
+		aSwordingRight->currentFrame = 0; //"Rebobinar" animación
 		float newx = 60;
 		if (orientation == game->orientationLeft) {
 			newx = newx * -1;
@@ -184,7 +237,7 @@ void Player::takeDamage(int damage) {
 	if (invulnerableTime <= 0) {
 
 		invulnerableTime = 50;
-		healthPoints -= damage;
+		healthPoints -= (usingShield) ? damage * 0.2 : damage;
 		if (healthPoints < 0) {
 			healthPoints = 0;
 		}

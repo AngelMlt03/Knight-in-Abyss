@@ -24,22 +24,32 @@ public:
 	int mana = 4;
 	bool onAir;
 	bool onLadder;
+	bool usingShield;
 	int orientation;
 	int state;
+
+	// Animations
 	Animation* aIdleRight;
 	Animation* aIdleLeft;
 	Animation* aJumpingRight;
 	Animation* aJumpingLeft;
 	Animation* aRunningRight;
 	Animation* aRunningLeft;
-	Animation* aShootingRight;
-	Animation* aShootingLeft;
+	Animation* aSpellingRight;
+	Animation* aSpellingLeft;
+	Animation* aSwordingRight;
+	Animation* aSwordingLeft;
+	Animation* aShieldingRight;
+	Animation* aShieldingLeft;
+	Animation* aDashingRight;
+	Animation* aDashingLeft;
+
 	Animation* animation; // Referencia a la animación mostrada
 
 	int spellCadence = 50;
 	int spellTime = 0;
 
-	int swordCadence = 15;
+	int swordCadence = 25;
 	int swordTime = 0;
 };
 

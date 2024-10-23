@@ -1,3 +1,6 @@
+#include <iomanip>
+#include <sstream> 
+
 #include "ShopLayer.h"
 
 ShopLayer::ShopLayer(Game* game)
@@ -13,7 +16,9 @@ ShopLayer::ShopLayer(Game* game)
 	maxJump = false;
 
 	textGold = new Text("", 458, 212, game);
-	textGold->content = to_string(game->gold);
+	std::stringstream ss;
+	ss << std::setfill('0') << std::setw(4) << game->gold;
+	textGold->content = ss.str();
 }
 
 void ShopLayer::init() {
@@ -111,5 +116,7 @@ void ShopLayer::update() {
 	if (maxJump) {
 		doubleJumpButton = new Actor("res/boton_no_comprarsalto.png", 840, HEIGHT * 0.64, 180, 66, game);
 	}
-	textGold->content = to_string(game->gold);
+	std::stringstream ss;
+	ss << std::setfill('0') << std::setw(4) << game->gold;
+	textGold->content = ss.str();
 }

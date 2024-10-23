@@ -48,7 +48,9 @@ public:
 	int const stateDead = 4;
 	int const stateCastSpelling = 5;
 	int const stateSwordAttacking = 6;
-	int const stateLadder = 7;
+	int const stateUsingShield = 7;
+	int const stateDashing = 8;
+	int const stateLadder = 9;
 
 	int const orientationRight = 1;
 	int const orientationLeft = 2;

@@ -83,7 +83,9 @@ public:
 	
 	bool controlContinue = false;
 	bool controlSpell = false;
-	bool controlAttack= false;
+	bool controlAttack = false;
+	bool controlShield = false;
+	bool controlDash = false;
 	int controlMoveY = 0;
 	int controlMoveX = 0;
 	bool cursorVisible = true;
