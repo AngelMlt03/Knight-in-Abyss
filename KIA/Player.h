@@ -18,6 +18,7 @@ public:
 
 	void draw(float scrollX = 0, float scrollY = 0) override; // Va a sobrescribir
 	void takeDamage(int damage);
+	void dash();
 	int healthPoints;
 	int damagePoints;
 	int invulnerableTime = 0;
@@ -25,6 +26,7 @@ public:
 	bool onAir;
 	bool onLadder;
 	bool usingShield;
+	bool dashing;
 	int orientation;
 	int state;
 
@@ -46,11 +48,24 @@ public:
 
 	Animation* animation; // Referencia a la animación mostrada
 
+	bool canCastSpell = true;
 	int spellCadence = 50;
 	int spellTime = 0;
 
-	int swordCadence = 25;
+	bool canSwordAttack = true;
+	int swordCadence = 30;
 	int swordTime = 0;
+	
+	bool canDash = true;
+	float dashSpeed = 40;
+	float dashTime = 0;
+	float const dashDuration = 4;
+	float dashCooldown = 0;
+	float const dashCooldownTime = 30;
+
+	bool canDoubleJump = false;
+	int jumpCount = 0;   // Número de saltos realizados
+	const int maxJumps = 2;  // Máximo de saltos permitidos (doble salto)
 };
 
 

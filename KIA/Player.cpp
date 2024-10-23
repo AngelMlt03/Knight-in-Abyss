@@ -59,6 +59,18 @@ void Player::update() {
 		state = game->stateUsingShield;
 	}
 
+	if (dashTime > 0) {
+        dashTime--;
+        if (dashTime == 0) {
+			dashing = false;
+            vx = 0;  // Detén el dash
+        }
+    }
+
+	if (!onAir) {
+		jumpCount = 0;
+	}
+
 	// En el aire y moviéndose, PASA a estar saltando
 	if (onAir && state == game->stateMoving) {
 		state = game->stateJumping;
@@ -70,6 +82,10 @@ void Player::update() {
 	}
 
 	if (state == game->stateUsingShield && !usingShield) {
+		state = game->stateMoving;
+	}
+
+	if (state == game->stateDashing && !dashing) {
 		state = game->stateMoving;
 	}
 
@@ -170,11 +186,17 @@ void Player::update() {
 	if (swordTime > 0) {
 		swordTime--;
 	}
+
+	if (dashCooldown > 0) {
+		dashCooldown--;
+	}
 }
 
 void Player::moveX(float axis) {
 
-	vx = (usingShield) ? axis * 2 : axis * 8;
+	if (!dashing) {
+		vx = (usingShield) ? axis * 2 : axis * 8;
+	}
 }
 
 void Player::moveY(float axis) {
@@ -186,6 +208,13 @@ void Player::jump() {
 	if (!onAir) {
 		vy = (usingShield) ? -5 : - 14;
 		onAir = true;
+		jumpCount++;
+		canDoubleJump = false;
+	}
+	else if (onAir && jumpCount < maxJumps && canDoubleJump && game->doubleJump) {
+		vy = -14;
+		jumpCount++;
+		canDoubleJump = false;
 	}
 	else if (onLadder) {
 		vy = -5;
@@ -195,7 +224,7 @@ void Player::jump() {
 
 Spell* Player::castSpell() {
 
-	if (spellTime == 0 && mana > 0) {
+	if (spellTime == 0 && mana > 0 && canCastSpell) {
 		state = game->stateCastSpelling;
 		spellTime = spellCadence;
 		aSpellingLeft->currentFrame = 0; //"Rebobinar" animación
@@ -205,6 +234,7 @@ Spell* Player::castSpell() {
 			spell->vx = spell->vx * -1; // Invertir
 		}
 		mana--;
+		canCastSpell = false;
 		return spell;
 	}
 	else {
@@ -215,7 +245,7 @@ Spell* Player::castSpell() {
 
 Sword* Player::swordAttack() {
 
-	if (swordTime == 0) {
+	if (swordTime == 0 && canSwordAttack) {
 		state = game->stateSwordAttacking;
 		swordTime = swordCadence;
 		aSwordingLeft->currentFrame = 0; //"Rebobinar" animación
@@ -225,6 +255,7 @@ Sword* Player::swordAttack() {
 			newx = newx * -1;
 		}
 		Sword* swordA = new Sword(x + newx, y, game);
+		canSwordAttack = false;
 		return swordA;
 	}
 	else {
@@ -241,6 +272,23 @@ void Player::takeDamage(int damage) {
 		if (healthPoints < 0) {
 			healthPoints = 0;
 		}
+	}
+}
+
+void Player::dash() {
+
+	if (dashCooldown == 0 && dashTime == 0 && !usingShield && canDash) {
+		dashTime = dashDuration;
+		dashCooldown = dashCooldownTime;
+		state = game->stateDashing; // Cambia al estado de dash
+		if (orientation == game->orientationRight) {
+			vx = dashSpeed; // Dash hacia la derecha
+		}
+		else {
+			vx = -dashSpeed; // Dash hacia la izquierda
+		}
+		dashing = true;
+		canDash = false;
 	}
 }
 

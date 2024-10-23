@@ -303,6 +303,7 @@ void GameLayer::keysToControls(SDL_Event event) {
 		case SDLK_w: // arriba
 			if (controlMoveY == -1) {
 				controlMoveY = 0;
+				player->canDoubleJump = true;
 			}
 			break;
 		case SDLK_s: // abajo
@@ -312,15 +313,18 @@ void GameLayer::keysToControls(SDL_Event event) {
 			break;
 		case SDLK_k: // ataque
 			controlAttack = false;
+			player->canSwordAttack = true;
 			break;
 		case SDLK_l: // lanza hechizo
 			controlSpell = false;
+			player->canCastSpell = true;
 			break;
 		case SDLK_SPACE:
 			controlShield = false;
 			break;
 		case SDLK_LSHIFT:
 			controlDash = false;
+			player->canDash = true;
 			break;
 		}
 	}
@@ -393,7 +397,7 @@ void GameLayer::mouseToControls(SDL_Event event) {
 			controlAttack = false;
 		}
 		if (buttonDash->containsPoint(motionX, motionY)) {
-			// dash
+			controlDash = true;
 		}
 	}
 	// Cada vez que levantan el click
@@ -412,9 +416,6 @@ void GameLayer::mouseToControls(SDL_Event event) {
 		if (buttonAttack->containsPoint(motionX, motionY)) {
 			controlAttack = false;
 		}
-		if (buttonDash->containsPoint(motionX, motionY)) {
-			// dash
-		}
 	}
 }
 
@@ -426,6 +427,11 @@ void GameLayer::update() {
 
 	// Usar escudo
 	player->usingShield = controlShield;
+	// Dash
+	if (controlDash) {
+		player->dash();
+		controlDash = false;
+	}
 
 	// Cambio de habitación - Derecha
 	if (player->x >= mapWidth) {
