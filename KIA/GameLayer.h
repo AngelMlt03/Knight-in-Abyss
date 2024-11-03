@@ -69,6 +69,8 @@ public:
 
 	Text* textcoins;
 	int coins;
+	int currentHP;
+	int currentMana;
 
 	int levelRow = 0;
 	int levelColumn = 0;

@@ -24,7 +24,7 @@ public:
 	int healthPoints;
 	int damagePoints;
 	int invulnerableTime = 0;
-	int mana = 4;
+	int mana;
 	bool onAir;
 	bool onLadder;
 	bool usingShield;

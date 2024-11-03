@@ -3,20 +3,61 @@
 #include "BreakableItem.h"
 #include "GameLayer.h"
 
-BreakableItem::BreakableItem(float x, float y, Game* game)
-    : Item(getSprite(), x, y, game) {
+BreakableItem::BreakableItem(float x, float y, Game* game, int random)
+    : Item(getSprite(random), x, y, getWidth(random), getHeight(random), game) {
 
     //audioOnCollision = Audio::createAudio("res/soundEffects/efecto_moneda.wav", false);
 }
 
-string BreakableItem::getSprite() {
+string BreakableItem::getSprite(int random) {
 
-    std::random_device rd;  // Semilla basada en el hardware
-    std::mt19937 gen(rd()); // Generador Mersenne Twister
-    std::uniform_int_distribution<> distribucion(0, 5); // Rango 0 a 5
-    int randomN = distribucion(gen);
+    cout << to_string(random);
+    return "res/gameRes/breakableItem" + to_string(random) + ".png";
+}
 
-    return "res/breakableItem" + to_string(randomN) + ".png";
+int BreakableItem::getWidth(int random) {
+
+    int w = 40;
+    cout << to_string(random);
+    switch (random)
+    {
+        case 0:
+        case 1:
+        case 2: {
+            w = 80;
+            break;
+        }
+        case 3: {
+            w = 90;
+            break;
+        }
+    }
+
+    return w;
+}
+
+int BreakableItem::getHeight(int random) {
+
+    int h = 70;
+    cout << to_string(random);
+    switch (random)
+    {
+        case 0: {
+            h = 65;
+            break;
+        }
+        case 1:
+        case 2: {
+            h = 120;
+            break;
+        }
+        case 3: {
+            h = 56;
+            break;
+        }
+    }
+
+    return h;
 }
 
 void BreakableItem::onCollision() {

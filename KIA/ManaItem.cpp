@@ -2,7 +2,7 @@
 #include "GameLayer.h"
 
 ManaItem::ManaItem(float x, float y, Game* game, Player* p)
-    : Item("res/gameRes/manaPocion.png", x, y, game) {
+    : Item("res/gameRes/manaPocion.png", x, y, 40, 40, game) {
 
     player = p;
     //audioOnCollision = Audio::createAudio("res/soundEffects/efecto_moneda.wav", false);

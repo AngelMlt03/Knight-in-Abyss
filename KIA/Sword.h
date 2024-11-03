@@ -8,6 +8,7 @@ public:
 	Sword(float x, float y, Game* game);
 	void update() override;
 	bool canBeDeleted() override;
+	void onCollision() override;
 
 	float lifeTime = 5;
 	float currentLifeTime = lifeTime;

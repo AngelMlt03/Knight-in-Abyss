@@ -67,6 +67,9 @@ void GameLayer::init() {
 	healthbar = new HealthBar(game);
 	manabar = new Actor("res/gameRes/manaBar4.png", 90, 86, 139, 42, game);
 
+	currentHP = game->maxHealth;
+	currentMana = game->maxMana;
+
 	loadMap("res/gameLevels/" + to_string(game->currentLevel) + "_" + to_string(levelRow)
 			+ "_" + to_string(levelColumn) + ".txt");
 }
@@ -81,6 +84,8 @@ void GameLayer::changeRoom(int direction) {
 	items.clear();
 
 	space = new Space(1);
+	currentHP = player->healthPoints;
+	currentMana = player->mana;
 
 	loadMap("res/gameLevels/" + to_string(game->currentLevel) + "_" + to_string(levelRow)
 		+ "_" + to_string(levelColumn) + ".txt");
@@ -107,6 +112,8 @@ void GameLayer::endLevel() {
 		levelRow = 0;
 		levelColumn = 0;
 		changeRoom(0);
+		currentHP = game->maxHealth;
+		currentMana = game->maxMana;
 		// Pantalla nivel finalizado
 	}
 	else {
@@ -574,17 +581,21 @@ void GameLayer::update() {
 					deleteAttacks.end(),
 					attack) != deleteAttacks.end();
 
-				if (!pInList) {
+				if (!pInList && attack->canBeDeleted()) {
 					deleteAttacks.push_back(attack);
 				}
 
-				enemy->impacted();
-				audioHit->play(); // Sonido de impacto
+				attack->onCollision();
+				if (enemy->state != game->stateDying && enemy->state != game->stateDead) {
+					enemy->impacted();
+					audioHit->play(); // Sonido de impacto
 
-				coins++;
-				std::stringstream ss;
-				ss << std::setfill('0') << std::setw(4) << coins;
-				textcoins->content = ss.str();
+
+					coins++;
+					std::stringstream ss;
+					ss << std::setfill('0') << std::setw(4) << coins;
+					textcoins->content = ss.str();
+				}
 			}
 		}
 		for (auto const& bi : breakableItems) {
@@ -594,7 +605,7 @@ void GameLayer::update() {
 					deleteAttacks.end(),
 					attack) != deleteAttacks.end();
 
-				if (!pInList) {
+				if (!pInList && attack->canBeDeleted()) {
 					deleteAttacks.push_back(attack);
 				}
 				pInList = std::find(deleteBreakableItems.begin(),
@@ -604,6 +615,7 @@ void GameLayer::update() {
 				if (!pInList) {
 					deleteBreakableItems.push_back(bi);
 				}
+				attack->onCollision();
 				bi->onCollision();
 				createRandomItem(bi->x, bi->y);
 			}
@@ -727,6 +739,8 @@ void GameLayer::loadMapObject(char character, float x, float y) {
 		}
 		case '1': {
 			player = new Player(x, y, game);
+			player->healthPoints = currentHP;
+			player->mana = currentMana;
 			// modificación para empezar a contar desde el suelo.
 			player->y = player->y - player->height / 2;
 			space->addDynamicActor(player);
@@ -740,7 +754,22 @@ void GameLayer::loadMapObject(char character, float x, float y) {
 			break;
 		}
 		case 'B': {
-			BreakableItem* bi = new BreakableItem(x, y, game);
+			std::random_device rd;  // Semilla basada en el hardware
+			std::mt19937 gen(rd()); // Generador Mersenne Twister
+			std::uniform_int_distribution<> distribucion(0, 2);
+			int random = distribucion(gen);
+			BreakableItem* bi = new BreakableItem(x, y, game, random);
+			// modificación para empezar a contar desde el suelo. 
+			bi->y = bi->y - bi->height / 2;
+			breakableItems.push_back(bi);
+			break;
+		}
+		case 'K': {
+			std::random_device rd;  // Semilla basada en el hardware
+			std::mt19937 gen(rd()); // Generador Mersenne Twister
+			std::uniform_int_distribution<> distribucion(3, 3);
+			int random = distribucion(gen);
+			BreakableItem* bi = new BreakableItem(x, y, game, random);
 			// modificación para empezar a contar desde el suelo. 
 			bi->y = bi->y - bi->height / 2;
 			breakableItems.push_back(bi);

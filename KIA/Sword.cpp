@@ -20,3 +20,7 @@ bool Sword::canBeDeleted() {
 	currentLifeTime--;
 	return false;
 }
+
+void Sword::onCollision() {
+
+}

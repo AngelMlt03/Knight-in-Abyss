@@ -8,5 +8,6 @@ public:
 	Attack(string filename, float x, float y, int width, int height, Game* game);
 	virtual void update() = 0;
 	virtual bool canBeDeleted() = 0;
+	virtual void onCollision() = 0;
 };
 

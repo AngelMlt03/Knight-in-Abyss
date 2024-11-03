@@ -6,7 +6,7 @@
 class Item : public Actor
 {
 public:
-	Item(string filename, float x, float y, Game* game);
+	Item(string filename, float x, float y, float width, float height, Game* game);
 
 	virtual void onCollision() {}; // Lo que ocurre al colisionar con el item
 	Audio* audioOnCollision;
