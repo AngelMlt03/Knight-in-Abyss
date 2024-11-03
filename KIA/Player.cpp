@@ -275,6 +275,15 @@ void Player::takeDamage(int damage) {
 	}
 }
 
+void Player::heal() {
+	
+	int hp = healthPoints + 10;
+
+	if (hp <= game->maxHealth) {
+		healthPoints = hp;
+	}
+}
+
 void Player::dash() {
 
 	if (dashCooldown == 0 && dashTime == 0 && !usingShield && canDash) {

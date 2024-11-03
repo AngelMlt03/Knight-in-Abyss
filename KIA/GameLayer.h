@@ -14,6 +14,7 @@
 #include "Text.h"
 #include "Tile.h"
 #include "Pad.h"
+#include "BreakableItem.h"
 #include "Space.h" // importar
 #include "Audio.h"
 
@@ -38,6 +39,7 @@ public:
 	void loadMap(string name);
 	void loadMapObject(char character, float x, float y);
 	void calculateScroll();
+	void createRandomItem(float x, float y);
 
 	Audio* audioBackground;
 	Audio* audioHit;
@@ -97,4 +99,6 @@ public:
 	list<Enemy*> enemies;
 	list<Attack*> attacks;
 	list<Tile*> ladders;
+	list<BreakableItem*> breakableItems;
+	list<Item*> items;
 };

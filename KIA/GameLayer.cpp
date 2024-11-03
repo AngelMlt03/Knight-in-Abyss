@@ -1,7 +1,11 @@
 #include <iomanip>
-#include <sstream> 
+#include <sstream>
+#include <random>
 
 #include "GameLayer.h"
+
+#include "HealthItem.h"
+#include "ManaItem.h"
 
 GameLayer::GameLayer(Game* game)
 	: Layer(game) {
@@ -37,6 +41,8 @@ void GameLayer::init() {
 	ladders.clear(); // Vaciar por si reiniciamos el juego
 	attacks.clear(); // Vaciar por si reiniciamos el juego
 	enemies.clear(); // Vaciar por si reiniciamos el juego
+	breakableItems.clear(); // Vaciar por si reiniciamos el juego
+	items.clear(); // Vaciar por si reiniciamos el juego
 
 	space = new Space(1);
 	scrollX = 0;
@@ -70,6 +76,8 @@ void GameLayer::changeRoom(int direction) {
 	ladders.clear();
 	attacks.clear(); // Vaciar por si reiniciamos el 
 	enemies.clear(); // Vaciar por si reiniciamos el juego
+	breakableItems.clear(); // Vaciar por si reiniciamos el juego
+	items.clear();
 
 	space = new Space(1);
 
@@ -482,7 +490,7 @@ void GameLayer::update() {
 		attack->update();
 	}
 
-	// Colisiones
+	// Colisiones , Player - Enemy
 	for (auto const& enemy : enemies) {
 
 		if (enemy->isTopOverlap(player) && enemy->state != game->stateDying
@@ -499,7 +507,6 @@ void GameLayer::update() {
 		if (player->isOverlap(enemy) && enemy->state != game->stateDying
 			&& enemy->state != game->stateDead) {
 			player->takeDamage(10);
-			healthbar->updateHealth(player->healthPoints, game->maxHealth);
 			if (player->healthPoints <= 0) {
 				message = new Actor("res/mensaje_perder.png", WIDTH * 0.5, HEIGHT * 0.5,
 					WIDTH, HEIGHT, game);
@@ -522,10 +529,31 @@ void GameLayer::update() {
 		player->onLadder = false;
 	}
 
-	// Colisiones , Enemy - Projectile
+	// Colisiones , Player - Items
+
+	list<Item*> deleteItems;
+
+	for (auto const& item : items) {
+
+		if (item->isOverlap(player)) {
+
+			bool pInList = std::find(deleteItems.begin(),
+				deleteItems.end(),
+				item) != deleteItems.end();
+
+			if (!pInList) {
+				deleteItems.push_back(item);
+			}
+
+			item->onCollision();
+		}
+	}
+
+	// Colisiones , Attack - Enemy,  Attack - BreakableItem
 
 	list<Enemy*> deleteEnemies;
 	list<Attack*> deleteAttacks;
+	list<BreakableItem*> deleteBreakableItems;
 
 	for (auto const& attack : attacks) {
 		if (attack->isInRender(scrollX, scrollY) == false || attack->canBeDeleted()) {
@@ -540,8 +568,9 @@ void GameLayer::update() {
 		}
 	}
 
-	for (auto const& enemy : enemies) {
-		for (auto const& attack : attacks) {
+	for (auto const& attack : attacks) {
+		for (auto const& enemy : enemies) {
+		
 			if (enemy->isOverlap(attack)) {
 				bool pInList = std::find(deleteAttacks.begin(),
 					deleteAttacks.end(),
@@ -558,6 +587,27 @@ void GameLayer::update() {
 				std::stringstream ss;
 				ss << std::setfill('0') << std::setw(4) << coins;
 				textcoins->content = ss.str();
+			}
+		}
+		for (auto const& bi : breakableItems) {
+			
+			if (bi->isOverlap(attack)) {
+				bool pInList = std::find(deleteAttacks.begin(),
+					deleteAttacks.end(),
+					attack) != deleteAttacks.end();
+
+				if (!pInList) {
+					deleteAttacks.push_back(attack);
+				}
+				pInList = std::find(deleteBreakableItems.begin(),
+					deleteBreakableItems.end(),
+					bi) != deleteBreakableItems.end();
+
+				if (!pInList) {
+					deleteBreakableItems.push_back(bi);
+				}
+				bi->onCollision();
+				createRandomItem(bi->x, bi->y);
 			}
 		}
 	}
@@ -586,6 +636,20 @@ void GameLayer::update() {
 		delete delAttack;
 	}
 	deleteAttacks.clear();
+
+	for (auto const& delBreakableItems : deleteBreakableItems) {
+		breakableItems.remove(delBreakableItems);
+		space->removeDynamicActor(delBreakableItems);
+		delete delBreakableItems;
+	}
+	deleteBreakableItems.clear();
+
+	for (auto const& delItems: deleteItems) {
+		items.remove(delItems);
+		space->removeDynamicActor(delItems);
+		delete delItems;
+	}
+	deleteItems.clear();
 }
 
 void GameLayer::loadMap(string name) {
@@ -677,6 +741,13 @@ void GameLayer::loadMapObject(char character, float x, float y) {
 			ladders.push_back(ladder);
 			break;
 		}
+		case 'B': {
+			BreakableItem* bi = new BreakableItem(x, y, game);
+			// modificación para empezar a contar desde el suelo. 
+			bi->y = bi->y - bi->height / 2;
+			breakableItems.push_back(bi);
+			break;
+		}
 		case '#': {
 			Tile* tile = new Tile("res/bloque_tierra.png", x, y, game);
 			// modificación para empezar a contar desde el suelo.
@@ -748,6 +819,28 @@ void GameLayer::calculateScroll() {
 	}
 }
 
+void GameLayer::createRandomItem(float x, float y) {
+
+	std::random_device rd;  // Semilla basada en el hardware
+	std::mt19937 gen(rd()); // Generador Mersenne Twister
+	std::uniform_int_distribution<> distribucion(0, 5); // Rango 0 a 5
+	int randomN = distribucion(gen);
+
+	switch (randomN)
+	{
+		case 0: {
+			Item* h = new HealthItem(x, y, game, player);
+			items.push_back(h);
+			break;
+		}
+		case 1: {
+			Item* m = new ManaItem(x, y, game, player);
+			items.push_back(m);
+			break;
+		}
+	}
+}
+
 void GameLayer::summonNewEnemy(int x, int y) {
 
 	srand(time(nullptr));
@@ -786,6 +879,14 @@ void GameLayer::draw() {
 		ladder->draw(scrollX, scrollY);
 	}
 
+	for (auto const& bi : breakableItems) {
+		bi->draw(scrollX, scrollY);
+	}
+
+	for (auto const& item : items) {
+		item->draw(scrollX, scrollY);
+	}
+
 	for (auto const& attack : attacks) {
 		attack->draw(scrollX, scrollY);
 	}
@@ -801,10 +902,11 @@ void GameLayer::draw() {
 	backgroundcoins->draw();
 
 	// HUD
-
 	healthFrame->draw();
 	healthbar->draw(0,0);
+	healthbar->updateHealth(player->healthPoints, game->maxHealth);
 	heart->draw();
+	manabar = new Actor("res/manaBar" + to_string(player->mana) + ".png", 90, 86, 139, 42, game);
 	manabar->draw();
 
 	if (game->input == game->inputMouse) {

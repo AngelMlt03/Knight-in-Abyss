@@ -19,6 +19,7 @@ public:
 	void draw(float scrollX = 0, float scrollY = 0) override; // Va a sobrescribir
 	void takeDamage(int damage);
 	void dash();
+	void heal();
 	int healthPoints;
 	int damagePoints;
 	int invulnerableTime = 0;

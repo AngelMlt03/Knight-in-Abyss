@@ -37,6 +37,12 @@
     <Filter Include="Archivos de origen\Actores\Attacks">
       <UniqueIdentifier>{6a892993-08c9-459b-b029-5340bc286dc1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Archivos de encabezado\Actores\Items">
+      <UniqueIdentifier>{0a829e93-ddb3-4ec5-844e-dc7cc40bd6dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de origen\Actores\Items">
+      <UniqueIdentifier>{e7588a85-f233-4c79-bdce-06db261ef9d1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -111,6 +117,18 @@
     <ClCompile Include="ShopLayer.cpp">
       <Filter>Archivos de origen\Layers</Filter>
     </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>Archivos de origen\Actores\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="HealthItem.cpp">
+      <Filter>Archivos de origen\Actores\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="ManaItem.cpp">
+      <Filter>Archivos de origen\Actores\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="BreakableItem.cpp">
+      <Filter>Archivos de origen\Actores\Items</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -181,6 +199,18 @@
     </ClInclude>
     <ClInclude Include="ShopLayer.h">
       <Filter>Archivos de encabezado\Layers</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>Archivos de encabezado\Actores\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="HealthItem.h">
+      <Filter>Archivos de encabezado\Actores\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="ManaItem.h">
+      <Filter>Archivos de encabezado\Actores\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="BreakableItem.h">
+      <Filter>Archivos de encabezado\Actores\Items</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

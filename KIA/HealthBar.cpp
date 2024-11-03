@@ -12,7 +12,6 @@ void HealthBar::updateHealth(float currentHealth, float maxHealth) {
     // Ajustamos el ancho de la barra según el porcentaje
     width = 226 * healthPercentage;  // El ancho de la barra se escala según el porcentaje de salud
 
-	
 }
 
 void HealthBar::draw(float scrollX, float scrollY) {

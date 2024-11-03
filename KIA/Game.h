@@ -57,6 +57,7 @@ public:
 
 	// Menu functions
 	int maxHealth = 100;
+	int maxMana = 4;
 	int damage = 10;
 	bool doubleJump = false;
 	int gold = 2345;
