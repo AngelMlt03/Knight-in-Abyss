@@ -1,7 +1,7 @@
 #include "HealthBar.h"
 
 HealthBar::HealthBar(Game* game) 
-	: Actor("res/healthBar.png", 55, 21, 226, 42, game) {
+	: Actor("res/gameRes/healthBar.png", 55, 21, 226, 42, game) {
 
 }
 

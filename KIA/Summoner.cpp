@@ -3,14 +3,14 @@
 Summoner::Summoner(float x, float y, Game* game)
 	: Enemy("res/alien.png", x, y, 37, 50, game) {
 
-	aMovingLeft = new Animation("res/summoner_movimiento_izquierda.png", width, height,
+	aMovingLeft = new Animation("res/gameRes/enemies/summoner_movimiento_izquierda.png", width, height,
 		915, 168, 6, 8, true, game);
-	aMovingRight = new Animation("res/summoner_movimiento_derecha.png", width, height,
+	aMovingRight = new Animation("res/gameRes/enemies/summoner_movimiento_derecha.png", width, height,
 		915, 168, 6, 8, true, game);
 
-	auxDieLeft = new Animation("res/summoner_morir_izquierda.png", width, height,
+	auxDieLeft = new Animation("res/gameRes/enemies/summoner_morir_izquierda.png", width, height,
 		372, 168, 6, 3, false, game);
-	auxDieRight = new Animation("res/summoner_morir_derecha.png", width, height,
+	auxDieRight = new Animation("res/gameRes/enemies/summoner_morir_derecha.png", width, height,
 		373, 168, 6, 3, false, game);
 	aDying = auxDieLeft;
 

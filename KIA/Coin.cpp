@@ -2,10 +2,10 @@
 #include "GameLayer.h"
 
 Coin::Coin(float x, float y, Game* game, GameLayer* gl)
-    : Item("res/moneda.png", x, y, game) {
+    : Item("res/gameRes/moneda.png", x, y, game) {
 
     gameLayer = gl;
-    audioOnCollision = Audio::createAudio("res/efecto_moneda.wav", false);
+    audioOnCollision = Audio::createAudio("res/soundEffects/efecto_moneda.wav", false);
 }
 
 void Coin::onCollision() {

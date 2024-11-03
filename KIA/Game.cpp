@@ -25,7 +25,7 @@ Game::Game() {
 	TTF_Init();
 	font = TTF_OpenFont("res/PressStart2P-Regular.ttf", 24);
 
-	SDL_Surface* cursorImage = IMG_Load("res/cursor.png");
+	SDL_Surface* cursorImage = IMG_Load("res/controlDisplay/cursor.png");
 
 	SDL_Cursor* cursor = SDL_CreateColorCursor(cursorImage, 0, 0);
 

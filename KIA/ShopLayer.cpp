@@ -7,9 +7,9 @@ ShopLayer::ShopLayer(Game* game)
 	: Layer(game) {
 	init();
 
-	maxHealthButton = new Actor("res/boton_maxvida.png", 440, HEIGHT * 0.64, 180, 60, game);
-	moreDamageButton = new Actor("res/boton_masdanio.png", 640, HEIGHT * 0.64, 180, 60, game);
-	doubleJumpButton = new Actor("res/boton_comprarsalto.png", 840, HEIGHT * 0.64, 180, 60, game);
+	maxHealthButton = new Actor("res/shopMenu/boton_maxvida.png", 440, HEIGHT * 0.64, 180, 60, game);
+	moreDamageButton = new Actor("res/shopMenu/boton_masdanio.png", 640, HEIGHT * 0.64, 180, 60, game);
+	doubleJumpButton = new Actor("res/shopMenu/boton_comprarsalto.png", 840, HEIGHT * 0.64, 180, 60, game);
 
 	maxHealth = false;
 	maxDamage = false;
@@ -23,8 +23,8 @@ ShopLayer::ShopLayer(Game* game)
 
 void ShopLayer::init() {
 
-	background = new Background("res/fondo_tienda.png", WIDTH * 0.5, HEIGHT * 0.5, game);
-	backButton = new Actor("res/boton_atras.png", 100, HEIGHT * 0.10, 60, 60, game);
+	background = new Background("res/shopMenu/fondo_tienda.png", WIDTH * 0.5, HEIGHT * 0.5, game);
+	backButton = new Actor("res/shopMenu/boton_atras.png", 100, HEIGHT * 0.10, 60, 60, game);
 }
 
 void ShopLayer::draw() {
@@ -108,13 +108,13 @@ void ShopLayer::mouseToControls(SDL_Event event) {
 void ShopLayer::update() {
 	
 	if (maxHealth) {
-		maxHealthButton = new Actor("res/boton_no_maxvida.png", 440, HEIGHT * 0.64, 180, 74, game);
+		maxHealthButton = new Actor("res/shopMenu/boton_no_maxvida.png", 440, HEIGHT * 0.64, 180, 74, game);
 	}
 	if (maxDamage) {
-		moreDamageButton = new Actor("res/boton_no_masdanio.png", 640, HEIGHT * 0.64, 184, 84, game);
+		moreDamageButton = new Actor("res/shopMenu/boton_no_masdanio.png", 640, HEIGHT * 0.64, 184, 84, game);
 	}
 	if (maxJump) {
-		doubleJumpButton = new Actor("res/boton_no_comprarsalto.png", 840, HEIGHT * 0.64, 180, 66, game);
+		doubleJumpButton = new Actor("res/shopMenu/boton_no_comprarsalto.png", 840, HEIGHT * 0.64, 180, 66, game);
 	}
 	std::stringstream ss;
 	ss << std::setfill('0') << std::setw(4) << game->gold;

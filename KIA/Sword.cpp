@@ -1,7 +1,7 @@
 #include "Sword.h"
 
 Sword::Sword(float x, float y, Game* game) :
-	Attack("res/disparo_jugador2.png", x, y, 20, 90, game) {
+	Attack("res/gameRes/player/disparo_jugador2.png", x, y, 20, 90, game) {
 	vx = 0;
 	vy = -1; // La gravedad inicial es 1
 }

@@ -13,7 +13,7 @@ GameLayer::GameLayer(Game* game)
 	//llama al constructor del padre : Layer(renderer)
 	
 	pause = true;
-	message = new Actor("res/mensaje_como_jugar.png", WIDTH * 0.5, HEIGHT * 0.5,
+	message = new Actor("res/gameRes/mensaje_como_jugar.png", WIDTH * 0.5, HEIGHT * 0.5,
 		WIDTH, HEIGHT, game);
 	
 	gamePad = SDL_GameControllerOpen(0);
@@ -22,21 +22,21 @@ GameLayer::GameLayer(Game* game)
 
 void GameLayer::init() {
 
-	audioBackground = Audio::createAudio("res/musica_ambiente.mp3", true);
+	audioBackground = Audio::createAudio("res/soundEffects/musica_ambiente.mp3", true);
 	audioBackground->play();
 
-	audioHit = Audio::createAudio("res/efecto_impacto.wav", false);
+	audioHit = Audio::createAudio("res/soundEffects/efecto_impacto.wav", false);
 
 	pad = new Pad(WIDTH * 0.15, HEIGHT * 0.80, game);
-	buttonJump = new Actor("res/boton_salto.png", WIDTH * 0.9, HEIGHT * 0.55, 100, 100, game);
-	buttonSpell = new Actor("res/boton_disparo.png", WIDTH * 0.75, HEIGHT * 0.83, 100, 100, game);
-	buttonAttack = new Actor("res/boton_disparo.png", WIDTH * 0.65, HEIGHT * 0.83, 100, 100, game);
-	buttonDash = new Actor("res/boton_salto.png", WIDTH * 0.85, HEIGHT * 0.83, 100, 100, game);
-	buttonPause = new Actor("res/boton_pausa.png", WIDTH * 0.85, HEIGHT * 0.10, 100, 100, game);
+	buttonJump = new Actor("res/controlDisplay/boton_salto.png", WIDTH * 0.9, HEIGHT * 0.55, 100, 100, game);
+	buttonSpell = new Actor("res/controlDisplay/boton_disparo.png", WIDTH * 0.75, HEIGHT * 0.83, 100, 100, game);
+	buttonAttack = new Actor("res/controlDisplay/boton_disparo.png", WIDTH * 0.65, HEIGHT * 0.83, 100, 100, game);
+	buttonDash = new Actor("res/controlDisplay/boton_salto.png", WIDTH * 0.85, HEIGHT * 0.83, 100, 100, game);
+	buttonPause = new Actor("res/controlDisplay/boton_pausa.png", WIDTH * 0.85, HEIGHT * 0.10, 100, 100, game);
 
-	pauseBackground = new Actor("res/fondo_pausa.png", WIDTH * 0.5, HEIGHT * 0.5, 600, 411, game);
-	buttonPlayPause = new Actor("res/boton_play_pause.png", WIDTH * 0.42, HEIGHT * 0.52, 140, 133, game);
-	buttonHomePause = new Actor("res/boton_home_pause.png", WIDTH * 0.58, HEIGHT * 0.52, 140, 133, game);
+	pauseBackground = new Actor("res/pausePanel/fondo_pausa.png", WIDTH * 0.5, HEIGHT * 0.5, 600, 411, game);
+	buttonPlayPause = new Actor("res/pausePanel/boton_play_pause.png", WIDTH * 0.42, HEIGHT * 0.52, 140, 133, game);
+	buttonHomePause = new Actor("res/pausePanel/boton_home_pause.png", WIDTH * 0.58, HEIGHT * 0.52, 140, 133, game);
 
 	tiles.clear(); // Vaciar por si reiniciamos el juego
 	ladders.clear(); // Vaciar por si reiniciamos el juego
@@ -52,7 +52,7 @@ void GameLayer::init() {
 	//game->levelRow = 0;
 	//game->levelColumn = 0;
 
-	background = new Background("res/fondo_2.png", WIDTH * 0.5, HEIGHT * 0.5, game);
+	background = new Background("res/gameRes/fondo_2.png", WIDTH * 0.5, HEIGHT * 0.5, game);
 
 	coins = 0;
 	textcoins = new Text("hola", 120, 132, game);
@@ -60,14 +60,14 @@ void GameLayer::init() {
 	ss << std::setfill('0') << std::setw(4) << coins;
 	textcoins->content = ss.str();
 
-	backgroundcoins = new Actor("res/moneda.png", 42, 130, 36, 36, game);
+	backgroundcoins = new Actor("res/gameRes/moneda.png", 42, 130, 36, 36, game);
 
-	healthFrame = new Actor("res/healthFrame.png", 150, 42, 259, 42, game);
-	heart = new Actor("res/corazon.png", 45, 42, 47, 42, game);
+	healthFrame = new Actor("res/gameRes/healthFrame.png", 150, 42, 259, 42, game);
+	heart = new Actor("res/gameRes/corazon.png", 45, 42, 47, 42, game);
 	healthbar = new HealthBar(game);
-	manabar = new Actor("res/manaBar4.png", 90, 86, 139, 42, game);
+	manabar = new Actor("res/gameRes/manaBar4.png", 90, 86, 139, 42, game);
 
-	loadMap("res/" + to_string(game->currentLevel) + "_" + to_string(levelRow)
+	loadMap("res/gameLevels/" + to_string(game->currentLevel) + "_" + to_string(levelRow)
 			+ "_" + to_string(levelColumn) + ".txt");
 }
 
@@ -82,7 +82,7 @@ void GameLayer::changeRoom(int direction) {
 
 	space = new Space(1);
 
-	loadMap("res/" + to_string(game->currentLevel) + "_" + to_string(levelRow)
+	loadMap("res/gameLevels/" + to_string(game->currentLevel) + "_" + to_string(levelRow)
 		+ "_" + to_string(levelColumn) + ".txt");
 
 	switch (direction) {
@@ -177,7 +177,7 @@ void GameLayer::processControls() {
 			space->addDynamicActor(newSpell);
 			attacks.push_back(newSpell);
 			controlSpell = false;
-			manabar = new Actor("res/manaBar" + to_string(player->mana) + ".png", 90, 86, 139, 42, game);
+			manabar = new Actor("res/gameRes/manaBar" + to_string(player->mana) + ".png", 90, 86, 139, 42, game);
 		}
 	}
 	// Ataque espada
@@ -466,7 +466,7 @@ void GameLayer::update() {
 		if (game->currentLevel > game->finalLevel) {
 			game->currentLevel = 0;
 		}
-		message = new Actor("res/mensaje_ganar.png", WIDTH * 0.5, HEIGHT * 0.5,
+		message = new Actor("res/gameRes/mensaje_ganar.png", WIDTH * 0.5, HEIGHT * 0.5,
 			WIDTH, HEIGHT, game);
 		pause = true;
 		endLevel();
@@ -474,7 +474,7 @@ void GameLayer::update() {
 
 	// Jugador se cae
 	if (player->y > mapHeight + 80) {
-		message = new Actor("res/mensaje_perder.png", WIDTH * 0.5, HEIGHT * 0.5,
+		message = new Actor("res/gameRes/mensaje_perder.png", WIDTH * 0.5, HEIGHT * 0.5,
 			WIDTH, HEIGHT, game);
 		pause = true;
 		init();
@@ -506,7 +506,7 @@ void GameLayer::update() {
 			&& enemy->state != game->stateDead) {
 			player->takeDamage(10);
 			if (player->healthPoints <= 0) {
-				message = new Actor("res/mensaje_perder.png", WIDTH * 0.5, HEIGHT * 0.5,
+				message = new Actor("res/gameRes/mensaje_perder.png", WIDTH * 0.5, HEIGHT * 0.5,
 					WIDTH, HEIGHT, game);
 				pause = true;
 				init();
@@ -687,7 +687,7 @@ void GameLayer::loadMapObject(char character, float x, float y) {
 
 	switch (character) {
 		case 'C': {
-			cup = new Tile("res/copa.png", x, y, game);
+			cup = new Tile("res/gameRes/copa.png", x, y, game);
 			// modificación para empezar a contar desde el suelo.
 			cup->y = cup->y - cup->height / 2;
 			space->addDynamicActor(cup); // Realmente no hace falta
@@ -733,7 +733,7 @@ void GameLayer::loadMapObject(char character, float x, float y) {
 			break;
 		}
 		case 'R': {
-			Tile* ladder = new Tile("res/ladder.png", x, y, game);
+			Tile* ladder = new Tile("res/gameRes/ladder.png", x, y, game);
 			// modificación para empezar a contar desde el suelo. 
 			ladder->y = ladder->y - ladder->height / 2;
 			ladders.push_back(ladder);
@@ -747,7 +747,7 @@ void GameLayer::loadMapObject(char character, float x, float y) {
 			break;
 		}
 		case '#': {
-			Tile* tile = new Tile("res/bloque_tierra.png", x, y, game);
+			Tile* tile = new Tile("res/gameRes/bloque_tierra.png", x, y, game);
 			// modificación para empezar a contar desde el suelo.
 			tile->y = tile->y - tile->height / 2;
 			tiles.push_back(tile);
@@ -755,7 +755,7 @@ void GameLayer::loadMapObject(char character, float x, float y) {
 			break;
 		}
 		case 'P': {
-			Tile* tile = new Tile("res/bloque_fondo1.png", x, y, game);
+			Tile* tile = new Tile("res/gameRes/bloque_fondo1.png", x, y, game);
 			// modificación para empezar a contar desde el suelo.
 			tile->y = tile->y - tile->height / 2;
 			tiles.push_back(tile);
@@ -763,7 +763,7 @@ void GameLayer::loadMapObject(char character, float x, float y) {
 			break;
 		}
 		case '?': {
-			Tile* tile = new Tile("res/bloque_fondo1_borde_derecha.png", x, y, game);
+			Tile* tile = new Tile("res/gameRes/bloque_fondo1_borde_derecha.png", x, y, game);
 			// modificación para empezar a contar desde el suelo.
 			tile->y = tile->y - tile->height / 2;
 			tiles.push_back(tile);
@@ -771,7 +771,7 @@ void GameLayer::loadMapObject(char character, float x, float y) {
 			break;
 		}
 		case '*': {
-			Tile* tile = new Tile("res/bloque_fondo1_borde_abajo.png", x, y, game);
+			Tile* tile = new Tile("res/gameRes/bloque_fondo1_borde_abajo.png", x, y, game);
 			// modificación para empezar a contar desde el suelo.
 			tile->y = tile->y - tile->height / 2;
 			tiles.push_back(tile);
@@ -779,7 +779,7 @@ void GameLayer::loadMapObject(char character, float x, float y) {
 			break;
 		}
 		case '-': {
-			Tile* tile = new Tile("res/bloque_fondo1_borde_arriba.png", x, y, game);
+			Tile* tile = new Tile("res/gameRes/bloque_fondo1_borde_arriba.png", x, y, game);
 			// modificación para empezar a contar desde el suelo.
 			tile->y = tile->y - tile->height / 2;
 			tiles.push_back(tile);
@@ -918,7 +918,7 @@ void GameLayer::draw() {
 	healthbar->draw(0,0);
 	healthbar->updateHealth(player->healthPoints, game->maxHealth);
 	heart->draw();
-	manabar = new Actor("res/manaBar" + to_string(player->mana) + ".png", 90, 86, 139, 42, game);
+	manabar = new Actor("res/gameRes/manaBar" + to_string(player->mana) + ".png", 90, 86, 139, 42, game);
 	manabar->draw();
 
 	if (game->input == game->inputMouse) {

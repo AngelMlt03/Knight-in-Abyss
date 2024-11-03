@@ -2,10 +2,10 @@
 #include "GameLayer.h"
 
 HealthItem::HealthItem(float x, float y, Game* game, Player* p)
-    : Item("res/corazon.png", x, y, game) {
+    : Item("res/gameRes/corazon.png", x, y, game) {
 
     player = p;
-    //audioOnCollision = Audio::createAudio("res/efecto_moneda.wav", false);
+    //audioOnCollision = Audio::createAudio("res/soundEffects/efecto_moneda.wav", false);
 }
 
 void HealthItem::onCollision() {

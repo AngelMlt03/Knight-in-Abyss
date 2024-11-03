@@ -2,7 +2,7 @@
 #include "GameLayer.h"
 
 Player::Player(float x, float y, Game* game)
-	: Actor("res/jugador.png", x, y, 70, 90, game) {
+	: Actor("res/gameRes/player/jugador.png", x, y, 70, 90, game) {
 
 	onAir = false;
 	onLadder = false;
@@ -10,38 +10,38 @@ Player::Player(float x, float y, Game* game)
 	orientation = game->orientationRight;
 	state = game->stateMoving;
 
-	aJumpingRight = new Animation("res/jugador_saltando_derecha.png",
+	aJumpingRight = new Animation("res/gameRes/player/jugador_saltando_derecha.png",
 		width, height, 160, 40, 6, 4, true, game);
-	aJumpingLeft = new Animation("res/jugador_saltando_izquierda.png",
-		width, height, 160, 40, 6, 4, true, game);
-
-	aSpellingRight = new Animation("res/jugador_disparando_derecha.png",
-		width, height, 160, 40, 6, 4, false, game);
-	aSpellingLeft = new Animation("res/jugador_disparando_izquierda.png",
-		width, height, 160, 40, 6, 4, false, game);
-
-	aSwordingRight = new Animation("res/jugador_disparando_derecha.png",
-		width, height, 160, 40, 6, 4, false, game);
-	aSwordingLeft = new Animation("res/jugador_disparando_izquierda.png",
-		width, height, 160, 40, 6, 4, false, game);
-
-	aShieldingRight = new Animation("res/jugador_disparando_derecha.png",
-		width, height, 160, 40, 6, 4, true, game);
-	aShieldingLeft = new Animation("res/jugador_disparando_izquierda.png",
+	aJumpingLeft = new Animation("res/gameRes/player/jugador_saltando_izquierda.png",
 		width, height, 160, 40, 6, 4, true, game);
 
-	aDashingRight = new Animation("res/jugador_disparando_derecha.png",
+	aSpellingRight = new Animation("res/gameRes/player/jugador_disparando_derecha.png",
 		width, height, 160, 40, 6, 4, false, game);
-	aDashingLeft = new Animation("res/jugador_disparando_izquierda.png",
+	aSpellingLeft = new Animation("res/gameRes/player/jugador_disparando_izquierda.png",
 		width, height, 160, 40, 6, 4, false, game);
 
-	aIdleRight = new Animation("res/jugador_idle_derecha.png", width, height,
+	aSwordingRight = new Animation("res/gameRes/player/jugador_disparando_derecha.png",
+		width, height, 160, 40, 6, 4, false, game);
+	aSwordingLeft = new Animation("res/gameRes/player/jugador_disparando_izquierda.png",
+		width, height, 160, 40, 6, 4, false, game);
+
+	aShieldingRight = new Animation("res/gameRes/player/jugador_disparando_derecha.png",
+		width, height, 160, 40, 6, 4, true, game);
+	aShieldingLeft = new Animation("res/gameRes/player/jugador_disparando_izquierda.png",
+		width, height, 160, 40, 6, 4, true, game);
+
+	aDashingRight = new Animation("res/gameRes/player/jugador_disparando_derecha.png",
+		width, height, 160, 40, 6, 4, false, game);
+	aDashingLeft = new Animation("res/gameRes/player/jugador_disparando_izquierda.png",
+		width, height, 160, 40, 6, 4, false, game);
+
+	aIdleRight = new Animation("res/gameRes/player/jugador_idle_derecha.png", width, height,
 		320, 40, 6, 8, true, game);
-	aIdleLeft = new Animation("res/jugador_idle_izquierda.png", width, height,
+	aIdleLeft = new Animation("res/gameRes/player/jugador_idle_izquierda.png", width, height,
 		320, 40, 6, 8, true, game);
-	aRunningRight = new Animation("res/jugador_corriendo_derecha.png", width, height,
+	aRunningRight = new Animation("res/gameRes/player/jugador_corriendo_derecha.png", width, height,
 		320, 40, 6, 8, true, game);
-	aRunningLeft = new Animation("res/jugador_corriendo_izquierda.png", width, height,
+	aRunningLeft = new Animation("res/gameRes/player/jugador_corriendo_izquierda.png", width, height,
 		320, 40, 6, 8, true, game);
 	animation = aIdleRight;
 

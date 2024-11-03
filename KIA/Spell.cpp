@@ -1,7 +1,7 @@
 #include "Spell.h"
 
 Spell::Spell(float x, float y, Game* game) :
-	Attack("res/disparo_jugador2.png", x, y, 20, 20, game) {
+	Attack("res/gameRes/player/disparo_jugador2.png", x, y, 20, 20, game) {
 	vx = 9;
 	vy = -1; // La gravedad inicial es 1
 }

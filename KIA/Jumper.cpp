@@ -3,13 +3,13 @@
 Jumper::Jumper(float x, float y, Game* game)
 	: Enemy("res/alien.png", x, y, 40, 29, game) {
 
-	aDying = new Animation("res/sapo_morir.png", width, height,
+	aDying = new Animation("res/gameRes/enemies/sapo_morir.png", width, height,
 		33, 25, 6, 1, false, game);
 
-	aMovingLeft = new Animation("res/sapo_quieto_izquierda.png", width, height,
+	aMovingLeft = new Animation("res/gameRes/enemies/sapo_quieto_izquierda.png", width, height,
 		37, 27, 6, 1, true, game);
 
-	aJumping = new Animation("res/sapo_saltando_izquierda.png", width, height,
+	aJumping = new Animation("res/gameRes/enemies/sapo_saltando_izquierda.png", width, height,
 		45, 27, 6, 1, true, game);
 
 	animation = aMovingLeft;
