@@ -829,16 +829,22 @@ void GameLayer::createRandomItem(float x, float y) {
 		case 0: {
 			Item* h = new HealthItem(x, y, game, player);
 			items.push_back(h);
+			space->addDynamicActor(h);
 			break;
 		}
 		case 1: {
 			Item* m = new ManaItem(x, y, game, player);
 			items.push_back(m);
+			space->addDynamicActor(m);
 			break;
 		}
-		case 2: {
+		case 2:
+		case 3:
+		case 4:
+		case 5: {
 			Coin* c = new Coin(x, y, game, this);
 			items.push_back(c);
+			space->addDynamicActor(c);
 			break;
 		}
 	}
