@@ -129,6 +129,9 @@
     <ClCompile Include="BreakableItem.cpp">
       <Filter>Archivos de origen\Actores\Items</Filter>
     </ClCompile>
+    <ClCompile Include="Coin.cpp">
+      <Filter>Archivos de origen\Actores\Items</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -210,6 +213,9 @@
       <Filter>Archivos de encabezado\Actores\Items</Filter>
     </ClInclude>
     <ClInclude Include="BreakableItem.h">
+      <Filter>Archivos de encabezado\Actores\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="Coin.h">
       <Filter>Archivos de encabezado\Actores\Items</Filter>
     </ClInclude>
   </ItemGroup>

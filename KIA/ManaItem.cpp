@@ -12,5 +12,5 @@ void ManaItem::onCollision() {
     GameLayer* gameLayer = dynamic_cast<GameLayer*>(game->gameLayer);
 
     //audioOnCollision->play(); // Sonido al coger la moneda
-    player->mana++;
+    player->getMana();
 }

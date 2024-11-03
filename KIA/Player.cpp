@@ -284,6 +284,13 @@ void Player::heal() {
 	}
 }
 
+void Player::getMana() {
+
+	if (mana < game->maxMana) {
+		mana++;
+	}
+}
+
 void Player::dash() {
 
 	if (dashCooldown == 0 && dashTime == 0 && !usingShield && canDash) {

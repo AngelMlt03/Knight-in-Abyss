@@ -20,6 +20,7 @@ public:
 	void takeDamage(int damage);
 	void dash();
 	void heal();
+	void getMana();
 	int healthPoints;
 	int damagePoints;
 	int invulnerableTime = 0;

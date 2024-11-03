@@ -6,6 +6,7 @@
 
 #include "HealthItem.h"
 #include "ManaItem.h"
+#include "Coin.h"
 
 GameLayer::GameLayer(Game* game)
 	: Layer(game) {
@@ -499,9 +500,6 @@ void GameLayer::update() {
 			audioHit->play(); // Sonido de impacto
 			enemy->impacted();
 			coins++;
-			std::stringstream ss;
-			ss << std::setfill('0') << std::setw(4) << coins;
-			textcoins->content = ss.str();
 			return;
 		}
 		if (player->isOverlap(enemy) && enemy->state != game->stateDying
@@ -838,6 +836,11 @@ void GameLayer::createRandomItem(float x, float y) {
 			items.push_back(m);
 			break;
 		}
+		case 2: {
+			Coin* c = new Coin(x, y, game, this);
+			items.push_back(c);
+			break;
+		}
 	}
 }
 
@@ -898,6 +901,9 @@ void GameLayer::draw() {
 		enemy->draw(scrollX, scrollY);
 	}
 
+	std::stringstream ss;
+	ss << std::setfill('0') << std::setw(4) << coins;
+	textcoins->content = ss.str();
 	textcoins->draw();
 	backgroundcoins->draw();
 

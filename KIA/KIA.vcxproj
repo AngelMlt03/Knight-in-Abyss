@@ -144,6 +144,7 @@
     <ClCompile Include="Alien.cpp" />
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="BreakableItem.cpp" />
+    <ClCompile Include="Coin.cpp" />
     <ClCompile Include="HealthItem.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="ManaItem.cpp" />
@@ -174,6 +175,7 @@
     <ClInclude Include="Alien.h" />
     <ClInclude Include="Animation.h" />
     <ClInclude Include="BreakableItem.h" />
+    <ClInclude Include="Coin.h" />
     <ClInclude Include="HealthItem.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="ManaItem.h" />
