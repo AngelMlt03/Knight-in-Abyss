@@ -7,6 +7,7 @@
 #include "HealthItem.h"
 #include "ManaItem.h"
 #include "Coin.h"
+#include "Spike.h"
 
 GameLayer::GameLayer(Game* game)
 	: Layer(game) {
@@ -44,6 +45,7 @@ void GameLayer::init() {
 	enemies.clear(); // Vaciar por si reiniciamos el juego
 	breakableItems.clear(); // Vaciar por si reiniciamos el juego
 	items.clear(); // Vaciar por si reiniciamos el juego
+	traps.clear(); // Vaciar por si reiniciamos el juego
 
 	space = new Space(1);
 	scrollX = 0;
@@ -82,6 +84,7 @@ void GameLayer::changeRoom(int direction) {
 	enemies.clear(); // Vaciar por si reiniciamos el juego
 	breakableItems.clear(); // Vaciar por si reiniciamos el juego
 	items.clear();
+	traps.clear();
 
 	space = new Space(1);
 	currentHP = player->healthPoints;
@@ -512,14 +515,15 @@ void GameLayer::update() {
 		if (player->isOverlap(enemy) && enemy->state != game->stateDying
 			&& enemy->state != game->stateDead) {
 			player->takeDamage(10);
-			if (player->healthPoints <= 0) {
-				message = new Actor("res/gameRes/mensaje_perder.png", WIDTH * 0.5, HEIGHT * 0.5,
-					WIDTH, HEIGHT, game);
-				pause = true;
-				init();
-				return;
-			}
 		}
+	}
+
+	if (player->healthPoints <= 0) {
+		message = new Actor("res/gameRes/mensaje_perder.png", WIDTH * 0.5, HEIGHT * 0.5,
+			WIDTH, HEIGHT, game);
+		pause = true;
+		init();
+		return;
 	}
 
 	// Colisiones , Player - Ladder
@@ -551,6 +555,15 @@ void GameLayer::update() {
 			}
 
 			item->onCollision();
+		}
+	}
+
+	// Colisiones , Player - Traps
+
+	for (auto const& trap : traps) {
+	
+		if (trap->isOverlap(player)) {
+			player->takeDamage(trap->damageTaken());
 		}
 	}
 
@@ -775,6 +788,14 @@ void GameLayer::loadMapObject(char character, float x, float y) {
 			breakableItems.push_back(bi);
 			break;
 		}
+		case 'H': {
+			Spike* spike = new Spike(x, y, game);
+			// modificación para empezar a contar desde el suelo.
+			spike->y = spike->y - spike->height / 2;
+			traps.push_back(spike);
+			space->addStaticActor(spike);
+			break;
+		}
 		case '#': {
 			Tile* tile = new Tile("res/gameRes/bloque_tierra.png", x, y, game);
 			// modificación para empezar a contar desde el suelo.
@@ -867,8 +888,6 @@ void GameLayer::createRandomItem(float x, float y) {
 			space->addDynamicActor(m);
 			break;
 		}
-		case 2:
-		case 3:
 		case 4:
 		case 5: {
 			Coin* c = new Coin(x, y, game, this);
@@ -911,6 +930,10 @@ void GameLayer::draw() {
 
 	for (auto const& tile : tiles) {
 		tile->draw(scrollX, scrollY);
+	}
+
+	for (auto const& trap : traps) {
+		trap->draw(scrollX, scrollY);
 	}
 
 	for (auto const& ladder : ladders) {

@@ -18,9 +18,9 @@ Spell::Spell(float x, float y, Game* game) :
 void Spell::update() {
 	vy = vy - 1;
 
-	cout << vx << "\n";
 	if (vx == 0) {
 		onCollision();
+		deleteTime--;
 	}
 	animation->update();
 }

@@ -43,6 +43,12 @@
     <Filter Include="Archivos de origen\Actores\Items">
       <UniqueIdentifier>{e7588a85-f233-4c79-bdce-06db261ef9d1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Archivos de origen\Actores\Traps">
+      <UniqueIdentifier>{a520ec82-c846-4f6d-a3c6-60fbee1a8fd5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Actores\Traps">
+      <UniqueIdentifier>{45fc166b-343f-44ef-96d7-ba4f6a60e2fa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -132,6 +138,12 @@
     <ClCompile Include="Coin.cpp">
       <Filter>Archivos de origen\Actores\Items</Filter>
     </ClCompile>
+    <ClCompile Include="Trap.cpp">
+      <Filter>Archivos de origen\Actores\Traps</Filter>
+    </ClCompile>
+    <ClCompile Include="Spike.cpp">
+      <Filter>Archivos de origen\Actores\Traps</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -217,6 +229,12 @@
     </ClInclude>
     <ClInclude Include="Coin.h">
       <Filter>Archivos de encabezado\Actores\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="Trap.h">
+      <Filter>Archivos de encabezado\Actores\Traps</Filter>
+    </ClInclude>
+    <ClInclude Include="Spike.h">
+      <Filter>Archivos de encabezado\Actores\Traps</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -15,6 +15,7 @@
 #include "Tile.h"
 #include "Pad.h"
 #include "BreakableItem.h"
+#include "Trap.h"
 #include "Space.h" // importar
 #include "Audio.h"
 
@@ -103,4 +104,5 @@ public:
 	list<Tile*> ladders;
 	list<BreakableItem*> breakableItems;
 	list<Item*> items;
+	list<Trap*> traps;
 };
