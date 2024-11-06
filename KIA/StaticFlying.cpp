@@ -1,6 +1,6 @@
-#include "Goomba.h"
+#include "StaticFlying.h"
 
-Goomba::Goomba(float x, float y, Game* game)
+StaticFlying::StaticFlying(float x, float y, Game* game)
 	: Enemy("res/alien.png", x, y, 36, 40, game) {
 
 	aDying = new Animation("res/gameRes/enemies/goomba_morir.png", width, height,
@@ -12,19 +12,10 @@ Goomba::Goomba(float x, float y, Game* game)
 	aMovingRight= new Animation("res/gameRes/enemies/goomba_movimiento_derecha.png", width, height,
 		211, 17, 6, 11, true, game);
 
-	vxIntelligence = -3;
+	vxIntelligence = 0;
 }
 
-bool Goomba::isTopOverlap(Actor* actor) {
+void StaticFlying::doMove() {
 
-	bool overlap = false;
-	if (actor->x - actor->width / 2 <= x + width / 2
-		&& actor->x + actor->width / 2 >= x - width / 2
-		&& actor->y + actor->height / 2 >= y - height / 2
-		&& actor->y - actor->height / 2 <= y + height / 2
-		&& actor->vy > 0) {
-
-		overlap = true;
-	}
-	return overlap;
+	
 }

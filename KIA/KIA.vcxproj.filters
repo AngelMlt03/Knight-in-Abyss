@@ -93,10 +93,10 @@
     <ClCompile Include="Enemy.cpp">
       <Filter>Archivos de origen\Actores\Enemigos</Filter>
     </ClCompile>
-    <ClCompile Include="Alien.cpp">
+    <ClCompile Include="Basic.cpp">
       <Filter>Archivos de origen\Actores\Enemigos</Filter>
     </ClCompile>
-    <ClCompile Include="Goomba.cpp">
+    <ClCompile Include="StaticFlying.cpp">
       <Filter>Archivos de origen\Actores\Enemigos</Filter>
     </ClCompile>
     <ClCompile Include="Jumper.cpp">
@@ -185,10 +185,10 @@
     <ClInclude Include="Enemy.h">
       <Filter>Archivos de encabezado\Actores\Enemigos</Filter>
     </ClInclude>
-    <ClInclude Include="Alien.h">
+    <ClInclude Include="Basic.h">
       <Filter>Archivos de encabezado\Actores\Enemigos</Filter>
     </ClInclude>
-    <ClInclude Include="Goomba.h">
+    <ClInclude Include="StaticFlying.h">
       <Filter>Archivos de encabezado\Actores\Enemigos</Filter>
     </ClInclude>
     <ClInclude Include="Jumper.h">

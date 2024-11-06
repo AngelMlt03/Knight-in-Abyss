@@ -1,6 +1,6 @@
-#include "Alien.h"
+#include "Basic.h"
 
-Alien::Alien(float x, float y, Game* game)
+Basic::Basic(float x, float y, Game* game)
 	: Enemy("res/alien.png", x, y, 36, 40, game) {
 
 	aDying = new Animation("res/gameRes/enemies/enemigo_morir.png", width, height,

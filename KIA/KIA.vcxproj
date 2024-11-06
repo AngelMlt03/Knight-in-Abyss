@@ -141,7 +141,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Actor.cpp" />
-    <ClCompile Include="Alien.cpp" />
+    <ClCompile Include="Basic.cpp" />
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="BreakableItem.cpp" />
     <ClCompile Include="Coin.cpp" />
@@ -156,7 +156,7 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameLayer.cpp" />
-    <ClCompile Include="Goomba.cpp" />
+    <ClCompile Include="StaticFlying.cpp" />
     <ClCompile Include="HealthBar.cpp" />
     <ClCompile Include="Jumper.cpp" />
     <ClCompile Include="Layer.cpp" />
@@ -174,7 +174,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h" />
-    <ClInclude Include="Alien.h" />
+    <ClInclude Include="Basic.h" />
     <ClInclude Include="Animation.h" />
     <ClInclude Include="BreakableItem.h" />
     <ClInclude Include="Coin.h" />
@@ -189,7 +189,7 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameLayer.h" />
-    <ClInclude Include="Goomba.h" />
+    <ClInclude Include="StaticFlying.h" />
     <ClInclude Include="HealthBar.h" />
     <ClInclude Include="Jumper.h" />
     <ClInclude Include="Layer.h" />

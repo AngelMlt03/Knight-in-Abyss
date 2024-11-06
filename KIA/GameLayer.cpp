@@ -727,11 +727,11 @@ void GameLayer::loadMapObject(char character, float x, float y) {
 			break;
 		}
 		case 'G': {
-			Enemy* enemy = new Goomba(x, y, game);
+			Enemy* enemy = new StaticFlying(x, y, game);
 			// modificación para empezar a contar desde el suelo.
 			enemy->y = enemy->y - enemy->height / 2;
 			enemies.push_back(enemy);
-			space->addDynamicActor(enemy);
+			//space->addDynamicActor(enemy);
 			break;
 		}
 		case 'J': {
@@ -743,7 +743,7 @@ void GameLayer::loadMapObject(char character, float x, float y) {
 			break;
 		}
 		case 'A': {
-			Enemy* enemy = new Alien(x, y, game);
+			Enemy* enemy = new Basic(x, y, game);
 			// modificación para empezar a contar desde el suelo.
 			enemy->y = enemy->y - enemy->height / 2;
 			enemies.push_back(enemy);
@@ -909,13 +909,13 @@ void GameLayer::summonNewEnemy(int x, int y) {
 	// Según el número aleatorio, se genera un tipo de enemigo
 	switch (randomType) {
 	case 0:
-		enemy = new Goomba(x, y, game);
+		//enemy = new Goomba(x, y, game);
 		break;
 	case 1:
-		enemy = new Alien(x, y, game);
+		//enemy = new Alien(x, y, game);
 		break;
 	case 2:
-		enemy = new Jumper(x, y, game);
+		//enemy = new Jumper(x, y, game);
 		break;
 	}
 	enemies.push_back(enemy);
