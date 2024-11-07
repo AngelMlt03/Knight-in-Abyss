@@ -11,4 +11,5 @@ public:
 	void doMove() override;  // Sobrescribe el metodo
 
 	GameLayer* gameLayer;
+	int orientation;
 };
