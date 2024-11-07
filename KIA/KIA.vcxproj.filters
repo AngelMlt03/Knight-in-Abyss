@@ -99,7 +99,7 @@
     <ClCompile Include="StaticFlying.cpp">
       <Filter>Archivos de origen\Actores\Enemigos</Filter>
     </ClCompile>
-    <ClCompile Include="Jumper.cpp">
+    <ClCompile Include="FlyingEnemy.cpp">
       <Filter>Archivos de origen\Actores\Enemigos</Filter>
     </ClCompile>
     <ClCompile Include="Summoner.cpp">
@@ -194,7 +194,7 @@
     <ClInclude Include="StaticFlying.h">
       <Filter>Archivos de encabezado\Actores\Enemigos</Filter>
     </ClInclude>
-    <ClInclude Include="Jumper.h">
+    <ClInclude Include="FlyingEnemy.h">
       <Filter>Archivos de encabezado\Actores\Enemigos</Filter>
     </ClInclude>
     <ClInclude Include="Summoner.h">

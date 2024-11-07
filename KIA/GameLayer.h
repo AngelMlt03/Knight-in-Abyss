@@ -6,7 +6,7 @@
 #include "HealthBar.h"
 #include "Basic.h"
 #include "StaticFlying.h"
-#include "Jumper.h"
+#include "FlyingEnemy.h"
 #include "Summoner.h"
 #include "Spell.h"
 #include "Sword.h"

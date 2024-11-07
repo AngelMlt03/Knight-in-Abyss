@@ -13,7 +13,6 @@ public:
 
 	GameLayer* gameL;
 	void shoot();
-	bool canShoot = true;
 	int shootCadence = 80;
 	int shootTime = 0;
 };
