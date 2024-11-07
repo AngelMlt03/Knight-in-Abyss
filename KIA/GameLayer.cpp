@@ -42,6 +42,7 @@ void GameLayer::init() {
 	tiles.clear(); // Vaciar por si reiniciamos el juego
 	ladders.clear(); // Vaciar por si reiniciamos el juego
 	attacks.clear(); // Vaciar por si reiniciamos el juego
+	enemyProjectiles.clear();
 	enemies.clear(); // Vaciar por si reiniciamos el juego
 	breakableItems.clear(); // Vaciar por si reiniciamos el juego
 	items.clear(); // Vaciar por si reiniciamos el juego
@@ -80,7 +81,8 @@ void GameLayer::changeRoom(int direction) {
 
 	tiles.clear();
 	ladders.clear();
-	attacks.clear(); // Vaciar por si reiniciamos el 
+	attacks.clear(); // Vaciar por si reiniciamos el
+	enemyProjectiles.clear();
 	enemies.clear(); // Vaciar por si reiniciamos el juego
 	breakableItems.clear(); // Vaciar por si reiniciamos el juego
 	items.clear();
@@ -501,6 +503,10 @@ void GameLayer::update() {
 		attack->update();
 	}
 
+	for (auto const& eP : enemyProjectiles) {
+		eP->update();
+	}
+
 	// Colisiones , Player - Enemy
 	for (auto const& enemy : enemies) {
 
@@ -567,7 +573,26 @@ void GameLayer::update() {
 		}
 	}
 
-	// Colisiones , Attack - Enemy,  Attack - BreakableItem
+	// Colisiones , Player - EnemyProjectiles
+
+	list<EnemyProjectile*> deleteEnemyProjectiles;
+
+	for (auto const& ep : enemyProjectiles) {
+
+		if ((ep->isOverlap(player) && player->invulnerableTime <= 0) || ep->canBeDeleted()) {
+			bool pInList = std::find(deleteEnemyProjectiles.begin(), deleteEnemyProjectiles.end(),
+				ep) != deleteEnemyProjectiles.end();
+
+			if (!pInList) {
+				deleteEnemyProjectiles.push_back(ep);
+			}
+		}
+		if (ep->isOverlap(player)) {
+			player->takeDamage(10);
+		}
+	}
+
+	// Colisiones , Attack - Enemy, Attack - BreakableItem
 
 	list<Enemy*> deleteEnemies;
 	list<Attack*> deleteAttacks;
@@ -673,6 +698,13 @@ void GameLayer::update() {
 		delete delItems;
 	}
 	deleteItems.clear();
+
+	for (auto const& delEP : deleteEnemyProjectiles) {
+		enemyProjectiles.remove(delEP);
+		space->removeDynamicActor(delEP);
+		delete delEP;
+	}
+	deleteEnemyProjectiles.clear();
 }
 
 void GameLayer::loadMap(string name) {
@@ -727,7 +759,7 @@ void GameLayer::loadMapObject(char character, float x, float y) {
 			break;
 		}
 		case 'G': {
-			Enemy* enemy = new StaticFlying(x, y, game);
+			Enemy* enemy = new StaticFlying(x, y, game, this);
 			// modificación para empezar a contar desde el suelo.
 			enemy->y = enemy->y - enemy->height / 2;
 			enemies.push_back(enemy);
@@ -950,6 +982,10 @@ void GameLayer::draw() {
 
 	for (auto const& attack : attacks) {
 		attack->draw(scrollX, scrollY);
+	}
+
+	for (auto const& eP : enemyProjectiles) {
+		eP->draw(scrollX, scrollY);
 	}
 
 	cup->draw(scrollX, scrollY);

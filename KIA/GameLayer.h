@@ -16,6 +16,7 @@
 #include "Pad.h"
 #include "BreakableItem.h"
 #include "Trap.h"
+#include "EnemyProjectile.h"
 #include "Space.h" // importar
 #include "Audio.h"
 
@@ -100,6 +101,7 @@ public:
 	void summonNewEnemy(int x, int y);
 
 	list<Enemy*> enemies;
+	list <EnemyProjectile*> enemyProjectiles;
 	list<Attack*> attacks;
 	list<Tile*> ladders;
 	list<BreakableItem*> breakableItems;
