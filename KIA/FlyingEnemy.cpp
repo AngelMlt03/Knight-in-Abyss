@@ -20,30 +20,31 @@ FlyingEnemy::FlyingEnemy(float x, float y, Game* game, GameLayer* gl)
 
 void FlyingEnemy::doMove() {
 
-	vy = -1;
-	vx = 0;
 	float xPlayer = gameLayer->player->x;
 	float xDiff = abs(xPlayer - x);
+	float yPlayer = gameLayer->player->y;
+	float yDiff = abs(yPlayer - y);
 
-	if (x < xPlayer-5 && xDiff < 600) {
-		vx = 5;
-	}
-	else if (x > xPlayer+5 && xDiff < 600) {
-		vx = -5;
-	}
+	if (xDiff < 600 ) {
 
-	shoot();
-}
+		if (x < xPlayer - 5) {
+			vx = 3;
+		}
+		else if (x > xPlayer + 5) {
+			vx = -3;
+		}
 
-void FlyingEnemy::shoot() {
-
-	if (shootTime == 0) {
-		shootTime = shootCadence;
-		EnemyProjectile* shoot = new EnemyProjectile(x, y, game, 2);
-		gameLayer->space->addDynamicActor(shoot);
-		gameLayer->enemyProjectiles.push_back(shoot);
+		if (yDiff < 300) {
+			if (y < yPlayer - 5) {
+				vy = 1;
+			}
+			else if (y > yPlayer + 5) {
+				vy = -2;
+			}
+		}
 	}
 	else {
-		shootTime--;
+		vy = -1;
+		vx = 0;
 	}
 }

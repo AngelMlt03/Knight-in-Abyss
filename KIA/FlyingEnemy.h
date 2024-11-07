@@ -11,7 +11,4 @@ public:
 	void doMove() override;  // Sobrescribe el metodo
 
 	GameLayer* gameLayer;
-	void shoot();
-	int shootCadence = 60;
-	int shootTime = 0;
 };
