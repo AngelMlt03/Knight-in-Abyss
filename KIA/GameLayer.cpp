@@ -744,7 +744,7 @@ void GameLayer::loadMapObject(char character, float x, float y) {
 
 	switch (character) {
 		case 'C': {
-			cup = new Tile("res/gameRes/copa.png", x, y, game);
+			cup = new Tile("res/gameRes/copa.png", x, y, 55, 55, game);
 			// modificación para empezar a contar desde el suelo.
 			cup->y = cup->y - cup->height / 2;
 			space->addDynamicActor(cup); // Realmente no hace falta
@@ -758,7 +758,7 @@ void GameLayer::loadMapObject(char character, float x, float y) {
 			space->addDynamicActor(enemy);
 			break;
 		}
-		case 'G': {
+		case 'F': {
 			Enemy* enemy = new StaticFlying(x, y, game, this);
 			// modificación para empezar a contar desde el suelo.
 			enemy->y = enemy->y - enemy->height / 2;
@@ -792,7 +792,7 @@ void GameLayer::loadMapObject(char character, float x, float y) {
 			break;
 		}
 		case 'R': {
-			Tile* ladder = new Tile("res/gameRes/ladder.png", x, y, game);
+			Tile* ladder = new Tile("res/gameRes/ladder.png", x, y, 55, 55, game);
 			// modificación para empezar a contar desde el suelo. 
 			ladder->y = ladder->y - ladder->height / 2;
 			ladders.push_back(ladder);
@@ -829,7 +829,7 @@ void GameLayer::loadMapObject(char character, float x, float y) {
 			break;
 		}
 		case '#': {
-			Tile* tile = new Tile("res/gameRes/bloque_tierra.png", x, y, game);
+			Tile* tile = new Tile("res/gameRes/bloque_tierra.png", x, y, 55, 55, game);
 			// modificación para empezar a contar desde el suelo.
 			tile->y = tile->y - tile->height / 2;
 			tiles.push_back(tile);
@@ -837,7 +837,15 @@ void GameLayer::loadMapObject(char character, float x, float y) {
 			break;
 		}
 		case 'P': {
-			Tile* tile = new Tile("res/gameRes/bloque_fondo1.png", x, y, game);
+			Tile* tile = new Tile("res/gameRes/bloque_fondo1.png", x, y, 55, 55, game);
+			// modificación para empezar a contar desde el suelo.
+			tile->y = tile->y - tile->height / 2;
+			tiles.push_back(tile);
+			space->addStaticActor(tile);
+			break;
+		}
+		case 'G': {
+			Tile* tile = new Tile("res/gameRes/gate.png", x, y, 55, 55, game);
 			// modificación para empezar a contar desde el suelo.
 			tile->y = tile->y - tile->height / 2;
 			tiles.push_back(tile);
@@ -845,7 +853,7 @@ void GameLayer::loadMapObject(char character, float x, float y) {
 			break;
 		}
 		case '?': {
-			Tile* tile = new Tile("res/gameRes/bloque_fondo1_borde_derecha.png", x, y, game);
+			Tile* tile = new Tile("res/gameRes/bloque_fondo1_borde_derecha.png", x, y, 55, 55, game);
 			// modificación para empezar a contar desde el suelo.
 			tile->y = tile->y - tile->height / 2;
 			tiles.push_back(tile);
@@ -853,7 +861,7 @@ void GameLayer::loadMapObject(char character, float x, float y) {
 			break;
 		}
 		case '*': {
-			Tile* tile = new Tile("res/gameRes/bloque_fondo1_borde_abajo.png", x, y, game);
+			Tile* tile = new Tile("res/gameRes/bloque_fondo1_borde_abajo.png", x, y, 55, 55, game);
 			// modificación para empezar a contar desde el suelo.
 			tile->y = tile->y - tile->height / 2;
 			tiles.push_back(tile);
@@ -861,7 +869,7 @@ void GameLayer::loadMapObject(char character, float x, float y) {
 			break;
 		}
 		case '-': {
-			Tile* tile = new Tile("res/gameRes/bloque_fondo1_borde_arriba.png", x, y, game);
+			Tile* tile = new Tile("res/gameRes/bloque_fondo1_borde_arriba.png", x, y, 55, 55, game);
 			// modificación para empezar a contar desde el suelo.
 			tile->y = tile->y - tile->height / 2;
 			tiles.push_back(tile);
