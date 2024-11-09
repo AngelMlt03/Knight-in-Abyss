@@ -68,7 +68,11 @@ void GameLayer::init() {
 	healthFrame = new Actor("res/gameRes/healthFrame.png", 150, 42, 259, 42, game);
 	heart = new Actor("res/gameRes/corazon.png", 45, 42, 47, 42, game);
 	healthbar = new HealthBar(game);
-	manabar = new Actor("res/gameRes/manaBar4.png", 90, 86, 139, 42, game);
+	manabar0 = new Actor("res/gameRes/manaBar0.png", 90, 86, 139, 42, game);
+	manabar1 = new Actor("res/gameRes/manaBar1.png", 90, 86, 139, 42, game);
+	manabar2 = new Actor("res/gameRes/manaBar2.png", 90, 86, 139, 42, game);
+	manabar3 = new Actor("res/gameRes/manaBar3.png", 90, 86, 139, 42, game);
+	manabar4 = new Actor("res/gameRes/manaBar4.png", 90, 86, 139, 42, game);
 
 	currentHP = game->maxHealth;
 	currentMana = game->maxMana;
@@ -189,7 +193,7 @@ void GameLayer::processControls() {
 			space->addDynamicActor(newSpell);
 			attacks.push_back(newSpell);
 			controlSpell = false;
-			manabar = new Actor("res/gameRes/manaBar" + to_string(player->mana) + ".png", 90, 86, 139, 42, game);
+			//manabar = new Actor("res/gameRes/manaBar" + to_string(player->mana) + ".png", 90, 86, 139, 42, game);
 		}
 	}
 	// Ataque espada
@@ -759,14 +763,6 @@ void GameLayer::loadMapObject(char character, float x, float y) {
 			space->addDynamicActor(cup); // Realmente no hace falta
 			break;
 		}
-		case 'S': {
-			Enemy* enemy = new Summoner(x, y, game);
-			// modificación para empezar a contar desde el suelo.
-			enemy->y = enemy->y - enemy->height / 2;
-			enemies.push_back(enemy);
-			space->addDynamicActor(enemy);
-			break;
-		}
 		case 'F': {
 			Enemy* enemy = new StaticFlying(x, y, game, this);
 			// modificación para empezar a contar desde el suelo.
@@ -938,28 +934,16 @@ void GameLayer::createRandomItem(float x, float y) {
 	}
 }
 
-void GameLayer::summonNewEnemy(int x, int y) {
-
-	srand(time(nullptr));
-	// Generamos un número aleatorio entre 0 y 2
-	int randomType = rand() % 3;
-
-	Enemy* enemy = nullptr;
-
-	// Según el número aleatorio, se genera un tipo de enemigo
-	switch (randomType) {
-	case 0:
-		//enemy = new Goomba(x, y, game);
-		break;
-	case 1:
-		//enemy = new Alien(x, y, game);
-		break;
-	case 2:
-		//enemy = new Jumper(x, y, game);
-		break;
+void GameLayer::updateManaBar() {
+	
+	switch (player->mana)
+	{
+		case 0: { manabar = manabar0; break; }
+		case 1: { manabar = manabar1; break; }
+		case 2: { manabar = manabar2; break; }
+		case 3: { manabar = manabar3; break; }
+		case 4: { manabar = manabar4; break; }
 	}
-	enemies.push_back(enemy);
-	space->addDynamicActor(enemy);
 }
 
 void GameLayer::draw() {
@@ -1014,7 +998,7 @@ void GameLayer::draw() {
 	healthbar->draw(0,0);
 	healthbar->updateHealth(player->healthPoints, game->maxHealth);
 	heart->draw();
-	manabar = new Actor("res/gameRes/manaBar" + to_string(player->mana) + ".png", 90, 86, 139, 42, game);
+	updateManaBar();
 	manabar->draw();
 
 	if (game->input == game->inputMouse) {

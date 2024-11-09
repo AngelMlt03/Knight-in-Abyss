@@ -10,6 +10,9 @@ ShopLayer::ShopLayer(Game* game)
 	maxHealthButton = new Actor("res/shopMenu/boton_maxvida.png", 440, HEIGHT * 0.64, 180, 60, game);
 	moreDamageButton = new Actor("res/shopMenu/boton_masdanio.png", 640, HEIGHT * 0.64, 180, 60, game);
 	doubleJumpButton = new Actor("res/shopMenu/boton_comprarsalto.png", 840, HEIGHT * 0.64, 180, 60, game);
+	noMaxHealthButton = new Actor("res/shopMenu/boton_no_maxvida.png", 440, HEIGHT * 0.64, 180, 74, game);
+	noMoreDamageButton = new Actor("res/shopMenu/boton_no_masdanio.png", 640, HEIGHT * 0.64, 184, 84, game);
+	noDoubleJumpButton = new Actor("res/shopMenu/boton_no_comprarsalto.png", 840, HEIGHT * 0.64, 180, 66, game);
 
 	maxHealth = false;
 	maxDamage = false;
@@ -108,13 +111,13 @@ void ShopLayer::mouseToControls(SDL_Event event) {
 void ShopLayer::update() {
 	
 	if (maxHealth) {
-		maxHealthButton = new Actor("res/shopMenu/boton_no_maxvida.png", 440, HEIGHT * 0.64, 180, 74, game);
+		maxHealthButton = noMaxHealthButton;
 	}
 	if (maxDamage) {
-		moreDamageButton = new Actor("res/shopMenu/boton_no_masdanio.png", 640, HEIGHT * 0.64, 184, 84, game);
+		moreDamageButton = noMoreDamageButton;
 	}
 	if (maxJump) {
-		doubleJumpButton = new Actor("res/shopMenu/boton_no_comprarsalto.png", 840, HEIGHT * 0.64, 180, 66, game);
+		doubleJumpButton = noDoubleJumpButton;
 	}
 	std::stringstream ss;
 	ss << std::setfill('0') << std::setw(4) << game->gold;

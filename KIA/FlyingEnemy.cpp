@@ -37,10 +37,10 @@ void FlyingEnemy::doMove() {
 		}
 
 		if (yDiff < 300) {
-			if (y < yPlayer - 5) {
+			if (y < yPlayer - 20) {
 				vy = 1;
 			}
-			else if (y > yPlayer + 5) {
+			else if (y > yPlayer - 20) {
 				vy = -2;
 			}
 		}

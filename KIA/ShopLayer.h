@@ -26,6 +26,9 @@ public:
 	Actor* maxHealthButton;
 	Actor* moreDamageButton;
 	Actor* doubleJumpButton;
+	Actor* noMaxHealthButton;
+	Actor* noMoreDamageButton;
+	Actor* noDoubleJumpButton;
 
 	// Límite compras
 	bool maxHealth;

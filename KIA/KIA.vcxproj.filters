@@ -102,9 +102,6 @@
     <ClCompile Include="FlyingEnemy.cpp">
       <Filter>Archivos de origen\Actores\Enemigos</Filter>
     </ClCompile>
-    <ClCompile Include="Summoner.cpp">
-      <Filter>Archivos de origen\Actores\Enemigos</Filter>
-    </ClCompile>
     <ClCompile Include="Audio.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
@@ -195,9 +192,6 @@
       <Filter>Archivos de encabezado\Actores\Enemigos</Filter>
     </ClInclude>
     <ClInclude Include="FlyingEnemy.h">
-      <Filter>Archivos de encabezado\Actores\Enemigos</Filter>
-    </ClInclude>
-    <ClInclude Include="Summoner.h">
       <Filter>Archivos de encabezado\Actores\Enemigos</Filter>
     </ClInclude>
     <ClInclude Include="Audio.h">

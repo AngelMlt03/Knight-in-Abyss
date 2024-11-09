@@ -7,7 +7,6 @@
 #include "Basic.h"
 #include "StaticFlying.h"
 #include "FlyingEnemy.h"
-#include "Summoner.h"
 #include "Spell.h"
 #include "Sword.h"
 #include "Attack.h"
@@ -42,6 +41,7 @@ public:
 	void loadMapObject(char character, float x, float y);
 	void calculateScroll();
 	void createRandomItem(float x, float y);
+	void updateManaBar();
 
 	Audio* audioBackground;
 	Audio* audioHit;
@@ -86,6 +86,11 @@ public:
 	Actor* heart;
 	HealthBar* healthbar;
 	Actor* manabar;
+	Actor* manabar0;
+	Actor* manabar1;
+	Actor* manabar2;
+	Actor* manabar3;
+	Actor* manabar4;
 	
 	bool controlContinue = false;
 	bool controlSpell = false;

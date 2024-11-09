@@ -168,7 +168,6 @@
     <ClCompile Include="Attack.cpp" />
     <ClCompile Include="Space.cpp" />
     <ClCompile Include="Spell.cpp" />
-    <ClCompile Include="Summoner.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="Trap.cpp" />
@@ -201,7 +200,6 @@
     <ClInclude Include="Attack.h" />
     <ClInclude Include="Space.h" />
     <ClInclude Include="Spell.h" />
-    <ClInclude Include="Summoner.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="Trap.h" />
