@@ -34,7 +34,7 @@ public:
 	Layer* gameLayer;
 
 	int currentLevel = 0;
-	int finalLevel = 2;
+	int finalLevel = 1;
 
 	// Soporte multiples entradas (Teclado y ratón)
 	int input;
