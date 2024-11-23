@@ -22,16 +22,16 @@ void StaticFlying::shoot() {
 		shootTime = shootCadence;
 		EnemyProjectile* shoot1 = new EnemyProjectile(x, y, game, 0);
 		gameL->space->addDynamicActor(shoot1);
-		gameL->enemyProjectiles.push_back(shoot1);
+		gameL->enemyAttacks.push_back(shoot1);
 		EnemyProjectile* shoot2 = new EnemyProjectile(x, y, game, 1);
 		gameL->space->addDynamicActor(shoot2);
-		gameL->enemyProjectiles.push_back(shoot2);
+		gameL->enemyAttacks.push_back(shoot2);
 		EnemyProjectile* shoot3 = new EnemyProjectile(x, y, game, 2);
 		gameL->space->addDynamicActor(shoot3);
-		gameL->enemyProjectiles.push_back(shoot3);
+		gameL->enemyAttacks.push_back(shoot3);
 		EnemyProjectile* shoot4 = new EnemyProjectile(x, y, game, 3);
 		gameL->space->addDynamicActor(shoot4);
-		gameL->enemyProjectiles.push_back(shoot4);
+		gameL->enemyAttacks.push_back(shoot4);
 	}
 	else {
 		shootTime--;

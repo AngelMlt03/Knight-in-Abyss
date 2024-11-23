@@ -12,5 +12,4 @@ void Coin::onCollision() {
 
     audioOnCollision->play(); // Sonido al coger la moneda
     gameLayer->coins += 10; // Incrementa los puntos
-
 }

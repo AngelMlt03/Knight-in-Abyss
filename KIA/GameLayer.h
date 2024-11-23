@@ -7,6 +7,7 @@
 #include "Basic.h"
 #include "StaticFlying.h"
 #include "FlyingEnemy.h"
+#include "Boss1.h"
 #include "Spell.h"
 #include "Sword.h"
 #include "Attack.h"
@@ -16,7 +17,8 @@
 #include "BreakableItem.h"
 #include "Trap.h"
 #include "EnemyProjectile.h"
-#include "Space.h" // importar
+#include "Bomb.h"
+#include "Space.h"
 #include "Audio.h"
 
 #include <fstream> // Leer ficheros
@@ -24,10 +26,13 @@
 #include <list>
 #include <algorithm>
 
+class Boss1;
+
 class GameLayer : public Layer
 {
 public:
 	GameLayer(Game* game);
+	~GameLayer();
 	void init() override;
 	void changeRoom(int direction);
 	void endLevel();
@@ -74,7 +79,7 @@ public:
 	int currentHP;
 	int currentMana;
 
-	int levelRow = 0;
+	int levelRow = 2;
 	int levelColumn = 0;
 
 	int newEnemyTime = 0;
@@ -85,6 +90,10 @@ public:
 	Actor* healthFrame;
 	Actor* heart;
 	HealthBar* healthbar;
+	HealthBar* bossHB;
+	bool bossRoom;
+	Boss1* boss;
+	bool bossAlive;
 	Actor* manabar;
 	Actor* manabar0;
 	Actor* manabar1;
@@ -101,15 +110,21 @@ public:
 	int controlMoveX = 0;
 	bool cursorVisible = true;
 
-	int deletedEnemies = 0;
-
-	void summonNewEnemy(int x, int y);
-
 	list<Enemy*> enemies;
-	list <EnemyProjectile*> enemyProjectiles;
+	list<Attack*> enemyAttacks;
+	list<Bomb*> enemyBombs;
 	list<Attack*> attacks;
 	list<Tile*> ladders;
 	list<BreakableItem*> breakableItems;
 	list<Item*> items;
 	list<Trap*> traps;
+
+	// Tutorial Messages
+	Actor* tutorialMessage1;
+	Actor* tutorialMessage2;
+	Actor* tutorialMessage3;
+	Actor* tutorialMessage4;
+	Actor* tutorialMessage5;
+	Actor* tutorialMessage6;
+	Actor* tutorialMessage7;
 };

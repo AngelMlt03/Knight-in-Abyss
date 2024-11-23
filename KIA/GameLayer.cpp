@@ -17,6 +17,14 @@ GameLayer::GameLayer(Game* game)
 	message = new Actor("res/gameRes/mensaje_como_jugar.png", WIDTH * 0.5, HEIGHT * 0.5,
 		WIDTH, HEIGHT, game);
 	
+	tutorialMessage1 = new Actor("res/messages/AD_message.png", 320, 300, 246, 104, game);
+	tutorialMessage2 = new Actor("res/messages/rompe_message.png", 560, 400, 246, 104, game);
+	tutorialMessage3 = new Actor("res/messages/W_message.png", 860, 350, 246, 104, game);
+	tutorialMessage4 = new Actor("res/messages/K_message.png", 1420, 430, 246, 104, game);
+	tutorialMessage5 = new Actor("res/messages/Barra_message.png", 1740, 350, 246, 104, game);
+	tutorialMessage6 = new Actor("res/messages/L_message.png", 2250, 350, 246, 104, game);
+	tutorialMessage7 = new Actor("res/messages/L-Shift_message.png", 3800, 350, 246, 104, game);
+
 	gamePad = SDL_GameControllerOpen(0);
 	init();
 }
@@ -42,15 +50,15 @@ void GameLayer::init() {
 	tiles.clear(); // Vaciar por si reiniciamos el juego
 	ladders.clear(); // Vaciar por si reiniciamos el juego
 	attacks.clear(); // Vaciar por si reiniciamos el juego
-	enemyProjectiles.clear();
+	enemyAttacks.clear();
+	enemyBombs.clear();
 	enemies.clear(); // Vaciar por si reiniciamos el juego
 	breakableItems.clear(); // Vaciar por si reiniciamos el juego
 	items.clear(); // Vaciar por si reiniciamos el juego
 	traps.clear(); // Vaciar por si reiniciamos el juego
 
 	space = new Space(1);
-	scrollX = 0;
-	scrollY = 0;
+	bossAlive = true;
 
 	//game->levelRow = 0;
 	//game->levelColumn = 0;
@@ -67,7 +75,9 @@ void GameLayer::init() {
 
 	healthFrame = new Actor("res/gameRes/healthFrame.png", 150, 42, 259, 42, game);
 	heart = new Actor("res/gameRes/corazon.png", 45, 42, 47, 42, game);
-	healthbar = new HealthBar(game);
+	healthbar = new HealthBar("res/gameRes/healthBar.png", 55, 21, 226, 42, game);
+	bossHB = new HealthBar("res/gameRes/healthBar.png", WIDTH*0.5, HEIGHT*0.9, 600, 42, game);
+
 	manabar0 = new Actor("res/gameRes/manaBar0.png", 90, 86, 139, 42, game);
 	manabar1 = new Actor("res/gameRes/manaBar1.png", 90, 86, 139, 42, game);
 	manabar2 = new Actor("res/gameRes/manaBar2.png", 90, 86, 139, 42, game);
@@ -79,6 +89,8 @@ void GameLayer::init() {
 
 	loadMap("res/gameLevels/" + to_string(game->currentLevel) + "_" + to_string(levelRow)
 			+ "_" + to_string(levelColumn) + ".txt");
+	scrollX = 0;
+	scrollY = 0;
 }
 
 void GameLayer::changeRoom(int direction) {
@@ -86,7 +98,8 @@ void GameLayer::changeRoom(int direction) {
 	tiles.clear();
 	ladders.clear();
 	attacks.clear(); // Vaciar por si reiniciamos el
-	enemyProjectiles.clear();
+	enemyAttacks.clear();
+	enemyBombs.clear();
 	enemies.clear(); // Vaciar por si reiniciamos el juego
 	breakableItems.clear(); // Vaciar por si reiniciamos el juego
 	items.clear();
@@ -111,7 +124,7 @@ void GameLayer::changeRoom(int direction) {
 		break;
 	}
 	
-	scrollY = 0;
+	scrollY = player->y;
 }
 
 void GameLayer::endLevel() {
@@ -193,7 +206,6 @@ void GameLayer::processControls() {
 			space->addDynamicActor(newSpell);
 			attacks.push_back(newSpell);
 			controlSpell = false;
-			//manabar = new Actor("res/gameRes/manaBar" + to_string(player->mana) + ".png", 90, 86, 139, 42, game);
 		}
 	}
 	// Ataque espada
@@ -476,9 +488,8 @@ void GameLayer::update() {
 		changeRoom(2);
 	}
 
-
 	// Nivel superado
-	if (cup->isOverlap(player)) {
+	if (cup->isOverlap(player) && !bossAlive) {
 		if (game->currentLevel > game->finalLevel) {
 			game->currentLevel = 0;
 		}
@@ -503,29 +514,34 @@ void GameLayer::update() {
 		enemy->update();
 	}
 
+	if (boss != nullptr && bossRoom) {
+		boss->update();
+	}
+
 	for (auto const& attack : attacks) {
 		attack->update();
 	}
 
-	for (auto const& eP : enemyProjectiles) {
-		eP->update();
+	for (auto const& eA : enemyAttacks) {
+		eA->update();
+	}
+
+	for (auto const& eB : enemyBombs) {
+		eB->update();
 	}
 
 	// Colisiones , Player - Enemy
 	for (auto const& enemy : enemies) {
 
-		if (enemy->isTopOverlap(player) && enemy->state != game->stateDying
-			&& enemy->state != game->stateDead) {
-
-			audioHit->play(); // Sonido de impacto
-			enemy->impacted();
-			coins++;
-			return;
-		}
 		if (player->isOverlap(enemy) && enemy->state != game->stateDying
 			&& enemy->state != game->stateDead) {
 			player->takeDamage(10);
-		}
+		}	
+	}
+
+	if (boss != nullptr && player->isOverlap(boss) && boss->state != game->stateDying
+		&& boss->state != game->stateDead) {
+		player->takeDamage(20);
 	}
 
 	if (player->healthPoints <= 0) {
@@ -543,7 +559,7 @@ void GameLayer::update() {
 		if (ladder->isOverlap(player)) {
 
 			player->onLadder = true;
-			return;
+			break;
 		}
 		player->onLadder = false;
 	}
@@ -577,22 +593,39 @@ void GameLayer::update() {
 		}
 	}
 
-	// Colisiones , Player - EnemyProjectiles
+	// Colisiones , Player - EnemyAttacks, Player - EnemyBombs
 
-	list<EnemyProjectile*> deleteEnemyProjectiles;
+	list<Attack*> deleteEnemyAttacks; 
+	list<Bomb*> deleteEnemyBombs;
 
-	for (auto const& ep : enemyProjectiles) {
+	for (auto const& ep : enemyAttacks) {
 
 		if ((ep->isOverlap(player) && player->invulnerableTime <= 0) || ep->canBeDeleted()) {
-			bool pInList = std::find(deleteEnemyProjectiles.begin(), deleteEnemyProjectiles.end(),
-				ep) != deleteEnemyProjectiles.end();
+			bool pInList = std::find(deleteEnemyAttacks.begin(), deleteEnemyAttacks.end(),
+				ep) != deleteEnemyAttacks.end();
 
 			if (!pInList) {
-				deleteEnemyProjectiles.push_back(ep);
+				deleteEnemyAttacks.push_back(ep);
 			}
 		}
 		if (ep->isOverlap(player)) {
 			player->takeDamage(10);
+		}
+	}
+
+	for (auto const& eB : enemyBombs) {
+
+		if (eB->canBeDeleted()) {
+			bool pInList = std::find(deleteEnemyBombs.begin(), deleteEnemyBombs.end(),
+				eB) != deleteEnemyBombs.end();
+
+			if (!pInList) {
+				cout << "delete\n";
+				deleteEnemyBombs.push_back(eB);
+			}
+		}
+		if (eB->isOverlap(player) && player->invulnerableTime <= 0 && eB->explodeTime <= 0) {
+			player->takeDamage(20);
 		}
 	}
 
@@ -632,7 +665,6 @@ void GameLayer::update() {
 					enemy->impacted();
 					audioHit->play(); // Sonido de impacto
 
-
 					coins++;
 					std::stringstream ss;
 					ss << std::setfill('0') << std::setw(4) << coins;
@@ -660,6 +692,25 @@ void GameLayer::update() {
 				attack->onCollision();
 				bi->onCollision();
 				createRandomItem(bi->x, bi->y);
+			}
+		}
+		if (boss != nullptr && boss->isOverlap(attack)) {
+			bool pInList = std::find(deleteAttacks.begin(),
+				deleteAttacks.end(),
+				attack) != deleteAttacks.end();
+
+			if (!pInList && attack->canBeDeleted()) {
+				deleteAttacks.push_back(attack);
+			}
+
+			attack->onCollision();
+			boss->takeDamage();
+
+			if (boss->currentHP <= 0) {
+				bossAlive = false;
+				space->removeDynamicActor(boss);
+				delete boss;
+				boss = nullptr;
 			}
 		}
 	}
@@ -703,16 +754,24 @@ void GameLayer::update() {
 	}
 	deleteItems.clear();
 
-	for (auto const& delEP : deleteEnemyProjectiles) {
-		enemyProjectiles.remove(delEP);
+	for (auto const& delEP : deleteEnemyAttacks) {
+		enemyAttacks.remove(delEP);
 		space->removeDynamicActor(delEP);
 		delete delEP;
 	}
-	deleteEnemyProjectiles.clear();
+	deleteEnemyAttacks.clear();
+
+	for (auto const& delEB : deleteEnemyBombs) {
+		enemyBombs.remove(delEB);
+		space->removeDynamicActor(delEB);
+		delete delEB;
+	}
+	deleteEnemyBombs.clear();
 }
 
 void GameLayer::loadMap(string name) {
 
+	bossRoom = false;
 	char character;
 	string line;
 	ifstream streamFile(name.c_str());
@@ -864,6 +923,15 @@ void GameLayer::loadMapObject(char character, float x, float y) {
 			space->addStaticActor(tile);
 			break;
 		}
+		case 'J': {
+			bossRoom = true;
+			bossAlive = true;
+			boss = new Boss1(x, y, game, this);
+			// modificación para empezar a contar desde el suelo.
+			boss->y = boss->y - boss->height / 2;
+			space->addDynamicActor(boss);
+			break;
+		}
 	}
 }
 
@@ -888,7 +956,7 @@ void GameLayer::calculateScroll() {
 		}
 	}
 	// Limite inferior (vertical)
-	if (player->y < mapHeight - HEIGHT * 0.3) {  // mapHeight es la altura del mapa
+	if (player->y < mapHeight - HEIGHT * 0.3) {
 		if (player->y - scrollY > HEIGHT * 0.7) {
 			scrollY = player->y - HEIGHT * 0.7;
 		}
@@ -944,6 +1012,16 @@ void GameLayer::draw() {
 
 	background->draw();
 
+	if (game->currentLevel == 0 && levelRow == 0 && levelColumn == 0) {
+		tutorialMessage1->draw(scrollX, scrollY);
+		tutorialMessage2->draw(scrollX, scrollY);
+		tutorialMessage3->draw(scrollX, scrollY);
+		tutorialMessage4->draw(scrollX, scrollY);
+		tutorialMessage5->draw(scrollX, scrollY);
+		tutorialMessage6->draw(scrollX, scrollY);
+		tutorialMessage7->draw(scrollX, scrollY);
+	}
+
 	for (auto const& tile : tiles) {
 		tile->draw(scrollX, scrollY);
 	}
@@ -968,11 +1046,17 @@ void GameLayer::draw() {
 		attack->draw(scrollX, scrollY);
 	}
 
-	for (auto const& eP : enemyProjectiles) {
+	for (auto const& eP : enemyAttacks) {
 		eP->draw(scrollX, scrollY);
 	}
 
-	cup->draw(scrollX, scrollY);
+	for (auto const& eB : enemyBombs) {
+		eB->draw(scrollX, scrollY);
+	}
+
+	if (bossRoom && !bossAlive) {
+		cup->draw(scrollX, scrollY);
+	}
 	player->draw(scrollX, scrollY);
 
 	for (auto const& enemy : enemies) {
@@ -992,6 +1076,12 @@ void GameLayer::draw() {
 	heart->draw();
 	updateManaBar();
 	manabar->draw();
+
+	if (bossRoom && boss != nullptr) {
+		boss->draw(scrollX, scrollY);
+		bossHB->draw(0, 0);
+		bossHB->updateHealth(boss->currentHP, boss->maxHP);
+	}
 
 	if (game->input == game->inputMouse) {
 		buttonJump->draw(); // NO TIENEN SCROLL, POSICION FIJA

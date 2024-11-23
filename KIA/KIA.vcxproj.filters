@@ -19,34 +19,34 @@
     <Filter Include="Archivos de origen\Layers">
       <UniqueIdentifier>{56e91cba-0a8f-4ab8-bd8e-3663466008fe}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Archivos de encabezado\Actores">
-      <UniqueIdentifier>{96902f0b-f688-4877-a175-a4cc4fbbbc32}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Archivos de origen\Actores">
+    <Filter Include="Archivos de origen\Actors">
       <UniqueIdentifier>{27dffb51-615f-4ac7-8db5-18528a14a9a2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Archivos de encabezado\Actores\Enemigos">
-      <UniqueIdentifier>{fc7099ed-2c49-4baf-bf99-82ee75f4f55f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Archivos de origen\Actores\Enemigos">
+    <Filter Include="Archivos de origen\Actors\Enemy">
       <UniqueIdentifier>{30b89089-1a73-4fa8-a59b-e9729da9103a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Archivos de encabezado\Actores\Attacks">
-      <UniqueIdentifier>{63ce9911-887d-458a-8a2b-12ba665882e1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Archivos de origen\Actores\Attacks">
+    <Filter Include="Archivos de origen\Actors\Attacks">
       <UniqueIdentifier>{6a892993-08c9-459b-b029-5340bc286dc1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Archivos de encabezado\Actores\Items">
-      <UniqueIdentifier>{0a829e93-ddb3-4ec5-844e-dc7cc40bd6dc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Archivos de origen\Actores\Items">
+    <Filter Include="Archivos de origen\Actors\Items">
       <UniqueIdentifier>{e7588a85-f233-4c79-bdce-06db261ef9d1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Archivos de origen\Actores\Traps">
+    <Filter Include="Archivos de origen\Actors\Traps">
       <UniqueIdentifier>{a520ec82-c846-4f6d-a3c6-60fbee1a8fd5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Archivos de encabezado\Actores\Traps">
+    <Filter Include="Archivos de encabezado\Actors">
+      <UniqueIdentifier>{96902f0b-f688-4877-a175-a4cc4fbbbc32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Actors\Enemy">
+      <UniqueIdentifier>{fc7099ed-2c49-4baf-bf99-82ee75f4f55f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Actors\Attacks">
+      <UniqueIdentifier>{63ce9911-887d-458a-8a2b-12ba665882e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Actors\Items">
+      <UniqueIdentifier>{0a829e93-ddb3-4ec5-844e-dc7cc40bd6dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Actors\Traps">
       <UniqueIdentifier>{45fc166b-343f-44ef-96d7-ba4f6a60e2fa}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -64,85 +64,91 @@
       <Filter>Archivos de origen\Layers</Filter>
     </ClCompile>
     <ClCompile Include="Actor.cpp">
-      <Filter>Archivos de origen\Actores</Filter>
+      <Filter>Archivos de origen\Actors</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
-      <Filter>Archivos de origen\Actores</Filter>
+      <Filter>Archivos de origen\Actors</Filter>
     </ClCompile>
     <ClCompile Include="Background.cpp">
-      <Filter>Archivos de origen\Actores</Filter>
+      <Filter>Archivos de origen\Actors</Filter>
     </ClCompile>
     <ClCompile Include="Text.cpp">
-      <Filter>Archivos de origen\Actores</Filter>
+      <Filter>Archivos de origen\Actors</Filter>
     </ClCompile>
     <ClCompile Include="Animation.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
     <ClCompile Include="Tile.cpp">
-      <Filter>Archivos de origen\Actores</Filter>
+      <Filter>Archivos de origen\Actors</Filter>
     </ClCompile>
     <ClCompile Include="Space.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
     <ClCompile Include="Pad.cpp">
-      <Filter>Archivos de origen\Actores</Filter>
+      <Filter>Archivos de origen\Actors</Filter>
     </ClCompile>
     <ClCompile Include="MenuLayer.cpp">
       <Filter>Archivos de origen\Layers</Filter>
     </ClCompile>
     <ClCompile Include="Enemy.cpp">
-      <Filter>Archivos de origen\Actores\Enemigos</Filter>
+      <Filter>Archivos de origen\Actors\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Basic.cpp">
-      <Filter>Archivos de origen\Actores\Enemigos</Filter>
+      <Filter>Archivos de origen\Actors\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="StaticFlying.cpp">
-      <Filter>Archivos de origen\Actores\Enemigos</Filter>
+      <Filter>Archivos de origen\Actors\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="FlyingEnemy.cpp">
-      <Filter>Archivos de origen\Actores\Enemigos</Filter>
+      <Filter>Archivos de origen\Actors\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Audio.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
     <ClCompile Include="HealthBar.cpp">
-      <Filter>Archivos de origen\Actores</Filter>
+      <Filter>Archivos de origen\Actors</Filter>
     </ClCompile>
     <ClCompile Include="Sword.cpp">
-      <Filter>Archivos de origen\Actores\Attacks</Filter>
+      <Filter>Archivos de origen\Actors\Attacks</Filter>
     </ClCompile>
     <ClCompile Include="Attack.cpp">
-      <Filter>Archivos de origen\Actores\Attacks</Filter>
+      <Filter>Archivos de origen\Actors\Attacks</Filter>
     </ClCompile>
     <ClCompile Include="Spell.cpp">
-      <Filter>Archivos de origen\Actores\Attacks</Filter>
+      <Filter>Archivos de origen\Actors\Attacks</Filter>
     </ClCompile>
     <ClCompile Include="ShopLayer.cpp">
       <Filter>Archivos de origen\Layers</Filter>
     </ClCompile>
     <ClCompile Include="Item.cpp">
-      <Filter>Archivos de origen\Actores\Items</Filter>
+      <Filter>Archivos de origen\Actors\Items</Filter>
     </ClCompile>
     <ClCompile Include="HealthItem.cpp">
-      <Filter>Archivos de origen\Actores\Items</Filter>
+      <Filter>Archivos de origen\Actors\Items</Filter>
     </ClCompile>
     <ClCompile Include="ManaItem.cpp">
-      <Filter>Archivos de origen\Actores\Items</Filter>
+      <Filter>Archivos de origen\Actors\Items</Filter>
     </ClCompile>
     <ClCompile Include="BreakableItem.cpp">
-      <Filter>Archivos de origen\Actores\Items</Filter>
+      <Filter>Archivos de origen\Actors\Items</Filter>
     </ClCompile>
     <ClCompile Include="Coin.cpp">
-      <Filter>Archivos de origen\Actores\Items</Filter>
+      <Filter>Archivos de origen\Actors\Items</Filter>
     </ClCompile>
     <ClCompile Include="Trap.cpp">
-      <Filter>Archivos de origen\Actores\Traps</Filter>
+      <Filter>Archivos de origen\Actors\Traps</Filter>
     </ClCompile>
     <ClCompile Include="Spike.cpp">
-      <Filter>Archivos de origen\Actores\Traps</Filter>
+      <Filter>Archivos de origen\Actors\Traps</Filter>
     </ClCompile>
     <ClCompile Include="EnemyProjectile.cpp">
-      <Filter>Archivos de origen\Actores\Attacks</Filter>
+      <Filter>Archivos de origen\Actors\Attacks</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss1.cpp">
+      <Filter>Archivos de origen\Actors\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Bomb.cpp">
+      <Filter>Archivos de origen\Actors\Attacks</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -156,85 +162,91 @@
       <Filter>Archivos de encabezado\Layers</Filter>
     </ClInclude>
     <ClInclude Include="Actor.h">
-      <Filter>Archivos de encabezado\Actores</Filter>
+      <Filter>Archivos de encabezado\Actors</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
-      <Filter>Archivos de encabezado\Actores</Filter>
+      <Filter>Archivos de encabezado\Actors</Filter>
     </ClInclude>
     <ClInclude Include="Background.h">
-      <Filter>Archivos de encabezado\Actores</Filter>
+      <Filter>Archivos de encabezado\Actors</Filter>
     </ClInclude>
     <ClInclude Include="Text.h">
-      <Filter>Archivos de encabezado\Actores</Filter>
+      <Filter>Archivos de encabezado\Actors</Filter>
     </ClInclude>
     <ClInclude Include="Animation.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="Tile.h">
-      <Filter>Archivos de encabezado\Actores</Filter>
+      <Filter>Archivos de encabezado\Actors</Filter>
     </ClInclude>
     <ClInclude Include="Space.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="Pad.h">
-      <Filter>Archivos de encabezado\Actores</Filter>
+      <Filter>Archivos de encabezado\Actors</Filter>
     </ClInclude>
     <ClInclude Include="MenuLayer.h">
       <Filter>Archivos de encabezado\Layers</Filter>
     </ClInclude>
     <ClInclude Include="Enemy.h">
-      <Filter>Archivos de encabezado\Actores\Enemigos</Filter>
+      <Filter>Archivos de encabezado\Actors\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Basic.h">
-      <Filter>Archivos de encabezado\Actores\Enemigos</Filter>
+      <Filter>Archivos de encabezado\Actors\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="StaticFlying.h">
-      <Filter>Archivos de encabezado\Actores\Enemigos</Filter>
+      <Filter>Archivos de encabezado\Actors\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="FlyingEnemy.h">
-      <Filter>Archivos de encabezado\Actores\Enemigos</Filter>
+      <Filter>Archivos de encabezado\Actors\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Audio.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="HealthBar.h">
-      <Filter>Archivos de encabezado\Actores</Filter>
+      <Filter>Archivos de encabezado\Actors</Filter>
     </ClInclude>
     <ClInclude Include="Sword.h">
-      <Filter>Archivos de encabezado\Actores\Attacks</Filter>
+      <Filter>Archivos de encabezado\Actors\Attacks</Filter>
     </ClInclude>
     <ClInclude Include="Attack.h">
-      <Filter>Archivos de encabezado\Actores\Attacks</Filter>
+      <Filter>Archivos de encabezado\Actors\Attacks</Filter>
     </ClInclude>
     <ClInclude Include="Spell.h">
-      <Filter>Archivos de encabezado\Actores\Attacks</Filter>
+      <Filter>Archivos de encabezado\Actors\Attacks</Filter>
     </ClInclude>
     <ClInclude Include="ShopLayer.h">
       <Filter>Archivos de encabezado\Layers</Filter>
     </ClInclude>
     <ClInclude Include="Item.h">
-      <Filter>Archivos de encabezado\Actores\Items</Filter>
+      <Filter>Archivos de encabezado\Actors\Items</Filter>
     </ClInclude>
     <ClInclude Include="HealthItem.h">
-      <Filter>Archivos de encabezado\Actores\Items</Filter>
+      <Filter>Archivos de encabezado\Actors\Items</Filter>
     </ClInclude>
     <ClInclude Include="ManaItem.h">
-      <Filter>Archivos de encabezado\Actores\Items</Filter>
+      <Filter>Archivos de encabezado\Actors\Items</Filter>
     </ClInclude>
     <ClInclude Include="BreakableItem.h">
-      <Filter>Archivos de encabezado\Actores\Items</Filter>
+      <Filter>Archivos de encabezado\Actors\Items</Filter>
     </ClInclude>
     <ClInclude Include="Coin.h">
-      <Filter>Archivos de encabezado\Actores\Items</Filter>
+      <Filter>Archivos de encabezado\Actors\Items</Filter>
     </ClInclude>
     <ClInclude Include="Trap.h">
-      <Filter>Archivos de encabezado\Actores\Traps</Filter>
+      <Filter>Archivos de encabezado\Actors\Traps</Filter>
     </ClInclude>
     <ClInclude Include="Spike.h">
-      <Filter>Archivos de encabezado\Actores\Traps</Filter>
+      <Filter>Archivos de encabezado\Actors\Traps</Filter>
     </ClInclude>
     <ClInclude Include="EnemyProjectile.h">
-      <Filter>Archivos de encabezado\Actores\Attacks</Filter>
+      <Filter>Archivos de encabezado\Actors\Attacks</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss1.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="Bomb.h">
+      <Filter>Archivos de encabezado\Actors\Attacks</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

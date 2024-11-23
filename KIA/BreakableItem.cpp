@@ -11,14 +11,12 @@ BreakableItem::BreakableItem(float x, float y, Game* game, int random)
 
 string BreakableItem::getSprite(int random) {
 
-    cout << to_string(random);
     return "res/gameRes/breakableItem" + to_string(random) + ".png";
 }
 
 int BreakableItem::getWidth(int random) {
 
     int w = 40;
-    cout << to_string(random);
     switch (random)
     {
         case 0:
@@ -39,7 +37,6 @@ int BreakableItem::getWidth(int random) {
 int BreakableItem::getHeight(int random) {
 
     int h = 70;
-    cout << to_string(random);
     switch (random)
     {
         case 0: {
@@ -61,10 +58,6 @@ int BreakableItem::getHeight(int random) {
 }
 
 void BreakableItem::onCollision() {
-    GameLayer* gameLayer = dynamic_cast<GameLayer*>(game->gameLayer);
 
-    if (gameLayer) {  // Verifica que el casting fue exitoso
-        //audioOnCollision->play(); // Sonido al coger la moneda
-
-    }
+    //audioOnCollision->play(); // Sonido al coger la moneda
 }
