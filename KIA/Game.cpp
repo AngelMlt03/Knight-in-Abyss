@@ -105,7 +105,6 @@ bool Game::buyDamage() {
 Layer* Game::newGL() {
 	if (gameLayer != nullptr) {
 		delete gameLayer;
-		cout << "delete gl\n";
 	}
 	gameLayer = new GameLayer(this);
 	return gameLayer;

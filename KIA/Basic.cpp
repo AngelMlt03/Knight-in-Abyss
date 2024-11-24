@@ -13,4 +13,5 @@ Basic::Basic(float x, float y, Game* game)
 		108, 40, 6, 3, true, game);
 
 	vxIntelligence = -2;
+	damage = 20;
 }

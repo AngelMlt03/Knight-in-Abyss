@@ -14,6 +14,7 @@ StaticFlying::StaticFlying(float x, float y, Game* game, GameLayer* gl)
 	vxIntelligence = 0;
 
 	gameL = gl;
+	damage = 10;
 }
 
 void StaticFlying::shoot() {

@@ -12,9 +12,9 @@
 GameLayer::GameLayer(Game* game)
 	: Layer(game) {
 	//llama al constructor del padre : Layer(renderer)
-	
+	endGame = false;
 	pause = true;
-	message = new Actor("res/gameRes/mensaje_como_jugar.png", WIDTH * 0.5, HEIGHT * 0.5,
+	levelStartMessage = new Actor("res/messages/mensaje_nivel_" + to_string(game->currentLevel + 1) + ".png", WIDTH * 0.5, HEIGHT * 0.5,
 		WIDTH, HEIGHT, game);
 	
 	tutorialMessage1 = new Actor("res/messages/AD_message.png", 320, 300, 246, 104, game);
@@ -30,7 +30,6 @@ GameLayer::GameLayer(Game* game)
 }
 
 void GameLayer::init() {
-
 	audioBackground = Audio::createAudio("res/soundEffects/musica_ambiente.mp3", true);
 	audioBackground->play();
 
@@ -60,8 +59,8 @@ void GameLayer::init() {
 	space = new Space(1);
 	bossAlive = true;
 
-	//game->levelRow = 0;
-	//game->levelColumn = 0;
+	levelRow = 0;
+	levelColumn = 0;
 
 	background = new Background("res/gameRes/fondo_2.png", WIDTH * 0.5, HEIGHT * 0.5, game);
 
@@ -112,6 +111,9 @@ void GameLayer::changeRoom(int direction) {
 	loadMap("res/gameLevels/" + to_string(game->currentLevel) + "_" + to_string(levelRow)
 		+ "_" + to_string(levelColumn) + ".txt");
 
+	levelStartMessage = new Actor("res/messages/mensaje_nivel_"+ to_string(game->currentLevel+1) + ".png", WIDTH * 0.5, HEIGHT * 0.5,
+		WIDTH, HEIGHT, game);
+
 	switch (direction) {
 	case 0:
 		scrollX = 0;
@@ -124,10 +126,13 @@ void GameLayer::changeRoom(int direction) {
 		break;
 	}
 	
-	scrollY = player->y;
+	scrollY = player->y-700;
 }
 
 void GameLayer::endLevel() {
+
+	game->gold += coins;
+	coins = 0;
 
 	if (game->currentLevel < game->finalLevel) {
 		game->currentLevel++;
@@ -136,14 +141,15 @@ void GameLayer::endLevel() {
 		changeRoom(0);
 		currentHP = game->maxHealth;
 		currentMana = game->maxMana;
-		// Pantalla nivel finalizado
 	}
 	else {
 		// Lo que pasa al pasarte el juego
+		if (!pause && endGame) {
+			endGame = false;
+			game->currentLevel = 0;
+			game->layer = game->menuLayer;
+		}
 	}
-
-	game->gold += coins;
-	coins = 0;
 }
 
 void GameLayer::processControls() {
@@ -405,10 +411,10 @@ void GameLayer::mouseToControls(SDL_Event event) {
 			menuPause = false;
 			game->layer = game->menuLayer;
 		}
-		if (message && message->containsPoint(motionX, motionY)) {
+		if (levelStartMessage && levelStartMessage->containsPoint(motionX, motionY)) {
 			pause = false;
-			delete message;
-			message = nullptr;
+			delete levelStartMessage;
+			levelStartMessage = nullptr;
 		}
 	}
 	// Cada vez que se mueve
@@ -493,15 +499,17 @@ void GameLayer::update() {
 		if (game->currentLevel > game->finalLevel) {
 			game->currentLevel = 0;
 		}
-		message = new Actor("res/gameRes/mensaje_ganar.png", WIDTH * 0.5, HEIGHT * 0.5,
+		levelStartMessage = new Actor("res/messages/mensaje_ganar.png", WIDTH * 0.5, HEIGHT * 0.5,
 			WIDTH, HEIGHT, game);
-		pause = true;
+		
 		endLevel();
+		if (game->currentLevel == game->finalLevel) { endGame = true; }
+		pause = true;
 	}
 
 	// Jugador se cae
 	if (player->y > mapHeight + 80) {
-		message = new Actor("res/gameRes/mensaje_perder.png", WIDTH * 0.5, HEIGHT * 0.5,
+		levelStartMessage = new Actor("res/messages/mensaje_perder.png", WIDTH * 0.5, HEIGHT * 0.5,
 			WIDTH, HEIGHT, game);
 		pause = true;
 		init();
@@ -535,17 +543,17 @@ void GameLayer::update() {
 
 		if (player->isOverlap(enemy) && enemy->state != game->stateDying
 			&& enemy->state != game->stateDead) {
-			player->takeDamage(10);
+			player->takeDamage(enemy->damage);
 		}	
 	}
 
 	if (boss != nullptr && player->isOverlap(boss) && boss->state != game->stateDying
 		&& boss->state != game->stateDead) {
-		player->takeDamage(20);
+		player->takeDamage(boss->damage);
 	}
 
 	if (player->healthPoints <= 0) {
-		message = new Actor("res/gameRes/mensaje_perder.png", WIDTH * 0.5, HEIGHT * 0.5,
+		levelStartMessage = new Actor("res/messages/mensaje_perder.png", WIDTH * 0.5, HEIGHT * 0.5,
 			WIDTH, HEIGHT, game);
 		pause = true;
 		init();
@@ -589,7 +597,7 @@ void GameLayer::update() {
 	for (auto const& trap : traps) {
 	
 		if (trap->isOverlap(player)) {
-			player->takeDamage(trap->damageTaken());
+			player->takeDamage(trap->damage);
 		}
 	}
 
@@ -609,7 +617,7 @@ void GameLayer::update() {
 			}
 		}
 		if (ep->isOverlap(player)) {
-			player->takeDamage(10);
+			player->takeDamage(ep->damage);
 		}
 	}
 
@@ -620,12 +628,11 @@ void GameLayer::update() {
 				eB) != deleteEnemyBombs.end();
 
 			if (!pInList) {
-				cout << "delete\n";
 				deleteEnemyBombs.push_back(eB);
 			}
 		}
 		if (eB->isOverlap(player) && player->invulnerableTime <= 0 && eB->explodeTime <= 0) {
-			player->takeDamage(20);
+			player->takeDamage(eB->damage);
 		}
 	}
 
@@ -704,7 +711,7 @@ void GameLayer::update() {
 			}
 
 			attack->onCollision();
-			boss->takeDamage();
+			boss->takeDamage(attack->damage);
 
 			if (boss->currentHP <= 0) {
 				bossAlive = false;
@@ -944,7 +951,7 @@ void GameLayer::calculateScroll() {
 		}
 	}
 	// limite derecha
-	if (player->x < mapWidth - WIDTH * 0.3) {
+	if (player->x < mapWidth - (WIDTH + 100) * 0.3) {
 		if (player->x - scrollX > WIDTH * 0.7) {
 			scrollX = player->x - WIDTH * 0.7;
 		}
@@ -1092,8 +1099,8 @@ void GameLayer::draw() {
 		pad->draw(); // NO TIENEN SCROLL, POSICION FIJA
 	}
 
-	if (pause && !menuPause && message) {
-		message->draw();
+	if (pause && !menuPause && levelStartMessage) {
+		levelStartMessage->draw();
 	}
 
 	if (menuPause) {

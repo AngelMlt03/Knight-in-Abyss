@@ -15,7 +15,7 @@ FlyingEnemy::FlyingEnemy(float x, float y, Game* game, GameLayer* gl)
 	animation = aMovingLeft;
 	orientation = game->orientationLeft;
 	gameLayer = gl;
-
+	damage = 10;
 }
 
 void FlyingEnemy::doMove() {

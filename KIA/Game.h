@@ -56,11 +56,12 @@ public:
 	int const orientationLeft = 2;
 
 	// Menu functions
-	int maxHealth = 100;
+	int maxHealth = 200;
 	int maxMana = 4;
 	int damage = 10;
 	bool doubleJump = false;
-	int gold = 2345;
+	// Monedas para comprar toda la tienda
+	int gold = 3000;
 	bool buyHealth();
 	bool buyDamage();
 };

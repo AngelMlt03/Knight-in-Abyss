@@ -250,7 +250,7 @@ Sword* Player::swordAttack() {
 		swordTime = swordCadence;
 		aSwordingLeft->currentFrame = 0; //"Rebobinar" animación
 		aSwordingRight->currentFrame = 0; //"Rebobinar" animación
-		float newx = 60;
+		float newx = 50;
 		if (orientation == game->orientationLeft) {
 			newx = newx * -1;
 		}

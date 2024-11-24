@@ -14,6 +14,7 @@ Boss1::Boss1(float x, float y, Game* game, GameLayer* gl)
 	vxIntelligence = 0;
 	gameL = gl;
 	currentHP = maxHP;
+	damage = 20;
 }
 
 void Boss1::shoot() {
@@ -39,6 +40,6 @@ void Boss1::doMove() {
 	}
 }
 
-void Boss1::takeDamage() {
-	currentHP = currentHP - 10;
+void Boss1::takeDamage(int damage) {
+	currentHP = currentHP - damage;
 }

@@ -9,5 +9,7 @@ public:
 	virtual void update() = 0;
 	virtual bool canBeDeleted() = 0;
 	virtual void onCollision() = 0;
+
+	int damage = 0;
 };
 

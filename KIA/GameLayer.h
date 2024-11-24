@@ -51,7 +51,7 @@ public:
 	Audio* audioBackground;
 	Audio* audioHit;
 
-	Actor* message;
+	Actor* levelStartMessage;
 	bool pause;
 	bool menuPause;
 	Actor* pauseBackground;
@@ -79,7 +79,7 @@ public:
 	int currentHP;
 	int currentMana;
 
-	int levelRow = 2;
+	int levelRow = 0;
 	int levelColumn = 0;
 
 	int newEnemyTime = 0;
@@ -94,6 +94,7 @@ public:
 	bool bossRoom;
 	Boss1* boss;
 	bool bossAlive;
+	bool endGame;
 	Actor* manabar;
 	Actor* manabar0;
 	Actor* manabar1;

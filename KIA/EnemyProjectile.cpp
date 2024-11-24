@@ -4,6 +4,7 @@ EnemyProjectile::EnemyProjectile(float x, float y, Game* game, int direction) :
 	Attack("res/gameRes/enemies/enemyProjectile3.png", x, y, getAWidth(direction), getAHeight(direction), game) {
 
 	this->direction = direction;
+	damage = 10;
 	vy = -1;
 	setAnimation();
 }

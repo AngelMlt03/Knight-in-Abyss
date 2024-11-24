@@ -1,9 +1,10 @@
 #include "Sword.h"
 
 Sword::Sword(float x, float y, Game* game) :
-	Attack("res/gameRes/player/disparo_jugador2.png", x, y, 20, 90, game) {
+	Attack("res/gameRes/player/disparo_jugador2.png", x, y, 160, 150, game) {
 	vx = 0;
 	vy = -1; // La gravedad inicial es 1
+	damage = 50;
 }
 
 void Sword::update() {

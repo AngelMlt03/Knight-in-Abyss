@@ -12,6 +12,8 @@ Spell::Spell(float x, float y, Game* game) :
 	shoot = new Animation("res/gameRes/player/disparo_jugador.png",
 		width, height, 18, 6, 6, 1, true, game);
 	
+	damage = 10;
+
 	animation = shoot;
 }
 

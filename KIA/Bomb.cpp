@@ -10,6 +10,7 @@ Bomb::Bomb(float x, float y, Game* game) :
 		width, height, 90, 52, 6, 3, true, game);
 
 	animation = bomb;
+	damage = 10;
 
 	vy = 0;
 }

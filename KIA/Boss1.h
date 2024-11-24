@@ -9,9 +9,9 @@ class Boss1 : public Enemy
 public:
 	Boss1(float x, float y, Game* game, GameLayer* gameLayer);
 	void doMove() override;
-	void takeDamage();
+	void takeDamage(int damage);
 
-	int maxHP = 200;
+	int maxHP = 2000;
 	int currentHP;
 
 	GameLayer* gameL;
