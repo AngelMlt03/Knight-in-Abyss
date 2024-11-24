@@ -65,6 +65,8 @@ void MenuLayer::processControls() {
 		// Cambia la capa
 		game->layer = game->shopLayer;
 		controlShop = false;
+		game->audioBackground = game->shopAudio;
+		game->audioBackground->play();
 	}
 }
 

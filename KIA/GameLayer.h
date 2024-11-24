@@ -50,6 +50,7 @@ public:
 
 	Audio* audioBackground;
 	Audio* audioHit;
+	Audio* audioVictory;
 
 	Actor* levelStartMessage;
 	bool pause;

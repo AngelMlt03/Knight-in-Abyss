@@ -10,7 +10,6 @@ using namespace std;
 
 class Audio
 {
-
 	Audio(string filename, bool loop);
 
 public:
@@ -28,6 +27,7 @@ public:
 	}
 	~Audio(); //destructor
 	void play();
+	void setVolume(int volume);
 	bool loop;
 	Mix_Music* mix; // Lib mixer
 	SDL_AudioSpec wavSpec; // Lib SDL Standard

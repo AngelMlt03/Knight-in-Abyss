@@ -11,10 +11,20 @@ Game::Game() {
 	if (SDL_CreateWindowAndRenderer(WIDTH, HEIGHT, 0, &window, &renderer) < 0) {
 		cout << "Error Window y Renderer" << SDL_GetError() << endl;
 	}
-	SDL_SetWindowTitle(window, "Juego de Naves");
+	SDL_SetWindowTitle(window, "Knight in Abyss");
 	// Escalado de imágenes de calidad 
 	// https://wiki.libsdl.org/SDL_HINT_RENDER_SCALE_QUALITY
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
+
+	SDL_Surface* icon = IMG_Load("res/logo.png");
+	SDL_SetWindowIcon(window, icon);
+	SDL_FreeSurface(icon);
+
+	menuAudio = Audio::createAudio("res/soundEffects/musica_ambiente.mp3", true);
+	shopAudio = Audio::createAudio("res/soundEffects/musica_ambiente_tienda.mp3", true);
+	audioBackground = menuAudio;
+	audioBackground->setVolume(30);
+	audioBackground->play();
 
 	menuLayer = new MenuLayer(this);
 	gameLayer = new GameLayer(this);

@@ -40,3 +40,9 @@ void Audio::play() {
 		SDL_PauseAudioDevice(deviceId, 0);
 	}
 }
+
+void Audio::setVolume(int volume) {
+	if (loop) {
+		Mix_VolumeMusic(volume); // Ajusta el volumen de la música
+	}
+}

@@ -54,8 +54,10 @@ void ShopLayer::processControls() {
 	//procesar controles
 	if (controlBack) {
 		// Cambia la capa
-		game->layer = game->menuLayer;
 		controlBack = false;
+		game->audioBackground = game->menuAudio;
+		game->audioBackground->play();
+		game->layer = game->menuLayer;
 	}
 }
 

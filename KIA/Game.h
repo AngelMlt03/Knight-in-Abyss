@@ -13,6 +13,7 @@ using namespace std;
 #define HEIGHT 720
 
 #include "Layer.h"
+#include "Audio.h"
 class Layer;
 
 class Game
@@ -32,6 +33,10 @@ public:
 	Layer* menuLayer;
 	Layer* shopLayer;
 	Layer* gameLayer;
+	Audio* audioBackground;
+	Audio* menuAudio;
+	Audio* shopAudio;
+	Audio* gameAudio;
 
 	int currentLevel = 0;
 	int finalLevel = 1;

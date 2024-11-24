@@ -30,10 +30,13 @@ GameLayer::GameLayer(Game* game)
 }
 
 void GameLayer::init() {
-	audioBackground = Audio::createAudio("res/soundEffects/musica_ambiente.mp3", true);
-	audioBackground->play();
+	audioBackground = Audio::createAudio("res/soundEffects/musica_ambiente_nivel_"+ to_string(game->currentLevel+1) +".mp3", true);
+	game->audioBackground = audioBackground;
+	game->audioBackground->play();
 
 	audioHit = Audio::createAudio("res/soundEffects/efecto_impacto.wav", false);
+
+	audioVictory = Audio::createAudio("res/soundEffects/efecto_matar_boss.mp3", false);
 
 	pad = new Pad(WIDTH * 0.15, HEIGHT * 0.80, game);
 	buttonJump = new Actor("res/controlDisplay/boton_salto.png", WIDTH * 0.9, HEIGHT * 0.55, 100, 100, game);
@@ -59,7 +62,7 @@ void GameLayer::init() {
 	space = new Space(1);
 	bossAlive = true;
 
-	levelRow = 0;
+	levelRow = 2;
 	levelColumn = 0;
 
 	background = new Background("res/gameRes/fondo_2.png", WIDTH * 0.5, HEIGHT * 0.5, game);
@@ -94,6 +97,9 @@ void GameLayer::init() {
 
 void GameLayer::changeRoom(int direction) {
 
+	audioBackground = Audio::createAudio("res/soundEffects/musica_ambiente_nivel_" + to_string(game->currentLevel + 1) + ".mp3", true);
+	game->audioBackground = audioBackground;
+	game->audioBackground->play();
 	tiles.clear();
 	ladders.clear();
 	attacks.clear(); // Vaciar por si reiniciamos el
@@ -147,6 +153,8 @@ void GameLayer::endLevel() {
 		if (!pause && endGame) {
 			endGame = false;
 			game->currentLevel = 0;
+			game->audioBackground = game->menuAudio;
+			game->audioBackground->play();
 			game->layer = game->menuLayer;
 		}
 	}
@@ -409,6 +417,8 @@ void GameLayer::mouseToControls(SDL_Event event) {
 		if (buttonHomePause->containsPoint(motionX, motionY) && menuPause) {
 			pause = true;
 			menuPause = false;
+			game->audioBackground = game->menuAudio;
+			game->audioBackground->play();
 			game->layer = game->menuLayer;
 		}
 		if (levelStartMessage && levelStartMessage->containsPoint(motionX, motionY)) {
@@ -697,6 +707,7 @@ void GameLayer::update() {
 					deleteBreakableItems.push_back(bi);
 				}
 				attack->onCollision();
+				audioHit->play();
 				bi->onCollision();
 				createRandomItem(bi->x, bi->y);
 			}
@@ -711,6 +722,7 @@ void GameLayer::update() {
 			}
 
 			attack->onCollision();
+			audioHit->play();
 			boss->takeDamage(attack->damage);
 
 			if (boss->currentHP <= 0) {
@@ -1063,6 +1075,8 @@ void GameLayer::draw() {
 
 	if (bossRoom && !bossAlive) {
 		cup->draw(scrollX, scrollY);
+		game->audioBackground = audioVictory;
+		game->audioBackground->play();
 	}
 	player->draw(scrollX, scrollY);
 
