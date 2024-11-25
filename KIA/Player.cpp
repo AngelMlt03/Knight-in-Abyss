@@ -2,7 +2,7 @@
 #include "GameLayer.h"
 
 Player::Player(float x, float y, Game* game)
-	: Actor("res/gameRes/player/jugador.png", x, y, 70, 90, game) {
+	: Actor("res/gameRes/player/jugador_idle_derecha.png", x, y, 84, 90, game) {
 
 	onAir = false;
 	onLadder = false;
@@ -11,38 +11,35 @@ Player::Player(float x, float y, Game* game)
 	state = game->stateMoving;
 
 	aJumpingRight = new Animation("res/gameRes/player/jugador_saltando_derecha.png",
-		width, height, 160, 40, 6, 4, true, game);
+		width, height, 249, 267, 6, 1, true, game);
 	aJumpingLeft = new Animation("res/gameRes/player/jugador_saltando_izquierda.png",
-		width, height, 160, 40, 6, 4, true, game);
+		width, height, 249, 267, 6, 1, true, game);
 
 	aSpellingRight = new Animation("res/gameRes/player/jugador_disparando_derecha.png",
-		width, height, 160, 40, 6, 4, false, game);
+		width, height, 496, 267, 6, 2, false, game);
 	aSpellingLeft = new Animation("res/gameRes/player/jugador_disparando_izquierda.png",
-		width, height, 160, 40, 6, 4, false, game);
+		width, height, 496, 267, 6, 2, false, game);
 
-	aSwordingRight = new Animation("res/gameRes/player/jugador_disparando_derecha.png",
-		width, height, 160, 40, 6, 4, false, game);
-	aSwordingLeft = new Animation("res/gameRes/player/jugador_disparando_izquierda.png",
-		width, height, 160, 40, 6, 4, false, game);
+	aSwordingRight = aSpellingRight;
+	aSwordingLeft = aSpellingLeft;
 
-	aShieldingRight = new Animation("res/gameRes/player/jugador_disparando_derecha.png",
-		width, height, 160, 40, 6, 4, true, game);
-	aShieldingLeft = new Animation("res/gameRes/player/jugador_disparando_izquierda.png",
-		width, height, 160, 40, 6, 4, true, game);
+	aShieldingRight = new Animation("res/gameRes/player/jugador_escudo_derecha.png",
+		width, height, 249, 267, 6, 1, true, game);
+	aShieldingLeft = new Animation("res/gameRes/player/jugador_escudo_izquierda.png",
+		width, height, 249, 267, 6, 1, true, game);
 
-	aDashingRight = new Animation("res/gameRes/player/jugador_disparando_derecha.png",
-		width, height, 160, 40, 6, 4, false, game);
-	aDashingLeft = new Animation("res/gameRes/player/jugador_disparando_izquierda.png",
-		width, height, 160, 40, 6, 4, false, game);
+	aRunningRight = new Animation("res/gameRes/player/jugador_corriendo_derecha.png", width, height,
+		996, 267, 6, 4, true, game);
+	aRunningLeft = new Animation("res/gameRes/player/jugador_corriendo_izquierda.png", width, height,
+		996, 267, 6, 4, true, game);
+	aDashingRight = aRunningRight;
+	aDashingLeft = aRunningLeft;
 
 	aIdleRight = new Animation("res/gameRes/player/jugador_idle_derecha.png", width, height,
-		236, 64, 6, 4, true, game);
+		249, 267, 6, 1, true, game);
 	aIdleLeft = new Animation("res/gameRes/player/jugador_idle_izquierda.png", width, height,
-		236, 64, 6, 4, true, game);
-	aRunningRight = new Animation("res/gameRes/player/jugador_corriendo_derecha.png", width, height,
-		320, 40, 6, 8, true, game);
-	aRunningLeft = new Animation("res/gameRes/player/jugador_corriendo_izquierda.png", width, height,
-		320, 40, 6, 8, true, game);
+		249, 267, 6, 1, true, game);
+	
 	animation = aIdleRight;
 
 	healthPoints = game->maxHealth;
@@ -195,7 +192,7 @@ void Player::update() {
 void Player::moveX(float axis) {
 
 	if (!dashing) {
-		vx = (usingShield) ? axis * 2 : axis * 8;
+		vx = (usingShield) ? 0 : axis * 8;
 	}
 }
 
