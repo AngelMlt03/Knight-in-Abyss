@@ -44,6 +44,13 @@ Player::Player(float x, float y, Game* game)
 
 	healthPoints = game->maxHealth;
 	damagePoints = game->damage;
+
+	audioDash = Audio::createAudio("res/soundEffects/efecto_dash.wav", false);
+	audioJump = Audio::createAudio("res/soundEffects/efecto_salto.wav", false);
+	audioDoubleJump = Audio::createAudio("res/soundEffects/efecto_doble_salto.wav", false);
+	audioSword = Audio::createAudio("res/soundEffects/efecto_espada.wav", false);
+	audioCastSpell = Audio::createAudio("res/soundEffects/efecto_spell.wav", false);
+	audioDamage = Audio::createAudio("res/soundEffects/efecto_herida.wav", false);
 }
 
 void Player::update() {
@@ -207,11 +214,13 @@ void Player::jump() {
 		onAir = true;
 		jumpCount++;
 		canDoubleJump = false;
+		audioJump->play();
 	}
 	else if (onAir && jumpCount < maxJumps && canDoubleJump && game->doubleJump) {
 		vy = -14;
 		jumpCount++;
 		canDoubleJump = false;
+		audioDoubleJump->play();
 	}
 	else if (onLadder) {
 		vy = -5;
@@ -232,6 +241,7 @@ Spell* Player::castSpell() {
 		}
 		mana--;
 		canCastSpell = false;
+		audioCastSpell->play();
 		return spell;
 	}
 	else {
@@ -253,6 +263,7 @@ Sword* Player::swordAttack() {
 		}
 		Sword* swordA = new Sword(x + newx, y, game);
 		canSwordAttack = false;
+		audioSword->play();
 		return swordA;
 	}
 	else {
@@ -269,6 +280,7 @@ void Player::takeDamage(int damage) {
 		if (healthPoints < 0) {
 			healthPoints = 0;
 		}
+		audioDamage->play();
 	}
 }
 
@@ -302,6 +314,7 @@ void Player::dash() {
 		}
 		dashing = true;
 		canDash = false;
+		audioDash->play();
 	}
 }
 

@@ -28,6 +28,7 @@ public:
 	~Audio(); //destructor
 	void play();
 	void setVolume(int volume);
+	void stop();
 	bool loop;
 	Mix_Music* mix; // Lib mixer
 	SDL_AudioSpec wavSpec; // Lib SDL Standard

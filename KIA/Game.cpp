@@ -22,14 +22,14 @@ Game::Game() {
 
 	menuAudio = Audio::createAudio("res/soundEffects/musica_ambiente.mp3", true);
 	shopAudio = Audio::createAudio("res/soundEffects/musica_ambiente_tienda.mp3", true);
-	audioBackground = menuAudio;
-	audioBackground->setVolume(30);
-	audioBackground->play();
-
+	
 	menuLayer = new MenuLayer(this);
 	gameLayer = new GameLayer(this);
 	shopLayer = new ShopLayer(this);
 	layer = menuLayer; // Pantalla INICIAL MENULAYER
+
+	audioBackground = menuAudio;
+	audioBackground->play();
 
 	// fuentes
 	TTF_Init();

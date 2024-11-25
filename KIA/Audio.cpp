@@ -13,6 +13,7 @@ Audio::Audio(string filename, bool loop) {
 		SDL_LoadWAV(filename.c_str(), &wavSpec, &wavBuffer, &wavLength);
 		deviceId = SDL_OpenAudioDevice(NULL, 0, &wavSpec, NULL, 0);
 	}
+	setVolume(20);
 }
 
 Audio::~Audio() {
@@ -44,5 +45,17 @@ void Audio::play() {
 void Audio::setVolume(int volume) {
 	if (loop) {
 		Mix_VolumeMusic(volume); // Ajusta el volumen de la música
+	}
+}
+
+void Audio::stop() {
+	// Detener la música si se usa SDL_mixer
+	if (loop) {
+		Mix_HaltMusic(); // Detiene cualquier música en reproducción
+	}
+	else {
+		// Detener el audio del dispositivo
+		SDL_ClearQueuedAudio(deviceId); // Limpia cualquier audio en la cola
+		SDL_PauseAudioDevice(deviceId, 1); // Pausa el dispositivo de audio
 	}
 }

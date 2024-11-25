@@ -34,9 +34,7 @@ void GameLayer::init() {
 	game->audioBackground = audioBackground;
 	game->audioBackground->play();
 
-	audioHit = Audio::createAudio("res/soundEffects/efecto_impacto.wav", false);
-
-	audioVictory = Audio::createAudio("res/soundEffects/efecto_matar_boss.mp3", false);
+	audioVictory = Audio::createAudio("res/soundEffects/efecto_matar_boss.wav", false);
 
 	pad = new Pad(WIDTH * 0.15, HEIGHT * 0.80, game);
 	buttonJump = new Actor("res/controlDisplay/boton_salto.png", WIDTH * 0.9, HEIGHT * 0.55, 100, 100, game);
@@ -62,7 +60,7 @@ void GameLayer::init() {
 	space = new Space(1);
 	bossAlive = true;
 
-	levelRow = 2;
+	levelRow = 0;
 	levelColumn = 0;
 
 	background = new Background("res/gameRes/fondo_2.png", WIDTH * 0.5, HEIGHT * 0.5, game);
@@ -680,7 +678,6 @@ void GameLayer::update() {
 				attack->onCollision();
 				if (enemy->state != game->stateDying && enemy->state != game->stateDead) {
 					enemy->impacted();
-					audioHit->play(); // Sonido de impacto
 
 					coins++;
 					std::stringstream ss;
@@ -707,7 +704,6 @@ void GameLayer::update() {
 					deleteBreakableItems.push_back(bi);
 				}
 				attack->onCollision();
-				audioHit->play();
 				bi->onCollision();
 				createRandomItem(bi->x, bi->y);
 			}
@@ -722,7 +718,6 @@ void GameLayer::update() {
 			}
 
 			attack->onCollision();
-			audioHit->play();
 			boss->takeDamage(attack->damage);
 
 			if (boss->currentHP <= 0) {
@@ -730,6 +725,9 @@ void GameLayer::update() {
 				space->removeDynamicActor(boss);
 				delete boss;
 				boss = nullptr;
+				game->audioBackground->stop();
+				game->audioBackground = audioVictory;
+				game->audioBackground->play();
 			}
 		}
 	}
@@ -1075,8 +1073,6 @@ void GameLayer::draw() {
 
 	if (bossRoom && !bossAlive) {
 		cup->draw(scrollX, scrollY);
-		game->audioBackground = audioVictory;
-		game->audioBackground->play();
 	}
 	player->draw(scrollX, scrollY);
 

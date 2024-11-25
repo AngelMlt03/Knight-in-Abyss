@@ -50,6 +50,13 @@ public:
 
 	Animation* animation; // Referencia a la animación mostrada
 
+	Audio* audioDash;
+	Audio* audioJump;
+	Audio* audioDoubleJump;
+	Audio* audioCastSpell;
+	Audio* audioSword;
+	Audio* audioDamage;
+
 	bool canCastSpell = true;
 	int spellCadence = 50;
 	int spellTime = 0;

@@ -49,7 +49,6 @@ public:
 	void updateManaBar();
 
 	Audio* audioBackground;
-	Audio* audioHit;
 	Audio* audioVictory;
 
 	Actor* levelStartMessage;
