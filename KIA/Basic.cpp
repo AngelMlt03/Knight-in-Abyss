@@ -1,17 +1,37 @@
 #include "Basic.h"
 
 Basic::Basic(float x, float y, Game* game)
-	: Enemy("res/alien.png", x, y, 36, 40, game) {
+	: Enemy("res/gameRes/enemies/basic_movimiento_izquierda.png", x, y, 37, 50, game) {
 
-	aDying = new Animation("res/gameRes/enemies/enemigo_morir.png", width, height,
-		280, 40, 6, 8, false, game);
+	auxDieLeft = new Animation("res/gameRes/enemies/basic_morir_izquierda.png", width, height,
+		372, 168, 2, 3, false, game);
 
-	aMovingLeft = new Animation("res/gameRes/enemies/enemigo_movimiento.png", width, height,
-		108, 40, 6, 3, true, game);
+	auxDieRight = new Animation("res/gameRes/enemies/basic_morir_derecha.png", width, height,
+		372, 168, 2, 3, false, game);
 
-	aMovingRight = new Animation("res/gameRes/enemies/enemigo_movimiento.png", width, height,
-		108, 40, 6, 3, true, game);
+	aMovingLeft = new Animation("res/gameRes/enemies/basic_movimiento_izquierda.png", width, height,
+		915, 168, 6, 8, true, game);
 
+	aMovingRight = new Animation("res/gameRes/enemies/basic_movimiento_derecha.png", width, height,
+		915, 168, 6, 8, true, game);
+
+	aDying = auxDieLeft;
 	vxIntelligence = -2;
 	damage = 20;
+}
+
+void Basic::doMove() {
+
+	animation = (vx < 0) ? aMovingLeft : aMovingRight; // Se establece la animación al morir
+	if (vx < 0) { aDying = auxDieLeft; }
+	if (vx > 0) { aDying = auxDieRight; }
+
+	// Establecer velocidad
+	if (state != game->stateDying) {
+		// No está muerto y se ha quedado parado
+		if (vx == 0) {
+			vxIntelligence = vxIntelligence * -1;
+			vx = vxIntelligence;
+		}
+	}
 }

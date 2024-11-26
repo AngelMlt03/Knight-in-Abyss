@@ -39,6 +39,9 @@ Player::Player(float x, float y, Game* game)
 		249, 267, 6, 1, true, game);
 	aIdleLeft = new Animation("res/gameRes/player/jugador_idle_izquierda.png", width, height,
 		249, 267, 6, 1, true, game);
+
+	aLadder = new Animation("res/gameRes/player/jugador_escalera.png", width, height,
+		496, 267, 6, 2, true, game);
 	
 	animation = aIdleRight;
 
@@ -80,7 +83,7 @@ void Player::update() {
 		state = game->stateJumping;
 	}
 	// No está en el aire y estaba saltando o en escalera, PASA a moverse
-	if (!onAir && (state == game->stateJumping || state == game->stateLadder 
+	if (!onAir && (state == game->stateJumping || state == game->stateLadder
 		|| (state == game->stateUsingShield  && !usingShield))) {
 		state = game->stateMoving;
 	}
@@ -119,13 +122,17 @@ void Player::update() {
 
 	// Selección de animación basada en estados
 
-	if (state == game->stateJumping || state == game->stateLadder) {
+	if (state == game->stateJumping) {
 		if (orientation == game->orientationRight) {
 			animation = aJumpingRight;
 		}
 		if (orientation == game->orientationLeft) {
 			animation = aJumpingLeft;
 		}
+	}
+	
+	if (state == game->stateLadder) {
+		animation = aLadder;
 	}
 
 	if (state == game->stateCastSpelling) {

@@ -3,13 +3,13 @@ PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
 PPPPPPPPPPPPPPPPPPPPP**********************************PPPP
 PPPPPPPPPPPPPPPPPPPP?..................................PPPP
 PPPPPPPPPPPPPPPPPPPP?..................................PPPP
-PPPPPPPPPPPPPPPPPPPP?..................................PPPP
 PPPPPPPPPPPPPPPPPPPP?................RRR...............PPPP
+PPPPPPPPPPPPPPPPPPPP?.............RR.....RR............PPPP
 PPPPPPPPPPPPPPPPPPPP?..................................PPPP
 PPPPPPPPPPPPPPPPPPPP?..V.....R--.............--R...V...PPPP
 PPPPPPPPPPPPPPPPPPPP?........R....--.....--....R.......PPPP
 PPPPPPPPPPPPPPPPPPPP?........R........J........R.......PPPP
-PPPPP?.......................---......C......---.......PPPP
+PPPPP?.......................---.R....C....R.---.......PPPP
 PPPPP?..K....K...K.........F.....R---------R.....F.....PPPP
 PPPPP?....K......................R.........R...........PPPP
 PPPPP?......B..B..B..............R.........R...........PPPP

@@ -1,15 +1,15 @@
 #include "Spell.h"
 
 Spell::Spell(float x, float y, Game* game) :
-	Attack("res/gameRes/player/disparo_jugador2.png", x, y, 20, 20, game) {
+	Attack("res/gameRes/player/proyectilSpell.png", x, y, 20, 20, game) {
 
-	vx = 9;
+	vx = 20;
 	vy = -1; // La gravedad inicial es 1
 
 	explode = new Animation("res/gameRes/player/impactoSpell.png",
 		156, 150, 1096, 150, 6, 7, false, game);
 
-	shoot = new Animation("res/gameRes/player/disparo_jugador.png",
+	shoot = new Animation("res/gameRes/player/proyectilSpell.png",
 		width, height, 18, 6, 6, 1, true, game);
 	
 	damage = 10;

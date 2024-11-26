@@ -47,6 +47,7 @@ public:
 	Animation* aShieldingLeft;
 	Animation* aDashingRight;
 	Animation* aDashingLeft;
+	Animation* aLadder;
 
 	Animation* animation; // Referencia a la animación mostrada
 
@@ -58,7 +59,7 @@ public:
 	Audio* audioDamage;
 
 	bool canCastSpell = true;
-	int spellCadence = 50;
+	int spellCadence = 70;
 	int spellTime = 0;
 
 	bool canSwordAttack = true;
