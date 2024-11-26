@@ -940,6 +940,14 @@ void GameLayer::loadMapObject(char character, float x, float y) {
 			space->addStaticActor(tile);
 			break;
 		}
+		case '¿': {
+			Tile* tile = new Tile("res/gameRes/bloque_fondo1_borde_izquierda.png", x, y, 55, 55, game);
+			// modificación para empezar a contar desde el suelo.
+			tile->y = tile->y - tile->height / 2;
+			tiles.push_back(tile);
+			space->addStaticActor(tile);
+			break;
+		}
 		case 'J': {
 			bossRoom = true;
 			bossAlive = true;
