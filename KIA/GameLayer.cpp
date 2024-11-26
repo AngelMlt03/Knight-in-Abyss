@@ -60,7 +60,7 @@ void GameLayer::init() {
 	space = new Space(1);
 	bossAlive = true;
 
-	levelRow = 0;
+	levelRow = 2;
 	levelColumn = 0;
 
 	background = new Background("res/gameRes/fondo_2.png", WIDTH * 0.5, HEIGHT * 0.5, game);
