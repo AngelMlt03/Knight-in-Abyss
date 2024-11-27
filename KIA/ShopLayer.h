@@ -15,6 +15,9 @@ public:
 	void processControls() override;
 	void keysToControls(SDL_Event event);
 	void mouseToControls(SDL_Event event);
+	void gamePadToControls(SDL_Event event);
+
+	SDL_GameController* gamePad;
 
 	Text* textGold;
 
@@ -34,5 +37,10 @@ public:
 	bool maxHealth;
 	bool maxDamage;
 	bool maxJump;
+
+private:
+	void buyHealth();
+	void buyDamage();
+	void buyDoubleJump();
 };
 

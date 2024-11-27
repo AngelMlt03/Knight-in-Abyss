@@ -11,12 +11,14 @@ void MenuLayer::init() {
 	background = new Background("res/startMenu/menu_fondo.jpg", WIDTH * 0.5, HEIGHT * 0.5, game);
 	playButton = new Actor("res/startMenu/boton_jugar.png", WIDTH * 0.5, HEIGHT * 0.7, 232, 72, game);
 	shopButton = new Actor("res/startMenu/boton_tienda.png", WIDTH * 0.5, HEIGHT * 0.80, 232, 72, game);
+	buttonFS = new Actor("res/controlDisplay/boton_full_screen.png", WIDTH * 0.92, HEIGHT * 0.10, 100, 100, game);
 }
 
 void MenuLayer::draw() {
 	background->draw();
 	playButton->draw();
 	shopButton->draw();
+	buttonFS->draw();
 	SDL_RenderPresent(game->renderer); // Renderiza NO PUEDE FALTAR
 }
 
@@ -97,10 +99,11 @@ void MenuLayer::mouseToControls(SDL_Event event) {
 		if (playButton->containsPoint(motionX, motionY)) {
 			controlPlay = true;
 		}
-	}
-	if (event.type == SDL_MOUSEBUTTONDOWN) {
 		if (shopButton->containsPoint(motionX, motionY)) {
 			controlShop = true;
+		}
+		if (buttonFS->containsPoint(motionX, motionY)) {
+			game->scale();
 		}
 	}
 }
@@ -111,8 +114,8 @@ void MenuLayer::gamePadToControls(SDL_Event event) {
 	if (buttonA) {
 		controlPlay = true;
 	}
-	bool buttonB = SDL_GameControllerGetButton(gamePad, SDL_CONTROLLER_BUTTON_B);
-	if (buttonB) {
+	bool buttonX = SDL_GameControllerGetButton(gamePad, SDL_CONTROLLER_BUTTON_X);
+	if (buttonX) {
 		controlShop = true;
 	}
 }

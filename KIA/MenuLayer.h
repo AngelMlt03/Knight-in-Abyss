@@ -16,8 +16,11 @@ public:
 	void gamePadToControls(SDL_Event event);
 	bool controlPlay;
 	bool controlShop;
+
 	SDL_GameController* gamePad; // Mando
 	Background* background;
+
 	Actor* playButton;
 	Actor* shopButton;
+	Actor* buttonFS;
 };

@@ -66,6 +66,7 @@ public:
 	Actor* buttonAttack;
 	Actor* buttonDash;
 	Actor* buttonPause;
+	Actor* buttonShield;
 	Tile* cup; // Elemento de final de nivel
 	Space* space;
 	float scrollX;

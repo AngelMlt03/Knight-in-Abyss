@@ -37,11 +37,13 @@ void GameLayer::init() {
 	audioVictory = Audio::createAudio("res/soundEffects/efecto_matar_boss.wav", false);
 
 	pad = new Pad(WIDTH * 0.15, HEIGHT * 0.80, game);
-	buttonJump = new Actor("res/controlDisplay/boton_salto.png", WIDTH * 0.9, HEIGHT * 0.55, 100, 100, game);
-	buttonSpell = new Actor("res/controlDisplay/boton_disparo.png", WIDTH * 0.75, HEIGHT * 0.83, 100, 100, game);
-	buttonAttack = new Actor("res/controlDisplay/boton_disparo.png", WIDTH * 0.65, HEIGHT * 0.83, 100, 100, game);
-	buttonDash = new Actor("res/controlDisplay/boton_salto.png", WIDTH * 0.85, HEIGHT * 0.83, 100, 100, game);
-	buttonPause = new Actor("res/controlDisplay/boton_pausa.png", WIDTH * 0.85, HEIGHT * 0.10, 100, 100, game);
+	buttonJump = new Actor("res/controlDisplay/boton_salto.png", WIDTH * 0.92, HEIGHT * 0.58, 100, 100, game);
+	buttonShield = new Actor("res/controlDisplay/boton_escudo.png", WIDTH * 0.835, HEIGHT * 0.58, 100, 100, game);
+	buttonSpell = new Actor("res/controlDisplay/boton_spell.png", WIDTH * 0.835, HEIGHT * 0.77, 100, 100, game);
+	buttonAttack = new Actor("res/controlDisplay/boton_disparo.png", WIDTH * 0.75, HEIGHT * 0.77, 100, 100, game);
+	buttonDash = new Actor("res/controlDisplay/boton_dash.png", WIDTH * 0.92, HEIGHT * 0.77, 100, 100, game);
+
+	buttonPause = new Actor("res/controlDisplay/boton_pausa.png", WIDTH * 0.92, HEIGHT * 0.10, 100, 100, game);
 
 	pauseBackground = new Actor("res/pausePanel/fondo_pausa.png", WIDTH * 0.5, HEIGHT * 0.5, 600, 411, game);
 	buttonPlayPause = new Actor("res/pausePanel/boton_play_pause.png", WIDTH * 0.42, HEIGHT * 0.52, 140, 133, game);
@@ -257,11 +259,14 @@ void GameLayer::processControls() {
 void GameLayer::gamePadToControls(SDL_Event event) {
 	// Leer los botones
 	bool buttonA = SDL_GameControllerGetButton(gamePad, SDL_CONTROLLER_BUTTON_A);
-	bool buttonBack = SDL_GameControllerGetButton(gamePad, SDL_CONTROLLER_BUTTON_BACK);
 	bool buttonB = SDL_GameControllerGetButton(gamePad, SDL_CONTROLLER_BUTTON_B);
+	bool buttonX = SDL_GameControllerGetButton(gamePad, SDL_CONTROLLER_BUTTON_X);
+	bool buttonLT = SDL_GameControllerGetButton(gamePad, SDL_CONTROLLER_BUTTON_LEFTSHOULDER);
+	bool buttonRT = SDL_GameControllerGetButton(gamePad, SDL_CONTROLLER_BUTTON_RIGHTSHOULDER);
+	bool buttonStart = SDL_GameControllerGetButton(gamePad, SDL_CONTROLLER_BUTTON_START);
 	// SDL_CONTROLLER_BUTTON_A, SDL_CONTROLLER_BUTTON_B
 	// SDL_CONTROLLER_BUTTON_X, SDL_CONTROLLER_BUTTON_Y
-	cout << "botones:" << buttonA << "," << buttonB << "," << buttonBack << endl;
+	//cout << "botones:" << buttonA << "," << buttonB << "," << buttonBack << endl;
 	int stickX = SDL_GameControllerGetAxis(gamePad, SDL_CONTROLLER_AXIS_LEFTX);
 	cout << "stickX" << stickX << endl;
 	// Retorna aproximadamente entre [-32800, 32800], el centro debería estar en 0
@@ -276,22 +281,41 @@ void GameLayer::gamePadToControls(SDL_Event event) {
 		controlMoveX = 0;
 	}
 	if (buttonA) {
-		controlAttack = true;
-	}
-	else {
-		controlAttack = false;
-	}
-	if (buttonB) {
-		controlMoveY = -1; // Saltar
+		controlMoveY = -1;
 	}
 	else {
 		controlMoveY = 0;
+		player->canDoubleJump = true;
 	}
-	if (buttonBack) {
+	if (buttonB) {
 		controlSpell = true;
 	}
 	else {
 		controlSpell = false;
+		player->canCastSpell = true;
+	}
+	if (buttonX) {
+		controlAttack = true;
+	}
+	else {
+		controlAttack = false;
+		player->canSwordAttack = true;
+	}
+	if (buttonLT) {
+		controlDash = true;
+	}
+	else {
+		controlDash = false;
+		player->canDash = true;
+	}
+	if (buttonRT) {
+		controlShield = true;
+	}
+	else {
+		controlShield = false;
+	}
+	if (buttonStart) {
+		menuPause = !menuPause;
 	}
 }
 
@@ -306,7 +330,7 @@ void GameLayer::keysToControls(SDL_Event event) {
 		// Pulsada
 		switch (code) {
 		case SDLK_ESCAPE:
-			menuPause = true;
+			menuPause = !menuPause;
 			break;
 		case SDLK_1:
 			game->scale();
@@ -406,7 +430,10 @@ void GameLayer::mouseToControls(SDL_Event event) {
 			controlAttack = true;
 		}
 		if (buttonDash->containsPoint(motionX, motionY)) {
-			// dash
+			controlDash = true;
+		}
+		if (buttonShield->containsPoint(motionX, motionY)) {
+			controlShield = true;
 		}
 		if (buttonPause->containsPoint(motionX, motionY)) {
 			menuPause = true;
@@ -443,15 +470,22 @@ void GameLayer::mouseToControls(SDL_Event event) {
 		}
 		if (buttonSpell->containsPoint(motionX, motionY) == false) {
 			controlSpell = false;
+			player->canCastSpell = true;
 		}
 		if (buttonJump->containsPoint(motionX, motionY) == false) {
 			controlMoveY = 0;
+			player->canDoubleJump = true;
 		}
 		if (buttonAttack->containsPoint(motionX, motionY) == false) {
 			controlAttack = false;
+			player->canSwordAttack = true;
 		}
 		if (buttonDash->containsPoint(motionX, motionY)) {
-			controlDash = true;
+			controlDash = false;
+			player->canDash = true;
+		}
+		if (buttonShield->containsPoint(motionX, motionY)) {
+			controlShield = false;
 		}
 	}
 	// Cada vez que levantan el click
@@ -463,12 +497,22 @@ void GameLayer::mouseToControls(SDL_Event event) {
 		}
 		if (buttonSpell->containsPoint(motionX, motionY)) {
 			controlSpell = false;
+			player->canCastSpell = true;
 		}
 		if (buttonJump->containsPoint(motionX, motionY)) {
 			controlMoveY = 0;
+			player->canDoubleJump = true;
 		}
 		if (buttonAttack->containsPoint(motionX, motionY)) {
 			controlAttack = false;
+			player->canSwordAttack = true;
+		}
+		if (buttonDash->containsPoint(motionX, motionY)) {
+			controlDash = false;
+			player->canDash = true;
+		}
+		if (buttonShield->containsPoint(motionX, motionY)) {
+			controlShield = false;
 		}
 	}
 }
@@ -1119,6 +1163,7 @@ void GameLayer::draw() {
 		buttonAttack->draw(); // NO TIENEN SCROLL, POSICION FIJA
 		buttonDash->draw();
 		buttonPause->draw();
+		buttonShield->draw();
 		pad->draw(); // NO TIENEN SCROLL, POSICION FIJA
 	}
 
