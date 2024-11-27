@@ -3,6 +3,12 @@
 FlyingEnemy::FlyingEnemy(float x, float y, Game* game, GameLayer* gl)
 	: Enemy("res/alien.png", x, y, 50, 50, game) {
 
+	auxDieLeft = new Animation("res/gameRes/enemies/flyingEnemy_morir_izquierda.png", width, height,
+		124, 168, 12, 1, false, game);
+
+	auxDieRight = new Animation("res/gameRes/enemies/flyingEnemy_morir_derecha.png", width, height,
+		124, 168, 12, 1, false, game);
+
 	aDying = new Animation("res/gameRes/enemies/sapo_morir.png", width, height,
 		33, 25, 6, 1, false, game);
 
@@ -12,6 +18,7 @@ FlyingEnemy::FlyingEnemy(float x, float y, Game* game, GameLayer* gl)
 	aMovingRight = new Animation("res/gameRes/enemies/flyingEnemy_derecha.png", width, height,
 		204, 50, 6, 4, true, game);
 
+	aDying = auxDieLeft;
 	animation = aMovingLeft;
 	orientation = game->orientationLeft;
 	gameLayer = gl;
@@ -30,10 +37,12 @@ void FlyingEnemy::doMove() {
 		if (x < xPlayer - 5) {
 			vx = 3;
 			animation = aMovingRight;
+			aDying = auxDieRight;
 		}
 		else if (x > xPlayer + 5) {
 			vx = -3;
 			animation = aMovingLeft;
+			aDying = auxDieLeft;
 		}
 
 		if (yDiff < 300) {

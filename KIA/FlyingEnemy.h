@@ -12,4 +12,7 @@ public:
 
 	GameLayer* gameLayer;
 	int orientation;
+
+	Animation* auxDieLeft;
+	Animation* auxDieRight;
 };

@@ -1,20 +1,25 @@
 #include "Spell.h"
 
-Spell::Spell(float x, float y, Game* game) :
-	Attack("res/gameRes/player/proyectilSpell.png", x, y, 20, 20, game) {
+Spell::Spell(float x, float y, Game* game, int orientation) :
+	Attack("res/gameRes/player/proyectilSpell.png", x, y, 48, 28, game) {
 
-	vx = 20;
+	vx = 25;
 	vy = -1; // La gravedad inicial es 1
 
 	explode = new Animation("res/gameRes/player/impactoSpell.png",
 		156, 150, 1096, 150, 6, 7, false, game);
 
-	shoot = new Animation("res/gameRes/player/proyectilSpell.png",
-		width, height, 18, 6, 6, 1, true, game);
+	shootRight = new Animation("res/gameRes/player/proyectilSpell_derecha.png",
+		width, height, 48, 28, 6, 1, true, game);
+
+	shootLeft = new Animation("res/gameRes/player/proyectilSpell_izquierda.png",
+		width, height, 48, 28, 6, 1, true, game);
 	
 	damage = 10;
 
-	animation = shoot;
+	animation = shootRight;
+
+	this->orientation = orientation;
 }
 
 void Spell::update() {
@@ -24,6 +29,15 @@ void Spell::update() {
 		onCollision();
 		deleteTime--;
 	}
+	else {
+		if (orientation == game->orientationLeft) {
+			animation = shootLeft;
+		}
+		if (orientation == game->orientationRight) {
+			animation = shootRight;
+		}
+	}
+
 	animation->update();
 }
 
@@ -39,6 +53,8 @@ void Spell::onCollision() {
 }
 
 void Spell::draw(float scrollX, float scrollY) {
+
+
 
 	animation->draw(x - scrollX, y - scrollY);
 }

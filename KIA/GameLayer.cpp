@@ -76,7 +76,10 @@ void GameLayer::init() {
 	healthFrame = new Actor("res/gameRes/healthFrame.png", 150, 42, 259, 42, game);
 	heart = new Actor("res/gameRes/corazon.png", 45, 42, 47, 42, game);
 	healthbar = new HealthBar("res/gameRes/healthBar.png", 55, 21, 226, 42, game);
-	bossHB = new HealthBar("res/gameRes/healthBar.png", WIDTH*0.5, HEIGHT*0.9, 600, 42, game);
+
+	bossHF = new Actor("res/gameRes/healthFrame_boss.png", WIDTH * 0.78, HEIGHT * 0.93, 500, 42, game);
+	bossHB = new HealthBar("res/gameRes/healthBar_boss.png", WIDTH*0.59, HEIGHT*0.9, 500, 42, game);
+	bossName = new Text("BomberBoy", WIDTH * 0.87, HEIGHT * 0.88, game);
 
 	manabar0 = new Actor("res/gameRes/manaBar0.png", 90, 86, 139, 42, game);
 	manabar1 = new Actor("res/gameRes/manaBar1.png", 90, 86, 139, 42, game);
@@ -940,7 +943,7 @@ void GameLayer::loadMapObject(char character, float x, float y) {
 			space->addStaticActor(tile);
 			break;
 		}
-		case '¿': {
+		case '!': {
 			Tile* tile = new Tile("res/gameRes/bloque_fondo1_borde_izquierda.png", x, y, 55, 55, game);
 			// modificación para empezar a contar desde el suelo.
 			tile->y = tile->y - tile->height / 2;
@@ -1104,8 +1107,10 @@ void GameLayer::draw() {
 
 	if (bossRoom && boss != nullptr) {
 		boss->draw(scrollX, scrollY);
+		bossHF->draw();
 		bossHB->draw(0, 0);
 		bossHB->updateHealth(boss->currentHP, boss->maxHP);
+		bossName->draw();
 	}
 
 	if (game->input == game->inputMouse) {

@@ -217,7 +217,7 @@ void Player::moveY(float axis) {
 void Player::jump() {
 
 	if (!onAir) {
-		vy = (usingShield) ? -5 : - 14;
+		vy = (usingShield) ? 0 : - 14;
 		onAir = true;
 		jumpCount++;
 		canDoubleJump = false;
@@ -242,7 +242,7 @@ Spell* Player::castSpell() {
 		spellTime = spellCadence;
 		aSpellingLeft->currentFrame = 0; //"Rebobinar" animación
 		aSpellingRight->currentFrame = 0; //"Rebobinar" animación
-		Spell* spell = new Spell(x, y, game);
+		Spell* spell = new Spell(x, y, game, orientation);
 		if (orientation == game->orientationLeft) {
 			spell->vx = spell->vx * -1; // Invertir
 		}
@@ -268,7 +268,7 @@ Sword* Player::swordAttack() {
 		if (orientation == game->orientationLeft) {
 			newx = newx * -1;
 		}
-		Sword* swordA = new Sword(x + newx, y, game);
+		Sword* swordA = new Sword(x + newx, y+10, game, orientation);
 		canSwordAttack = false;
 		audioSword->play();
 		return swordA;

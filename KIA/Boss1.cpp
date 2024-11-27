@@ -3,8 +3,8 @@
 Boss1::Boss1(float x, float y, Game* game, GameLayer* gl)
 	: Enemy("res/gameRes/enemies/boss_idle.png", x, y, 253, 296, game) {
 
-	aDying = new Animation("res/gameRes/enemies/goomba_morir.png", width, height,
-		39, 17, 6, 2, false, game);
+	aDying = new Animation("res/gameRes/enemies/boss_morir.png", width, height,
+		252, 296, 20, 1, false, game);
 
 	aMovingLeft = new Animation("res/gameRes/enemies/boss_idle.png", width, height,
 		1012, 296, 6, 4, true, game);
@@ -42,4 +42,14 @@ void Boss1::doMove() {
 
 void Boss1::takeDamage(int damage) {
 	currentHP = currentHP - damage;
+
+	if (currentHP <= 0) {
+		impacted();
+	}
+}
+
+void Boss1::impacted() {
+	if (state != game->stateDying) {
+		state = game->stateDying;
+	}
 }

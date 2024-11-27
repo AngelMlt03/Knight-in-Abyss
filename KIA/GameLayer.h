@@ -90,11 +90,15 @@ public:
 	Actor* healthFrame;
 	Actor* heart;
 	HealthBar* healthbar;
+
+	Actor* bossHF;
 	HealthBar* bossHB;
+	Text* bossName;
 	bool bossRoom;
 	Boss1* boss;
 	bool bossAlive;
 	bool endGame;
+
 	Actor* manabar;
 	Actor* manabar0;
 	Actor* manabar1;

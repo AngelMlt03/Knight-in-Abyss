@@ -3,11 +3,11 @@
 StaticFlying::StaticFlying(float x, float y, Game* game, GameLayer* gl)
 	: Enemy("res/alien.png", x, y, 50, 50, game) {
 
-	aDying = new Animation("res/gameRes/enemies/goomba_morir.png", width, height,
-		39, 17, 6, 2, false, game);
+	aDying = new Animation("res/gameRes/enemies/staticFlyingEnemy_morir.png", width, height,
+		100, 100, 14, 1, false, game);
 
 	aMovingLeft = new Animation("res/gameRes/enemies/staticFlyingEnemy.png", width, height,
-		100, 100, 6, 1, true, game);
+		100, 100, 14, 1, true, game);
 
 	aMovingRight = aMovingLeft;
 
