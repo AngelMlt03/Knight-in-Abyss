@@ -118,4 +118,8 @@ void MenuLayer::gamePadToControls(SDL_Event event) {
 	if (buttonX) {
 		controlShop = true;
 	}
+	bool buttonY = SDL_GameControllerGetButton(gamePad, SDL_CONTROLLER_BUTTON_Y);
+	if (buttonY) {
+		game->scale();
+	}
 }

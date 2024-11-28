@@ -103,7 +103,7 @@ bool Game::buyHealth() {
 	
 	maxHealth = maxHealth + 10;
 
-	return maxHealth >= 200;
+	return maxHealth >= 300;
 }
 
 bool Game::buyDamage() {

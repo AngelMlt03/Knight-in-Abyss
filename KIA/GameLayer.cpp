@@ -62,7 +62,7 @@ void GameLayer::init() {
 	space = new Space(1);
 	bossAlive = true;
 
-	levelRow = 2;
+	levelRow = 0;
 	levelColumn = 0;
 
 	background = new Background("res/gameRes/fondo_2.png", WIDTH * 0.5, HEIGHT * 0.5, game);
@@ -143,8 +143,8 @@ void GameLayer::endLevel() {
 	game->gold += coins;
 	coins = 0;
 
-	if (game->currentLevel < game->finalLevel) {
-		game->currentLevel++;
+	if (game->currentLevel <= game->finalLevel) {
+		
 		levelRow = 0;
 		levelColumn = 0;
 		changeRoom(0);
@@ -257,20 +257,58 @@ void GameLayer::processControls() {
 }
 
 void GameLayer::gamePadToControls(SDL_Event event) {
+
 	// Leer los botones
 	bool buttonA = SDL_GameControllerGetButton(gamePad, SDL_CONTROLLER_BUTTON_A);
 	bool buttonB = SDL_GameControllerGetButton(gamePad, SDL_CONTROLLER_BUTTON_B);
 	bool buttonX = SDL_GameControllerGetButton(gamePad, SDL_CONTROLLER_BUTTON_X);
-	bool buttonLT = SDL_GameControllerGetButton(gamePad, SDL_CONTROLLER_BUTTON_LEFTSHOULDER);
-	bool buttonRT = SDL_GameControllerGetButton(gamePad, SDL_CONTROLLER_BUTTON_RIGHTSHOULDER);
+	bool buttonLB = SDL_GameControllerGetButton(gamePad, SDL_CONTROLLER_BUTTON_LEFTSHOULDER);
+	bool buttonRB = SDL_GameControllerGetButton(gamePad, SDL_CONTROLLER_BUTTON_RIGHTSHOULDER);
 	bool buttonStart = SDL_GameControllerGetButton(gamePad, SDL_CONTROLLER_BUTTON_START);
+
 	// SDL_CONTROLLER_BUTTON_A, SDL_CONTROLLER_BUTTON_B
 	// SDL_CONTROLLER_BUTTON_X, SDL_CONTROLLER_BUTTON_Y
 	//cout << "botones:" << buttonA << "," << buttonB << "," << buttonBack << endl;
 	int stickX = SDL_GameControllerGetAxis(gamePad, SDL_CONTROLLER_AXIS_LEFTX);
-	cout << "stickX" << stickX << endl;
+	int stickY = SDL_GameControllerGetAxis(gamePad, SDL_CONTROLLER_AXIS_LEFTY);
+	//cout << "stickY" << stickY << endl;
 	// Retorna aproximadamente entre [-32800, 32800], el centro debería estar en 0
 	// Si el mando tiene "holgura" el centro varia [-4000 , 4000]
+	
+	if (buttonA && menuPause) {
+		menuPause = false;
+		pause = false;
+		return;
+	}
+	if (buttonB && menuPause) {
+		pause = true;
+		menuPause = false;
+		game->audioBackground = game->menuAudio;
+		game->audioBackground->play();
+		game->layer = game->menuLayer;
+		return;
+	}
+
+	for (int button = SDL_CONTROLLER_BUTTON_A; button < SDL_CONTROLLER_BUTTON_MAX; ++button) {
+
+		if (SDL_GameControllerGetButton(gamePad, static_cast<SDL_GameControllerButton>(button))) {
+			SDL_ShowCursor(SDL_DISABLE);
+			cursorVisible = false;
+			if (levelStartMessage) {
+				pause = false;
+				delete levelStartMessage;
+				levelStartMessage = nullptr;
+				break;
+			}
+		}
+	}
+
+	if (buttonStart) {
+		menuPause = true;
+	}
+
+	if (menuPause || pause) { return; }
+
 	if (stickX > 4000) {
 		controlMoveX = 1;
 	}
@@ -280,7 +318,7 @@ void GameLayer::gamePadToControls(SDL_Event event) {
 	else {
 		controlMoveX = 0;
 	}
-	if (buttonA) {
+	if (buttonA || stickY < -11000) {
 		controlMoveY = -1;
 	}
 	else {
@@ -301,21 +339,18 @@ void GameLayer::gamePadToControls(SDL_Event event) {
 		controlAttack = false;
 		player->canSwordAttack = true;
 	}
-	if (buttonLT) {
+	if (buttonLB) {
 		controlDash = true;
 	}
 	else {
 		controlDash = false;
 		player->canDash = true;
 	}
-	if (buttonRT) {
+	if (buttonRB) {
 		controlShield = true;
 	}
 	else {
 		controlShield = false;
-	}
-	if (buttonStart) {
-		menuPause = !menuPause;
 	}
 }
 
@@ -327,6 +362,12 @@ void GameLayer::keysToControls(SDL_Event event) {
 
 	if (event.type == SDL_KEYDOWN) {
 		int code = event.key.keysym.sym;
+
+		if (levelStartMessage) {
+			pause = false;
+			delete levelStartMessage;
+			levelStartMessage = nullptr;
+		}
 		// Pulsada
 		switch (code) {
 		case SDLK_ESCAPE:
@@ -551,14 +592,13 @@ void GameLayer::update() {
 
 	// Nivel superado
 	if (cup->isOverlap(player) && !bossAlive) {
-		if (game->currentLevel > game->finalLevel) {
-			game->currentLevel = 0;
-		}
+		
 		levelStartMessage = new Actor("res/messages/mensaje_ganar.png", WIDTH * 0.5, HEIGHT * 0.5,
 			WIDTH, HEIGHT, game);
 		
+		game->currentLevel++;
 		endLevel();
-		if (game->currentLevel == game->finalLevel) { endGame = true; }
+		if (game->currentLevel > game->finalLevel) { endGame = true; }
 		pause = true;
 	}
 
